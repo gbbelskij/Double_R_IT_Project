@@ -11,7 +11,7 @@ headers = {
 }
 
 # Настройка базы данных
-conn = sqlite3.connect("../database/courses.db")
+conn = sqlite3.connect("../../database/courses.db")
 cursor = conn.cursor()
 
 # Создаем таблицу, если она еще не создана
@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS courses (
     duration TEXT,
     description TEXT,
     price TEXT,
-    type TEXT
+    type TEXT,
+    direction TEXT
 )
 """)
 conn.commit()
@@ -42,7 +43,7 @@ if response.status_code == 200:
     for course in courses:
         # Название курса
         title_tag = course.find('h3', class_='card__title')
-        title = title_tag.text.strip() if title_tag else "Название не найдено"
+        title = title_tag.text.strip() if title_tag else "Название отсутствует"
 
         # Ссылка на курс
         link_tag = title_tag.find(
@@ -51,7 +52,7 @@ if response.status_code == 200:
 
         # Длительность курса
         duration_tag = course.find('p', class_='card__duration')
-        duration = duration_tag.text.strip() if duration_tag else "Длительность не указана"
+        duration = duration_tag.text.strip() if duration_tag else "Длительность отсутствует"
 
         # Описание курса
         description_tag = course.find('p', class_='card__description')
@@ -63,10 +64,14 @@ if response.status_code == 200:
         price = price_tag.text.strip() if price_tag else "Цена отсутствует"
 
         # Тип курса
-        type_tag = course.find('p', class_='card__type')
-        type = type_tag.text.strip() if type_tag else "Тип не указан"
+        type_tag = course.find_all('p', class_='card__type')
+        type = type_tag[0].text
 
-        if (type != "Онлайн-магистратура" and type != "" and type != "Набор на курс приостановлен" and type != "ДПО" and type != "Высшее образование" and price != "БЕСПЛАТНО ₽/мес"):
+        # Направление
+        direction_tag = course.find_all('p', class_='card__type')
+        direction = direction_tag[1].text
+
+        if (type in ["Профессия", "Интенсив", "Курс", "Специализация"]):
             # Вывод информации
             print(f"Название: {title}")
             print(f"Ссылка: {link}")
@@ -74,13 +79,14 @@ if response.status_code == 200:
             print(f"Описание: {description}")
             print(f"Цена: {price}")
             print(f"Тип: {type}")
+            print(f"Направление: {direction}")
             print("-" * 40)
 
             # Вставка в базу данных
             cursor.execute("""
-            INSERT INTO courses (title, link, duration, description, price, type)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """, (title, link, duration, description, price, type))
+            INSERT INTO courses (title, link, duration, description, price, type, direction)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (title, link, duration, description, price, type, direction))
 
     conn.commit()
 else:
