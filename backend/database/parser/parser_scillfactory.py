@@ -34,7 +34,7 @@ response = requests.get(url, headers=headers)
 if response.status_code == 200:
     # Разбор HTML с помощью BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
-    
+
     # Находим карточки курсов
     courses = soup.find_all('li', class_='card')
 
@@ -43,23 +43,25 @@ if response.status_code == 200:
         # Название курса
         title_tag = course.find('h3', class_='card__title')
         title = title_tag.text.strip() if title_tag else "Название не найдено"
-        
+
         # Ссылка на курс
-        link_tag = title_tag.find('a', class_='title__link') if title_tag else None
+        link_tag = title_tag.find(
+            'a', class_='title__link') if title_tag else None
         link = link_tag['href'] if link_tag else "Ссылка отсутствует"
-        
+
         # Длительность курса
         duration_tag = course.find('p', class_='card__duration')
         duration = duration_tag.text.strip() if duration_tag else "Длительность не указана"
-        
+
         # Описание курса
         description_tag = course.find('p', class_='card__description')
-        description = description_tag.text.strip() if description_tag else "Описание отсутствует"
-        
+        description = description_tag.text.strip(
+        ) if description_tag else "Описание отсутствует"
+
         # Цена курса
         price_tag = course.find('p', class_='card__current-price')
         price = price_tag.text.strip() if price_tag else "Цена отсутствует"
-        
+
         # Тип курса
         type_tag = course.find('p', class_='card__type')
         type = type_tag.text.strip() if type_tag else "Тип не указан"
