@@ -1,0 +1,50 @@
+Age,Experience,Role,Department,Answers,Course
+32,5,Frontend Developer,Development,"(1, 0, 0, 0, 0, 0, 1, 0, 0, 0)",16
+22,1,Backend Developer,Development,"(0, 0, 1, 0, 0, 0, 0, 0, 1, 0)",25
+37,10,Cybersecurity Specialist,Cybersecurity,"(0, 0, 0, 0, 0, 0, 0, 0, 1, 1)",9
+42,10,Cybersecurity Specialist,Cybersecurity,"(0, 0, 0, 1, 1, 0, 0, 0, 0, 0)",4
+36,15,Cybersecurity Specialist,HR,"(0, 0, 1, 0, 0, 0, 0, 1, 0, 0)",27
+51,16,Graphic Designer,HR,"(0, 1, 0, 1, 0, 0, 0, 0, 0, 0)",47
+26,18,Project Manager,Design & UX,"(0, 0, 0, 0, 0, 1, 0, 0, 1, 0)",7
+51,16,Project Manager,Data & Analytics,"(0, 0, 0, 0, 0, 0, 0, 1, 1, 0)",13
+24,5,QA Engineer,Sales,"(1, 0, 0, 0, 0, 0, 0, 0, 1, 0)",24
+53,18,Big Data Engineer,Marketing,"(1, 1, 0, 0, 0, 0, 0, 0, 0, 0)",3
+31,13,Cybersecurity Specialist,Sales,"(0, 0, 0, 1, 0, 1, 0, 0, 0, 0)",6
+47,3,System Administrator,QA,"(0, 0, 0, 0, 0, 0, 0, 1, 0, 1)",18
+34,20,System Administrator,Design & UX,"(0, 0, 1, 0, 0, 0, 0, 0, 1, 0)",35
+45,3,Data Analyst,HR,"(1, 0, 0, 0, 0, 1, 0, 0, 0, 0)",43
+53,10,QA Engineer,QA,"(0, 1, 0, 0, 0, 0, 0, 1, 0, 0)",24
+41,15,Cybersecurity Specialist,Sales,"(1, 0, 1, 0, 0, 0, 0, 0, 0, 0)",9
+37,1,QA Engineer,Design & UX,"(1, 0, 0, 0, 0, 0, 1, 0, 0, 0)",16
+38,12,UI/UX Designer,Management,"(0, 0, 0, 0, 1, 0, 0, 0, 0, 1)",51
+46,9,Data Analyst,HR,"(0, 0, 0, 0, 0, 1, 0, 1, 0, 0)",43
+30,18,Backend Developer,QA,"(0, 0, 1, 0, 1, 0, 0, 0, 0, 0)",25
+38,20,DevOps Engineer,Marketing,"(0, 0, 1, 0, 0, 1, 0, 0, 0, 0)",35
+39,7,Frontend Developer,Data & Analytics,"(0, 0, 0, 1, 1, 0, 0, 0, 0, 0)",16
+33,11,Data Scientist,Development,"(0, 0, 0, 0, 1, 1, 0, 0, 0, 0)",6
+55,18,Mobile Developer,Data & Analytics,"(0, 1, 0, 0, 0, 0, 1, 0, 0, 0)",19
+46,0,Fullstack Developer,Cybersecurity,"(1, 0, 0, 0, 0, 1, 0, 0, 0, 0)",8
+24,15,Cybersecurity Specialist,Design & UX,"(0, 0, 1, 0, 0, 1, 0, 0, 0, 0)",9
+25,4,QA Engineer,QA,"(0, 0, 0, 1, 0, 0, 0, 0, 0, 1)",24
+50,15,QA Engineer,Management,"(1, 0, 0, 0, 0, 0, 1, 0, 0, 0)",16
+44,13,Machine Learning Engineer,Development,"(0, 1, 0, 0, 0, 0, 1, 0, 0, 0)",41
+23,2,Graphic Designer,Design & UX,"(0, 1, 0, 0, 0, 0, 0, 0, 0, 1)",47
+51,8,Data Analyst,Cybersecurity,"(1, 0, 1, 0, 0, 0, 0, 0, 0, 0)",43
+35,12,Project Manager,Data & Analytics,"(0, 0, 0, 0, 0, 1, 0, 0, 0, 1)",7
+31,16,Mobile Developer,Data & Analytics,"(0, 0, 0, 0, 0, 1, 0, 1, 0, 0)",19
+29,5,Big Data Engineer,Sales,"(1, 0, 0, 0, 0, 0, 0, 0, 0, 1)",3
+54,3,Cybersecurity Specialist,HR,"(1, 0, 0, 0, 0, 0, 0, 0, 0, 1)",9
+60,11,Data Scientist,Design & UX,"(0, 1, 0, 1, 0, 0, 0, 0, 0, 0)",6
+60,6,Game Developer,HR,"(0, 1, 0, 1, 0, 0, 0, 0, 0, 0)",12
+40,15,Cybersecurity Specialist,Design & UX,"(0, 0, 0, 0, 0, 0, 1, 0, 0, 1)",9
+39,19,DevOps Engineer,Design & UX,"(0, 0, 0, 0, 0, 1, 0, 0, 0, 1)",35
+21,8,Frontend Developer,Design & UX,"(0, 0, 0, 1, 0, 0, 0, 0, 0, 1)",16
+56,7,Big Data Engineer,Sales,"(0, 0, 0, 0, 0, 1, 0, 1, 0, 0)",3
+43,6,IT Recruiter,Data & Analytics,"(0, 0, 0, 0, 0, 0, 1, 1, 0, 0)",36
+41,1,IT Recruiter,Data & Analytics,"(0, 1, 0, 0, 0, 0, 0, 1, 0, 0)",36
+30,13,Backend Developer,Data & Analytics,"(0, 1, 1, 0, 0, 0, 0, 0, 0, 0)",25
+60,13,Mobile Developer,HR,"(0, 0, 0, 1, 0, 0, 0, 0, 1, 0)",19
+60,6,IT Recruiter,QA,"(1, 0, 0, 0, 0, 0, 0, 0, 1, 0)",36
+55,9,Backend Developer,HR,"(0, 0, 0, 0, 0, 1, 1, 0, 0, 0)",25
+43,16,Machine Learning Engineer,Management,"(0, 0, 0, 1, 0, 0, 1, 0, 0, 0)",41
+53,15,Machine Learning Engineer,HR,"(0, 0, 0, 1, 1, 0, 0, 0, 0, 0)",41
