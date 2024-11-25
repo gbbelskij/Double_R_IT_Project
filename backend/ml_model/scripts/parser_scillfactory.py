@@ -2,19 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 
-# URL страницы
 url = "https://skillfactory.ru/courses"
-
-# Заголовки для обхода возможной защиты
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
-# Настройка базы данных
-conn = sqlite3.connect("../../database/courses.db")
-cursor = conn.cursor()
 
-# Создаем таблицу, если она еще не создана
+conn = sqlite3.connect("../database/courses.db")
+cursor = conn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS courses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,17 +24,12 @@ CREATE TABLE IF NOT EXISTS courses (
 """)
 conn.commit()
 
-# Отправка запроса к сайту
 response = requests.get(url, headers=headers)
 
 if response.status_code == 200:
-    # Разбор HTML с помощью BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
-
-    # Находим карточки курсов
     courses = soup.find_all('li', class_='card')
 
-    # Сбор информации
     for course in courses:
         # Название курса
         title_tag = course.find('h3', class_='card__title')
@@ -72,7 +62,6 @@ if response.status_code == 200:
         direction = direction_tag[1].text
 
         if (type in ["Профессия", "Интенсив", "Курс", "Специализация"]):
-            # Вывод информации
             print(f"Название: {title}")
             print(f"Ссылка: {link}")
             print(f"Длительность: {duration}")
@@ -82,7 +71,6 @@ if response.status_code == 200:
             print(f"Направление: {direction}")
             print("-" * 40)
 
-            # Вставка в базу данных
             cursor.execute("""
             INSERT INTO courses (title, link, duration, description, price, type, direction)
             VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -92,5 +80,4 @@ if response.status_code == 200:
 else:
     print(f"Ошибка при запросе страницы: {response.status_code}")
 
-# Закрываем соединение с базой данных
 conn.close()
