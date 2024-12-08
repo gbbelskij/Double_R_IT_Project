@@ -4,9 +4,9 @@ from sklearn.preprocessing import MinMaxScaler
 
 
 def main():
-    input_file = 'ml_model/data/raw/raw_test_data.csv'
-    columns_names_file = 'ml_model/data/preprocessed/columns_names.csv'
-    output_file = 'ml_model/data/preprocessed/normalized_test_data.csv'
+    input_file = 'backend/ml_model/data/raw/raw_test_data.csv'
+    columns_names_file = 'backend/ml_model/data/preprocessed/columns_names.csv'
+    output_file = 'backend/ml_model/data/preprocessed/normalized_test_data.csv'
 
     data = pd.read_csv(input_file)
     output_columns = pd.read_csv(columns_names_file).columns

@@ -8,7 +8,7 @@ HEADERS = {
 }
 
 def create_database():
-    connection = sqlite3.connect("../database/courses.db")
+    connection = sqlite3.connect("backend/database/courses.db")
     cursor = connection.cursor()
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS courses (

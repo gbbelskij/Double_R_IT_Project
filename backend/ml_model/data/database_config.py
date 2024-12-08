@@ -1,8 +1,8 @@
 import pandas as pd
 import sqlite3
 
-RAW_PATH = 'ml_model/data/raw/raw_test_data.csv'
-PREPROCESSED_PATH = 'ml_model/data/preprocessed/normalized_test_data.csv'
+RAW_PATH = 'backend/ml_model/data/raw/raw_test_data.csv'
+PREPROCESSED_PATH = 'backend/ml_model/data/preprocessed/normalized_test_data.csv'
 
 # TODO: реализовать взаимодействие с файлами, получение различных выборок и тд
 
@@ -13,7 +13,7 @@ def get_test_data():
     return features, labels
     
 def get_course(id):
-    conn = sqlite3.connect("../database/courses.db")
+    conn = sqlite3.connect("backend/database/courses.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM courses WHERE id = ?", (id))
     course = cursor.fetchone()
