@@ -1,8 +1,12 @@
 import pandas as pd
 import numpy as np
 import json
+from joblib import dump, load
 from sklearn.preprocessing import MinMaxScaler
 
+INPUT_FILE = 'backend/ml_model/data/raw/raw_test_data.csv'
+OUTPUT_FILE = 'backend/ml_model/data/preprocessed/normalized_test_data.csv'
+SCALER_SAVE_PATH = 'backend/ml_model/data/scaler/scaler.pkl'
 
 def dp_from_csv(input_file, output_file):
     columns_names_file = 'backend/ml_model/data/preprocessed/columns_names.csv'
@@ -13,6 +17,7 @@ def dp_from_csv(input_file, output_file):
     scaler = MinMaxScaler()
     numeric_columns = data[['Age', 'Experience']]
     normalized_numeric = scaler.fit_transform(numeric_columns)
+    dump(scaler, SCALER_SAVE_PATH)
 
     selected_role = data['Role']
     selected_department = data['Department']
@@ -42,16 +47,16 @@ def dp_from_csv(input_file, output_file):
 
     print(f"Данные успешно нормализованы и сохранены в файл: {output_file}")
 
-def dp_from_json(json_data: str):
+def dp_from_json(json_data: str) -> str:
     columns_names_file = 'backend/ml_model/data/preprocessed/columns_names.csv'
 
-    data = json.loads((json_data))
+    data = json.loads(json_data)
     data = pd.DataFrame(data)
     output_columns = pd.read_csv(columns_names_file).columns
 
-    scaler = MinMaxScaler()
+    scaler = load(SCALER_SAVE_PATH)
     numeric_columns = data[['Age', 'Experience']]
-    normalized_numeric = scaler.fit_transform(numeric_columns)
+    normalized_numeric = scaler.transform(numeric_columns)
 
     selected_role = data['Role']
     selected_department = data['Department']
@@ -79,16 +84,3 @@ def dp_from_json(json_data: str):
     json_data = processed_df.to_json(index=False)
     
     return json_data
-
-# if __name__ == "__main__":
-#     daxt = {
-#         "Age": [24],
-#         "Experience": [5],
-#         "Role": ["QA Engineer"],
-#         "Department": ["Sales"],
-#         "Answers": ["(1, 0, 0, 0, 0, 0, 0, 0, 1, 0)"],
-#         "Course": [24]
-#     }
-    
-#     json_normilized_data = dp_from_json(str(daxt).replace("'", '"'))
-#     print(json_normilized_data)
