@@ -23,5 +23,5 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/your-repo/recommendation-system.git
-cd recommendation-system
+git clone https://github.com/gbbelskij/Double_R_IT_Project
+cd Double_R_IT_Project
