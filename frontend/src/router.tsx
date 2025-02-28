@@ -9,10 +9,6 @@ const router = createBrowserRouter(
       element: <Home />,
       errorElement: <Error />,
     },
-    {
-      path: "/error",
-      element: <Error />,
-    },
   ],
   { basename: import.meta.env.BASE_URL }
 );

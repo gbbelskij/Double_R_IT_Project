@@ -1,50 +1,88 @@
-# React + TypeScript + Vite
+# RRecommend React App 🎓
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## О проекте 📌
 
-Currently, two official plugins are available:
+**RRecommend** — это веб-приложение, разработанное с использованием современных технологий для удобного взаимодействия с пользователем. Основной стек включает React, TypeScript и Vite для быстрой и эффективной разработки.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Стек технологий 🛠️
 
-## Expanding the ESLint configuration
+- **React** — библиотека для создания пользовательских интерфейсов
+- **TypeScript** — статически типизированное расширение JavaScript
+- **Vite** — инструмент для быстрой сборки и разработки
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Требования 📋
 
-- Configure the top-level `parserOptions` property like this:
+Перед началом работы убедитесь, что у вас установлены:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Node.js** (рекомендуемая версия: 18.x или выше) — [скачать](https://nodejs.org/en/download/current)
+- **npm** (поставляется с `Node.js`) или **yarn** в качестве менеджера пакетов
+
+## Установка и запуск ⚙️
+
+### 1. Установка зависимостей
+
+Клонируйте репозиторий и перейдите в папку проекта:
+
+```bash
+git clone https://github.com/your-repo-url.git
+cd Double_R_IT_Project
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Затем установите зависимости:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
+# или
+yarn install
 ```
+
+### 2. Запуск в режиме разработки
+
+Для локального запуска используйте команду:
+
+```bash
+npm run dev
+# или
+yarn dev
+```
+
+После этого приложение будет доступно по адресу:
+
+```
+http://localhost:5173
+```
+
+### 3. Сборка проекта
+
+Для создания оптимизированной версии выполните:
+
+```bash
+npm run build
+# или
+yarn build
+```
+
+Собранные файлы появятся в папке `dist`.
+
+### 4. Запуск продакшн-версии
+
+После сборки запустите локальный сервер:
+
+```bash
+npm run preview
+# или
+yarn preview
+```
+
+## Полезные ссылки ✨
+
+- [Макет в Figma](https://www.figma.com/design/Wg6kehLIu7LCoPAbYuHU6O/RRecomend-Landing-by-Winterful?node-id=0-1&t=aYkzo01VN8MVhj9J-1)
+- [Документация по структуре проекта и основным компонентам](./)
+
+- [Документация Vite](https://vitejs.dev/)
+- [Документация React](https://react.dev/)
+- [Документация TypeScript](https://www.typescriptlang.org/)
+
+## Контакты 📬
+
+Если у вас есть вопросы или предложения, создайте [Issue](https://github.com/your-repo-url/issues) в репозитории или свяжитесь с [разработчиком](https://github.com/Winterfulllll).
