@@ -1,3 +1,3 @@
-export { default as Home } from './Home';
-export { default as Error } from './Error';
+export { default as Home } from './HomePage';
+export { default as Error } from './ErrorPage';
 // export type { HomeProps } from "./Home"; //! Прокинуть пропсы

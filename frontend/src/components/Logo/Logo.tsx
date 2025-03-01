@@ -1,9 +1,14 @@
+import { Link } from "react-router";
 import classes from "./Logo.module.css";
 import { LogoProps } from "./Logo.props";
 
-const Logo: React.FC<LogoProps> = ({ color = "var(--solitude-100)", hasText = false }) => {
+const Logo: React.FC<LogoProps> = ({
+  color = "var(--solitude-100)",
+  hasText = false,
+  href = "/",
+}) => {
   return (
-    <div className={classes.LogoContainer}>
+    <Link className={classes.LogoContainer} to={href}>
       <svg
         width="84"
         height="86"
@@ -85,7 +90,7 @@ const Logo: React.FC<LogoProps> = ({ color = "var(--solitude-100)", hasText = fa
         </g>
       </svg>
       {hasText && <p className={classes.LogoText}>RRECOMEND</p>}
-    </div>
+    </Link>
   );
 };
 

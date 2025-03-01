@@ -1,5 +1,5 @@
-import classes from "./Example.module.css";
 import { ExampleProps } from "./Example.props";
+import classes from "./Example.module.css";
 
 const Example: React.FC<ExampleProps> = ({ text, children }) => {
   // Также можно писать особые классы с помощью classnames - https://www.npmjs.com/package/classnames
