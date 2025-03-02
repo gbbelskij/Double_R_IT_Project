@@ -1,92 +1,36 @@
+# retrain.py
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import json
-import sys
-import os
+from model import CourseRecommender
+from save_load import load_model, save_model
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from model import CourseRecommendationModel
-from data.database_config import get_test_data
-from save_load import save_model, load_model
-from train import train_model
-from scripts.data_preprocessing import dp_from_json
+# Загрузка модели
+model = CourseRecommender(num_tags=10)  # Замените на реальное количество тегов
+model = load_model(model, "course_recommender.pth")
 
-MODEL_SAVE_PATH = "backend/ml_model/data/model/model.pt"
+# Новые данные для дообучения (пример)
+new_course_tensor = torch.tensor([[0, 1, 2], [3, 4, 5]])  # Замените на реальные данные
+new_user_tensor = torch.tensor([[1, 2, 3], [4, 5, 6]])    # Замените на реальные данные
+new_y_true = torch.FloatTensor([[1.0, 0.0], [0.0, 1.0]])  # Замените на реальные данные
 
-def test_model(model: CourseRecommendationModel) -> None:
-    features, labels = get_test_data()
-    features = torch.tensor(features, dtype=torch.float32)
-    labels = torch.tensor(labels - 1, dtype=torch.long)
+# Оптимизатор и функция потерь
+optimizer = optim.Adam(model.parameters(), lr=0.01)
+criterion = nn.MSELoss()
 
-    model.eval()
-    with torch.no_grad():
-        outputs = model(features)
-        predictions = torch.argmax(outputs, axis=1)
-
-    for i, prediction in enumerate(predictions):
-        expected = labels[i]
-        emoji = "✅" if prediction == expected else "⚠️"
-        print(f"Predicted: {prediction + 1}; Expected: {expected + 1} {emoji}")
-
-def fl_from_json(user_data: str):
-    user_data = user_data.replace("'", '"')
-
-    preprocessed_data = json.loads(dp_from_json(user_data))
-    arr = [i['0'] for i in preprocessed_data.values()]
-    
-    feature = arr[:-1]
-    label = arr[-1]
-    return feature, label
-
-def retrain_model(model, data: str, epochs = 1000, learning_rate = 0.001):
-    feature, label = fl_from_json(data)
+# Дообучение
+for epoch in range(50):
     model.train()
+    optimizer.zero_grad()
     
-    feature = torch.tensor([feature], dtype=torch.float32)
-    label = torch.tensor([label - 1], dtype=torch.long)
+    outputs = model(new_course_tensor, new_user_tensor)
+    loss = criterion(outputs, new_y_true)
     
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    criterion = nn.CrossEntropyLoss()
+    loss.backward()
+    optimizer.step()
     
-    for epoch in range(epochs):
-        model.train()
-        optimizer.zero_grad()
-        outputs = model(feature)
+    if epoch % 10 == 0:
+        print(f"Epoch {epoch}, Loss: {loss.item():.4f}")
 
-        loss = criterion(outputs, label)
-        loss.backward()
-        optimizer.step()
-
-        if (epoch + 1) % 100 == 0:
-            print(f"Epoch {epoch + 1}/{epochs}, Loss: {loss.item():.4f}")
-            
-        model.eval()
-        save_model(model, optimizer, MODEL_SAVE_PATH)
-
-if __name__ == '__main__':
-    model = CourseRecommendationModel()
-    train_model(model, 10000, 0.001)
-    
-    # Create new model and laod weights into it
-    model = CourseRecommendationModel()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    load_model(model, optimizer, MODEL_SAVE_PATH)
-    
-    # Create new data
-    user_data = {
-        "Age": [24],
-        "Experience": [5],
-        "Role": ["QA Engineer"],
-        "Department": ["Sales"],
-        "Answers": ["(1, 0, 0, 0, 0, 0, 0, 0, 1, 0)"],
-        "Course": [24]
-    }
-    
-    # Aftertraining model on new data
-    model.train()
-    retrain_model(model, str(user_data))
-    model.eval()
-    
-    # Test retrained model
-    test_model(model)
+# Сохранение обновленной модели
+save_model(model, "course_recommender_retrained.pth")
