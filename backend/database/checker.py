@@ -2,7 +2,7 @@ import sqlite3
 
 
 def create_database():
-  connection = sqlite3.connect("database/courses.db")
+  connection = sqlite3.connect("backend/database/courses.db")
   cursor = connection.cursor()
   cursor.execute("SELECT id, title, direction FROM courses")
   for course in cursor.fetchall():
