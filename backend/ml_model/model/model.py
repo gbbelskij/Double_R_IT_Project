@@ -1,24 +1,24 @@
 import torch
 import torch.nn as nn
+import torch.optim as optim
+from sklearn.preprocessing import LabelEncoder
+import numpy as np
 
-INPUT_LAYER_SIZE = 38
-HIDDEN_LAYER_SIZE = 60
-OUTPUT_LAYER_SIZE = 80
+class RecommendationModel(nn.Module):
+    def __init__(self, num_tags, embedding_dim):
+        super(RecommendationModel, self).__init__()
+        self.tag_embedding = nn.Embedding(num_tags, embedding_dim)
+        self.flatten = nn.Flatten()
 
-class CourseRecommendationModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self._fc1 = nn.Linear(INPUT_LAYER_SIZE, HIDDEN_LAYER_SIZE)
-        self._relu = nn.ReLU()
-        self._dropout = nn.Dropout(0.2)
+    def forward(self, course_tags, user_interests):
+        # Преобразуем теги в embedding'и
+        course_embedding = self.tag_embedding(course_tags)
+        user_embedding = self.tag_embedding(user_interests)
 
-        self._fc2 = nn.Linear(HIDDEN_LAYER_SIZE, OUTPUT_LAYER_SIZE)
-        self._softmax = nn.Softmax(dim=1)
+        # Усредняем embedding'и по тегам
+        course_embedding = torch.mean(course_embedding, dim=1)
+        user_embedding = torch.mean(user_embedding, dim=1)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        hidden = self._fc1(x)
-        hidden = self._relu(hidden)
-        hidden = self._dropout(hidden)
-        output = self._fc2(hidden)
-        output = self._softmax(output)
-        return output
+        # Вычисляем косинусное сходство
+        similarity = torch.sum(course_embedding * user_embedding, dim=1, keepdim=True)
+        return similarity
