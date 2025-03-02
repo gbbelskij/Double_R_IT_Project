@@ -57,61 +57,61 @@ users = {
         "name": "Алексей Иванов",
         "experience": 2,
         "position": "Frontend-разработчик",
-        "tags": ["ui-ux", "web-design", "frontend"],
+        "tags": ["Design & UX", "Frontend Developer", "Программирование на JavaScript"],
     },
     "U2": {
         "name": "Мария Петрова",
         "experience": 3,
         "position": "Backend-разработчик",
-        "tags": ["backend", "python", "api"],
+        "tags": ["Development", "Backend Developer", "Программирование на Python"],
     },
     "U3": {
         "name": "Дмитрий Смирнов",
         "experience": 4,
         "position": "Инженер баз данных",
-        "tags": ["sql", "database-design"],
+        "tags": ["Data & Analytics", "Data Scientist", "SQL"],
     },
     "U4": {
         "name": "Елена Кузнецова",
         "experience": 5,
         "position": "Data Scientist",
-        "tags": ["data-science", "machine-learning"],
+        "tags": ["Data & Analytics", "Data Scientist", "Машинное обучение", "Нейронные сети"],
     },
     "U5": {
         "name": "Игорь Васильев",
         "experience": 3,
         "position": "DevOps-инженер",
-        "tags": ["automation", "scripting"],
+        "tags": ["Development", "DevOps Engineer", "CI/CD", "Docker", "Kubernetes"],
     },
     "U6": {
         "name": "Ольга Новикова",
         "experience": 2,
         "position": "Геймдизайнер",
-        "tags": ["game-development", "3d-modeling"],
+        "tags": ["Design & UX", "Game Developer", "Unity", "3D-дизайн"],
     },
     "U7": {
         "name": "Анна Морозова",
         "experience": 1,
         "position": "Графический дизайнер",
-        "tags": ["graphic-design", "adobe"],
+        "tags": ["Design & UX", "Graphic Designer", "Adobe Photoshop", "Adobe Illustrator"],
     },
     "U8": {
         "name": "Сергей Волков",
         "experience": 3,
         "position": "Android-разработчик",
-        "tags": ["mobile-development", "android"],
+        "tags": ["Development", "Mobile Developer", "Программирование на Java", "Android"],
     },
     "U9": {
         "name": "Павел Белов",
         "experience": 6,
         "position": "Специалист по кибербезопасности",
-        "tags": ["cybersecurity", "ethical-hacking"],
+        "tags": ["Cybersecurity", "Cybersecurity Specialist", "Ethical Hacking", "Penetration Testing"],
     },
     "U10": {
         "name": "Татьяна Козлова",
         "experience": 4,
         "position": "Бизнес-аналитик",
-        "tags": ["data-analysis", "business-intelligence"],
+        "tags": ["Data & Analytics", "Data Analyst", "SQL", "Excel", "Business Intelligence"],
     }
 }
 
@@ -174,7 +174,7 @@ matrix_df = matrix_df.fillna(0)
 # Преобразование DataFrame в numpy array, а затем в тензор
 y_true = torch.FloatTensor(matrix_df.values)
 
-for epoch in range(100):
+for epoch in range(1000):
     model.train()
     optimizer.zero_grad()
     

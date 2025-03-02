@@ -1,85 +1,164 @@
 import sqlite3
 
 course_tags = [
-    ['beginner', 'graphic-design', 'adobe'],
-    ['beginner', 'python', 'software-testing', 'automation'],
-    ['beginner', 'ui-ux', 'web-design', 'prototyping'],
-    ['intermediate', 'cybersecurity', 'ethical-hacking'],
-    ['beginner', '3d-modeling', 'animation', 'blender'],
-    ['beginner', '1c', 'business-automation'],
-    ['beginner', 'interior-design', 'space-planning'],
-    ['beginner', 'java', 'spring', 'web-development', 'devops'],
-    ['beginner', 'motion-design', '2d-animation', '3d-animation'],
-    ['beginner', 'cpp', 'software-development'],
-    ['beginner', 'game-design', 'game-development'],
-    ['beginner', 'python', 'web-development', 'backend'],
-    ['intermediate', 'python', 'software-development'],
-    ['beginner', 'web-design', 'ui-ux', 'graphic-design'],
-    ['beginner', 'data-analysis', 'business-intelligence'],
-    ['intermediate', 'data-science', 'machine-learning'],
-    ['advanced', 'data-science', 'machine-learning', 'mathematics'],
-    ['beginner', 'illustration', 'branding', 'fashion-design'],
-    ['beginner', 'linux', 'system-administration'],
-    ['intermediate', 'python', 'fullstack', 'web-development'],
-    ['beginner', 'graphic-design', 'career-development'],
-    ['beginner', 'csharp', 'game-development', 'unity'],
-    ['intermediate', 'csharp', 'game-development', 'unity', '3d-modeling'],
-    ['beginner', 'android', 'mobile-development'],
-    ['beginner', 'javascript', 'react', 'web-development', 'frontend'],
-    ['advanced', 'javascript', 'typescript', 'react', 'frontend'],
-    ['advanced', 'neural-networks', 'deep-learning', 'machine-learning'],
-    ['beginner', 'neural-networks', 'creative-tools'],
-    ['beginner', 'software-testing', 'qa'],
-    ['intermediate', 'csharp', 'dotnet', 'web-development'],
-    ['beginner', 'video-editing', 'motion-design'],
-    ['beginner', 'sql', 'data-analysis'],
-    ['intermediate', 'finance', 'risk-management'],
-    ['beginner', 'graphic-design', 'adobe'],
-    ['intermediate', 'project-management', 'team-leadership'],
-    ['beginner', 'digital-marketing', 'seo', 'social-media'],
-    ['intermediate', 'product-management', 'agile'],
-    ['beginner', 'ui-ux', 'web-design'],
-    ['beginner', 'python', 'web-development'],
-    ['beginner', 'graphic-design', 'adobe'],
-    ['beginner', 'motion-design', '3d-animation'],
-    ['beginner', 'interior-design', 'space-planning'],
-    ['beginner', 'web-development', 'frontend', 'backend'],
-    ['intermediate', 'php', 'javascript', 'fullstack'],
-    ['beginner', 'photography', 'creative-arts'],
-    ['beginner', 'recruitment', 'hr'],
-    ['intermediate', 'java', 'spring', 'web-development'],
-    ['advanced', 'machine-learning', 'neural-networks'],
-    ['beginner', 'ios', 'swift', 'mobile-development'],
-    ['beginner', 'graphic-design', 'adobe'],
-    ['beginner', 'interior-design', 'space-planning'],
-    ['beginner', '3d-modeling', 'animation', 'blender'],
-    ['beginner', 'graphic-design', 'career-development'],
-    ['advanced', 'ui-ux', 'web-design'],
-    ['beginner', 'game-design', 'game-development'],
-    ['advanced', 'motion-design', '3d-animation'],
-    ['beginner', 'web-design', 'ui-ux'],
-    ['beginner', 'neural-networks', 'creative-tools'],
-    ['beginner', 'illustration', 'branding'],
-    ['beginner', 'interior-design', 'space-planning'],
-    ['beginner', 'graphic-design', 'adobe'],
-    ['beginner', 'ui-ux', 'web-design'],
-    ['beginner', 'graphic-design', 'adobe'],
-    ['beginner', 'motion-design', '3d-animation'],
-    ['beginner', 'video-editing', 'motion-design'],
-    ['intermediate', 'interactive-media', 'multimedia'],
-    ['beginner', 'photography', 'creative-arts'],
-    ['intermediate', 'design-systems', 'ux'],
-    ['beginner', 'adobe-photoshop', 'graphic-design'],
-    ['beginner', 'figma', 'ui-ux'],
-    ['beginner', 'adobe-illustrator', 'vector-graphics'],
-    ['beginner', 'after-effects', 'motion-design'],
-    ['beginner', 'cinema-4d', '3d-modeling'],
-    ['beginner', 'blender', '3d-modeling'],
-    ['beginner', 'indesign', 'layout-design'],
-    ['beginner', 'python', 'web-development'],
-    ['beginner', 'software-testing', 'qa'],
-    ['beginner', 'javascript', 'frontend', 'web-development'],
-    ['beginner', 'data-science', 'machine-learning']
+    # ID 1
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop', 'Adobe Illustrator'],
+    # ID 2
+    ['Intermediate', 'QA', 'QA Engineer', 'Python', 'Автоматизированное тестирование'],
+    # ID 3
+    ['Beginner', 'Design & UX', 'UI/UX Designer', 'Figma', 'Adobe XD'],
+    # ID 4
+    ['Intermediate', 'Cybersecurity', 'Cybersecurity Specialist', 'Ethical Hacking', 'Penetration Testing'],
+    # ID 5
+    ['Intermediate', 'Design & UX', 'Graphic Designer', '3D-дизайн', 'Blender', 'Cinema 4D'],
+    # ID 6
+    ['Beginner', 'Development', 'Backend Developer', '1С', 'Программирование на C#'],
+    # ID 7
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Интерьерный дизайн'],
+    # ID 8
+    ['Intermediate', 'Development', 'Backend Developer', 'Java', 'Spring Framework'],
+    # ID 9
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'After Effects', 'Моушн-дизайн'],
+    # ID 10
+    ['Intermediate', 'Development', 'Backend Developer', 'C++', 'Программирование'],
+    # ID 11
+    ['Beginner', 'Design & UX', 'Game Developer', 'Unity', '3D-дизайн'],
+    # ID 12
+    ['Beginner', 'Development', 'Backend Developer', 'Python'],
+    # ID 13
+    ['Advanced', 'Development', 'Backend Developer', 'Python'],
+    # ID 14
+    ['Beginner', 'Design & UX', 'UI/UX Designer', 'Figma', 'Веб-дизайн'],
+    # ID 15
+    ['Beginner', 'Data & Analytics', 'Data Analyst', 'SQL', 'Excel', 'Tableau'],
+    # ID 16
+    ['Intermediate', 'Data & Analytics', 'Data Scientist', 'Python', 'Машинное обучение'],
+    # ID 17
+    ['Advanced', 'Data & Analytics', 'Data Scientist', 'Python', 'Машинное обучение', 'Нейронные сети'],
+    # ID 18
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Illustrator'],
+    # ID 19
+    ['Beginner', 'Development', 'System Administrator', 'Linux', 'Сети'],
+    # ID 20
+    ['Intermediate', 'Development', 'Fullstack Developer', 'Python', 'JavaScript', 'Django'],
+    # ID 21
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Figma', 'Adobe Photoshop'],
+    # ID 22
+    ['Beginner', 'Development', 'Game Developer', 'Unity', 'C#'],
+    # ID 23
+    ['Advanced', 'Development', 'Game Developer', 'Unity', 'C#'],
+    # ID 24
+    ['Intermediate', 'Development', 'Mobile Developer', 'Java', 'Kotlin'],
+    # ID 25
+    ['Beginner', 'Development', 'Frontend Developer', 'JavaScript', 'React'],
+    # ID 26
+    ['Advanced', 'Development', 'Frontend Developer', 'JavaScript', 'React', 'TypeScript'],
+    # ID 27
+    ['Advanced', 'Data & Analytics', 'Machine Learning Engineer', 'Нейронные сети', 'Python'],
+    # ID 28
+    ['Intermediate', 'Design & UX', 'Graphic Designer', 'Нейронные сети', 'Искусственный интеллект'],
+    # ID 29
+    ['Beginner', 'QA', 'QA Engineer', 'Ручное тестирование'],
+    # ID 30
+    ['Intermediate', 'Development', 'Backend Developer', 'C#', '.NET'],
+    # ID 31
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'After Effects', 'Видеомонтаж'],
+    # ID 32
+    ['Beginner', 'Data & Analytics', 'Data Analyst', 'SQL'],
+    # ID 33
+    ['Intermediate', 'Data & Analytics', 'Data Analyst', 'Excel', 'Финансовый анализ'],
+    # ID 34
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop', 'Adobe Illustrator'],
+    # ID 35
+    ['Intermediate', 'Management', 'Project Manager', 'Управление проектами'],
+    # ID 36
+    ['Beginner', 'Marketing', 'Интернет-маркетолог', 'SEO', 'Контекстная реклама'],
+    # ID 37
+    ['Intermediate', 'Management', 'Product Manager', 'Управление продуктом'],
+    # ID 38
+    ['Beginner', 'Design & UX', 'UI/UX Designer', 'Figma', 'Adobe XD'],
+    # ID 39
+    ['Beginner', 'Development', 'Backend Developer', 'Python', 'Интенсив'],
+    # ID 40
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop', 'Интенсив'],
+    # ID 41
+    ['Intermediate', 'Design & UX', 'Graphic Designer', 'After Effects', '3D-дизайн'],
+    # ID 42
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Интерьерный дизайн'],
+    # ID 43
+    ['Beginner', 'Development', 'Fullstack Developer', 'HTML', 'CSS', 'JavaScript'],
+    # ID 44
+    ['Intermediate', 'Development', 'Fullstack Developer', 'PHP', 'JavaScript'],
+    # ID 45
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Фотография'],
+    # ID 46
+    ['Beginner', 'HR', 'IT Recruiter', 'Рекрутинг'],
+    # ID 47
+    ['Intermediate', 'Development', 'Backend Developer', 'Java', 'Spring Framework'],
+    # ID 48
+    ['Advanced', 'Data & Analytics', 'Machine Learning Engineer', 'Нейронные сети', 'Python'],
+    # ID 49
+    ['Beginner', 'Development', 'Mobile Developer', 'Swift'],
+    # ID 50
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop', 'Adobe Illustrator'],
+    # ID 51
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Интерьерный дизайн'],
+    # ID 52
+    ['Intermediate', 'Design & UX', 'Graphic Designer', '3D-дизайн', 'Blender', 'Cinema 4D'],
+    # ID 53
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Figma', 'Adobe Photoshop'],
+    # ID 54
+    ['Beginner', 'Design & UX', 'UI/UX Designer', 'Figma', 'Adobe XD'],
+    # ID 55
+    ['Beginner', 'Design & UX', 'Game Developer', 'Unity', '3D-дизайн'],
+    # ID 56
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'After Effects', 'Моушн-дизайн'],
+    # ID 57
+    ['Beginner', 'Design & UX', 'UI/UX Designer', 'Figma', 'Веб-дизайн'],
+    # ID 58
+    ['Intermediate', 'Design & UX', 'Graphic Designer', 'Нейронные сети', 'Искусственный интеллект'],
+    # ID 59
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Illustrator'],
+    # ID 60
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Интерьерный дизайн'],
+    # ID 61
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop', 'Adobe Illustrator'],
+    # ID 62
+    ['Beginner', 'Design & UX', 'UI/UX Designer', 'Figma', 'Adobe XD'],
+    # ID 63
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop', 'Интенсив'],
+    # ID 64
+    ['Intermediate', 'Design & UX', 'Graphic Designer', 'After Effects', '3D-дизайн'],
+    # ID 65
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'After Effects', 'Видеомонтаж'],
+    # ID 66
+    ['Intermediate', 'Design & UX', 'Graphic Designer', 'Интерактивный дизайн'],
+    # ID 67
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Фотография'],
+    # ID 68
+    ['Intermediate', 'Design & UX', 'UI/UX Designer', 'Figma', 'Дизайн-системы'],
+    # ID 69
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop'],
+    # ID 70
+    ['Beginner', 'Design & UX', 'UI/UX Designer', 'Figma'],
+    # ID 71
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Illustrator'],
+    # ID 72
+    ['Intermediate', 'Design & UX', 'Graphic Designer', 'After Effects'],
+    # ID 73
+    ['Intermediate', 'Design & UX', 'Graphic Designer', 'Cinema 4D'],
+    # ID 74
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Blender'],
+    # ID 75
+    ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe InDesign'],
+    # ID 76
+    ['Beginner', 'Development', 'Backend Developer', 'Python', 'Интенсив'],
+    # ID 77
+    ['Beginner', 'QA', 'QA Engineer', 'Ручное тестирование', 'Интенсив'],
+    # ID 78
+    ['Beginner', 'Development', 'Frontend Developer', 'JavaScript', 'Интенсив'],
+    # ID 79
+    ['Beginner', 'Data & Analytics', 'Data Scientist', 'Python', 'Машинное обучение'],
 ]
 
 def populate_tags(cursor, tags):
