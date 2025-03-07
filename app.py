@@ -5,7 +5,6 @@ from backend.database.User import db
 from flask_restx import Api
 from backend.handlers.register import register_ns
 from backend.handlers.login import login_ns
-from backend.handlers.test import test_ns
 
 app = Flask(__name__)
 
@@ -36,7 +35,6 @@ api = Api(
 
 api.add_namespace(register_ns, path='/register')
 api.add_namespace(login_ns, path='/login')
-api.add_namespace(test_ns, path='/test')
 
 def create_tables():
     db.create_all()
