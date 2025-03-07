@@ -7,6 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 import numpy as np
 from model import CourseRecommender
 from save_load import save_model
+from matrix_create import matrix_create, get_users
 import sqlite3
 
 def get_courses():
@@ -57,68 +58,7 @@ def get_courses():
 courses = get_courses()
 
 # Пользователи и их интересы
-users = {
-    "U1": {
-        "name": "Алексей Иванов",
-        "experience": 2,
-        "position": "Frontend-разработчик",
-        "tags": ["Design & UX", "Frontend Developer", "Программирование на JavaScript"],
-    },
-    "U2": {
-        "name": "Мария Петрова",
-        "experience": 3,
-        "position": "Backend-разработчик",
-        "tags": ["Development", "Backend Developer", "Программирование на Python"],
-    },
-    "U3": {
-        "name": "Дмитрий Смирнов",
-        "experience": 4,
-        "position": "Инженер баз данных",
-        "tags": ["Data & Analytics", "Data Scientist", "SQL"],
-    },
-    "U4": {
-        "name": "Елена Кузнецова",
-        "experience": 5,
-        "position": "Data Scientist",
-        "tags": ["Data & Analytics", "Data Scientist", "Машинное обучение", "Нейронные сети"],
-    },
-    "U5": {
-        "name": "Игорь Васильев",
-        "experience": 3,
-        "position": "DevOps-инженер",
-        "tags": ["Development", "DevOps Engineer", "CI/CD", "Docker", "Kubernetes"],
-    },
-    "U6": {
-        "name": "Ольга Новикова",
-        "experience": 2,
-        "position": "Геймдизайнер",
-        "tags": ["Design & UX", "Game Developer", "Unity", "3D-дизайн"],
-    },
-    "U7": {
-        "name": "Анна Морозова",
-        "experience": 1,
-        "position": "Графический дизайнер",
-        "tags": ["Design & UX", "Graphic Designer", "Adobe Photoshop", "Adobe Illustrator"],
-    },
-    "U8": {
-        "name": "Сергей Волков",
-        "experience": 3,
-        "position": "Android-разработчик",
-        "tags": ["Development", "Mobile Developer", "Программирование на Java", "Android"],
-    },
-    "U9": {
-        "name": "Павел Белов",
-        "experience": 6,
-        "position": "Специалист по кибербезопасности",
-        "tags": ["Cybersecurity", "Cybersecurity Specialist", "Ethical Hacking", "Penetration Testing"],
-    },
-    "U10": {
-        "name": "Татьяна Козлова",
-        "experience": 4,
-        "position": "Бизнес-аналитик",
-        "tags": ["Data & Analytics", "Data Analyst", "SQL", "Excel", "Business Intelligence"],
-    }
-}
+users = get_users()
 
 # Подготовка данных
 def data_preproc():
@@ -126,13 +66,13 @@ def data_preproc():
     for course in courses:
         all_tags.update(course["tags"])
     for user in users.values():
-        all_tags.update(user["tags"])
+        all_tags.update(user)
 
     tag_encoder = LabelEncoder()
     tag_encoder.fit(list(all_tags))
 
     course_tags = [tag_encoder.transform(course["tags"]) for course in courses]
-    user_interests = [tag_encoder.transform(user["tags"]) for user in users.values()]
+    user_interests = [tag_encoder.transform(list(user)) for user in users.values()]
 
     max_len = max(
         max(len(tags) for tags in course_tags),
@@ -162,19 +102,7 @@ criterion = nn.MSELoss()
 # Обучение
 # Генерация матрицы
 def matrix_gen():
-    matrix = []
-    for course in courses:
-        row = {}
-        for user_id, user_data in users.items():
-            # Расчет балла
-            common_tags = set(course["tags"]) & set(user_data["tags"])
-            score = 0.0
-            if common_tags:
-                score = 0.6 + 0.1 * len(common_tags)
-            # Добавление шума
-            score += np.random.uniform(-0.05, 0.05)
-            row[user_id] = round(np.clip(score, 0, 1), 2)
-        matrix.append(row)
+    matrix = matrix_create()
 
     # Преобразование матрицы в DataFrame
     matrix_df = pd.DataFrame(matrix)
@@ -190,7 +118,7 @@ def matrix_gen():
 y_true = matrix_gen()
 
 def train_model():
-    for epoch in range(1000):
+    for epoch in range(200):
         model.train()
         optimizer.zero_grad()
         
@@ -214,10 +142,13 @@ def test_recomendations():
         similarity_matrix = model(course_tensor, user_tensor)
         
         for user_idx, user in enumerate(users.values()):
+            if user_idx == 5:
+                break
             scores = similarity_matrix[:, user_idx]
             top_courses = torch.topk(scores, k=3).indices.tolist()
             
-            print(f"\nРекомендации для {user['name']}:")
+            print(f"\nРекомендации для {user_idx}:")
+            print(f'USER TAGS: {user}')
             for course_idx in top_courses:
                 course = courses[course_idx]
                 score = scores[course_idx].item()
