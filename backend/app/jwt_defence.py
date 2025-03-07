@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import request, jsonify
+from flask import request
 from backend.app.jwt import verify_jwt_token
 
 def token_required(f):
