@@ -1,11 +1,11 @@
 import sqlite3
-from tags import populate_tags, populate_course_tags
+from backend.database.course_tags import populate_tags, populate_course_tags
 
-
-def create_database():
-  connection = sqlite3.connect("backend/database/courses.db")
+# Ф-ия для просмотра содержимого базы данных
+def check_database():
+  connection = sqlite3.connect("backend/database/users.db")
   cursor = connection.cursor()
-  cursor.execute("SELECT id, title, link FROM courses")
+  cursor.execute("SELECT id, name FROM users")
   for course in cursor.fetchall():
     print(course)
   return cursor
@@ -22,7 +22,7 @@ def add_course_to_db(title, link, duration, description, price, course_type, dir
   populate_course_tags(cursor, course_tags)
 
 def main():
-  create_database()
+  check_database()
 
 if __name__ == "__main__":
   main()

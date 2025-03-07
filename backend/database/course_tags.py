@@ -1,5 +1,7 @@
 import sqlite3
 
+
+# Теги курсов, разбитые на них  самих (всего курсов 79 штук пока)
 course_tags = [
     # ID 1
     ['Beginner', 'Design & UX', 'Graphic Designer', 'Adobe Photoshop', 'Adobe Illustrator'],
