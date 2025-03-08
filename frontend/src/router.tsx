@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { Home, Error } from "./pages";
+import { Error, Home, Login, Profile, Registration } from "@pages";
 
 const router = createBrowserRouter(
   [
@@ -8,6 +8,18 @@ const router = createBrowserRouter(
       path: "/",
       element: <Home />,
       errorElement: <Error />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />,
+    },
+    {
+      path: "/registration",
+      element: <Registration />,
     },
   ],
   { basename: import.meta.env.BASE_URL }

@@ -1,4 +1,4 @@
-import Logo from "../Logo/Logo";
+import Logo from "@components/Logo/Logo";
 
 import classes from "./Header.module.css";
 
