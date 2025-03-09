@@ -1,9 +1,10 @@
 import jwt
 from datetime import datetime, timedelta
-from app import app
+
 
 def create_jwt_token(user_id):
     """Создаем JWT токен для пользователя"""
+    from app import app
     payload = {
         'user_id': str(user_id),
         'exp': datetime.utcnow() + timedelta(hours=24)  # Токен действует 24 часа
@@ -13,6 +14,7 @@ def create_jwt_token(user_id):
 
 def verify_jwt_token(token):
     """Проверяем JWT токен"""
+    from app import app
     try:
         payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=[app.config['JWT_ALGORITHM']])
         return payload['user_id']
