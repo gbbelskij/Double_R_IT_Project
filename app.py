@@ -36,11 +36,5 @@ api = Api(
 api.add_namespace(register_ns, path='/register')
 api.add_namespace(login_ns, path='/login')
 
-def create_tables():
-    db.create_all()
-
-
 if __name__ == "__main__":
-    with app.app_context():
-        create_tables()
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
