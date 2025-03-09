@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate, useRouteError } from "react-router-dom";
 
+import "./ErrorPage.css";
+import Main from "@components/Main/Main";
+
 interface RouteError {
   data: string;
   error: {
@@ -15,7 +18,7 @@ interface RouteError {
   statusText: string;
 }
 
-export default function ErrorPage() {
+const ErrorPage: React.FC = () => {
   const error = useRouteError() as RouteError;
   const navigate = useNavigate();
 
@@ -24,13 +27,15 @@ export default function ErrorPage() {
       if (error.status === 404) {
         navigate("/", { replace: true });
       }
-    }, 2000);
+    }, 1000);
   }, [error, navigate]);
 
   return (
-    <div>
+    <Main disableHeaderOffset>
       <h1>Упс! Что-то пошло не так.</h1>
       <p>Перенаправление на главную страницу...</p>
-    </div>
+    </Main>
   );
-}
+};
+
+export default ErrorPage;
