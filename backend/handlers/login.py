@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask import request
-from backend.database.User import User
+from backend.database.User import User, db
+
 
 login_ns = Namespace('login', description='User authentication operations')
 
@@ -27,6 +28,8 @@ class Login(Resource):
 
         if user and user.check_password(password):
             token = create_jwt_token(user.user_id)
+            user.is_active = True
+            db.session.commit()
             return {'message': 'Login successful', 'token': token}, 200 
         else:
             return {'message': 'Invalid password'}, 400

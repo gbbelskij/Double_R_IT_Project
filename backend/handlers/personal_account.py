@@ -1,7 +1,9 @@
 from flask_restx import Namespace, Resource, fields
 from flask import request
-from backend.database.User import User, db
+from backend.database.User import User, TokenBlockList, db
 from backend.app.jwt_defence import token_required
+from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import decode_token
 
 
 personal_account_ns = Namespace('personal_account', description='User`s personal data')
@@ -80,6 +82,43 @@ class UpdatePersonalAccountData(Resource):
         try:
             db.session.commit()
             return {'message': 'User data updated successfully'}, 200
+        except Exception as e:
+            db.session.rollback()
+            return {'message': f'Error: {str(e)}'}, 500
+
+
+@personal_account_ns.route('/logout/')
+class Logout(Resource):
+    @personal_account_ns.response(200, 'User logout correctly')
+    @personal_account_ns.response(400, 'Invalid token')
+    @personal_account_ns.response(401, 'Token is missing!')
+    def post(self):
+        token = None
+
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization'].split()[1]  # Получаем токен из заголовка Authorization
+
+        if not token:
+            return {'message': 'Token is missing!'}, 401
+        try:
+            decoded_token = decode_token(token)
+            jti = decoded_token['jti']
+            user_id = decoded_token['sub']
+        except Exception as e:
+            return {'message': f'Error: {str(e)}'}, 500
+        
+        user = User.query.filter_by(user_id=user_id).first()
+        blocked_token = TokenBlockList(jti=jti, user_id=user_id)
+        
+        try:
+            db.session.add(blocked_token)
+            user.last_login = db.func.current_timestamp()
+            user.is_active = False
+            db.session.commit()
+            return {'message': 'User logout correctly'}
+        except IntegrityError:
+            db.session.rollback()
+            return {'message': 'User has already logged out'}, 500
         except Exception as e:
             db.session.rollback()
             return {'message': f'Error: {str(e)}'}, 500
