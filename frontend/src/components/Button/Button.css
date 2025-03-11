@@ -1,0 +1,61 @@
+.button {
+  padding: 10px 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between icon and text */
+  font-size: 16px;
+  transition: opacity 0.3s;
+  opacity: 0.7;
+  overflow: hidden;
+}
+
+.button:hover {
+  opacity: 1;
+}
+
+.action {
+  background-color: #213b32; /* Green for Action */
+  border-color: #2f563f;
+  color: white;
+}
+
+.dangerous-action {
+  background-color: #4f2732; /* Red for DangerousAction */
+  border-color: #96474f;
+  color: white;
+}
+
+.default {
+  background-color: #273952; /* Gray for Default */
+  border-color:#777f91;
+  color: #777f91;
+}
+
+.submit {
+  background-color: #a2adc0; /* Gray for Submit */
+  border: none;
+  color: black;
+}
+
+.full-width {
+  width: 100%;
+  max-width: 400px; /* Optional: limit max width */
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.icon.left {
+  margin-right: 8px; /* Space before text */
+}
+
+.icon.right {
+  margin-left: 8px; /* Space after text */
+}
