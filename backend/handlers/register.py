@@ -37,6 +37,7 @@ class Register(Resource):
         date_of_birth = data.get('date_of_birth')
         job_position = data.get('job_position')
         work_experience = data.get('work_experience')
+        preferences = data.get('preferences')
 
         # Проверка на существование пользователя с таким email
         if User.query.filter_by(email=email).first():
@@ -50,6 +51,7 @@ class Register(Resource):
             date_of_birth=date_of_birth,
             job_position=job_position,
             work_experience=work_experience,
+            preferences=preferences,
         )
         new_user.set_password(password)  # Хешируем пароль
 
