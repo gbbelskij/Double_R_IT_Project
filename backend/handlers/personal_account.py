@@ -122,3 +122,23 @@ class Logout(Resource):
         except Exception as e:
             db.session.rollback()
             return {'message': f'Error: {str(e)}'}, 500
+
+
+@personal_account_ns.route('/delete/')
+class Delete(Resource):
+    @personal_account_ns.response(200, "User was deleted successfully")
+    @personal_account_ns.response(404, "User not found")
+    @personal_account_ns.response(500, "Internal server error")
+    @token_required
+    def delete(self, user_id):
+        try:
+            user = User.query.filter_by(user_id=user_id).first()
+
+            if not user:
+                return {"message": "User not found"}, 404
+            
+            db.session.delete(user)
+            db.session.commit()
+            return {"message": "User was deleted successfully"}, 200
+        except Exception as e:  
+            return {"message": "Internal server error", "error": str(e)}, 500
