@@ -1,16 +1,14 @@
 .Inputs {
     margin-bottom: 20px;
   }
-  
-  /* Label */
+
 .InputsLabel {
     display: block;
     color: #fff;
     font-size: 20px;
     margin-bottom: 8px;
 }
-  
-  /* Wrapper для инпута и иконки */
+
 .InputItems {
     display: flex;
     align-items: center;
@@ -20,15 +18,13 @@
     padding: 12px;
     color: #fff;
 }
-  
-  /* Иконка */
+
 .InputIcon {
     margin-right: 12px;
     font-size: 24px;
     color: #fff;
 }
-  
-  /* Инпут */
+
 .Input {
     background: transparent;
     border: none;
@@ -37,17 +33,3 @@
     font-size: 18px;
     flex: 1;
 }
-
-/* TextInput.module.css */
-
-.PrefixText {
-    margin-right: 8px;
-    color: #fff;
-    font-size: 16px;
-  }
-  
-  .UnitText {
-    margin-left: 8px;
-    color: #fff;
-    font-size: 16px;
-  }
