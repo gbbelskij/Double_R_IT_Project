@@ -1,4 +1,5 @@
 import { InputProps } from "./Input.props";
+import classes from "./Input.module.css";
 
 import { FaRegUserCircle, FaCheck } from 'react-icons/fa';
 import { TbCalendarQuestion } from 'react-icons/tb';
@@ -8,12 +9,12 @@ import { LuKeyRound } from 'react-icons/lu';
 
 
 const defaultIcons = {
-  text: <FaRegUserCircle />,
-  date: <TbCalendarQuestion />,
-  email: <AiOutlineMail />,
-  number: <MdAccessTime />,
-  password: <LuKeyRound />,
-  checkbox: <FaCheck />,
+  text: <FaRegUserCircle className={classes.InputIcon}/>,
+  date: <TbCalendarQuestion className={classes.InputIcon}/>,
+  email: <AiOutlineMail className={classes.InputIcon}/>,
+  number: <MdAccessTime className={classes.InputIcon}/>,
+  password: <LuKeyRound className={classes.InputIcon}/>,
+  checkbox: <FaCheck className={classes.InputIcon}/>,
 };
 
 import React from 'react';
@@ -27,6 +28,8 @@ const Input: React.FC<InputProps> = ({
   hideIcons = false,
   prefix,
   showEye = true,
+  defaultValue,
+  unit,
   ...props
 }) => {
   const getDefaultIcon = () => {
@@ -34,19 +37,20 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div>
-      <label htmlFor={name}>{label}</label>
-      <div>
+    <div className={classes.Inputs}>
+      <label htmlFor={name} className={classes.InputsLabel}>{label}</label>
+      <div className={classes.InputItems}>
         {!hideIcons && (
             leftIcon ? leftIcon : getDefaultIcon()
         )}
         {type === 'number' && prefix && (
-          <span>{prefix}</span>
+          <span className={classes.PrefixText}>{prefix}</span>
         )}
-        <input
+        <input className={classes.Input}
           id={name}
           name={name}
           type={type === 'password' && !showEye ? 'text' : type}
+          defaultValue={type === 'email' ? defaultValue ?? 'example@mail.com' : undefined}
           {...props}
         />
         {!hideIcons && type === 'password' && (

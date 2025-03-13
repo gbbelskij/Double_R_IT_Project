@@ -8,6 +8,8 @@ export interface InputProps {
     label: string;
     hideIcons?: boolean;
     postfix?: string; // надпись для type="number"
-    showEye?: boolean; 
+    showEye?: boolean;
+    defaultValue?: string; 
+    unit?: string;
     [key: string]: any; 
 }
