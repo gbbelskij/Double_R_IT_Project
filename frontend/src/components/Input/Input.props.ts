@@ -1,15 +1,16 @@
-type ButtonTypes = 'text' | 'date' | 'email' | 'number' | 'password' | 'checkbox';
+type InputTypes = 'text' | 'date' | 'email' | 'number' | 'password' | 'checkbox';
 
 export interface InputProps {
-    type: ButtonTypes;
+    type: InputTypes;
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
     name: string;
     label: string;
     hideIcons?: boolean;
-    postfix?: string; // надпись для type="number"
+    postfix?: string; 
     showEye?: boolean;
     defaultValue?: string; 
     unit?: string;
+    placeholder?: string;
     [key: string]: any; 
 }

@@ -1,35 +1,181 @@
 .Inputs {
     margin-bottom: 20px;
-  }
+    min-width: 500px;
+}
+
+.Inputs[type="text"]{
+    margin-bottom: 20px;
+    min-width: 250px;
+}
 
 .InputsLabel {
     display: block;
-    color: #fff;
+    color: var(--solitude-100);
     font-size: 20px;
+    font-weight: 700;
     margin-bottom: 8px;
 }
 
 .InputItems {
     display: flex;
     align-items: center;
-    background-color: #34568b;
-    border: 2px solid #fff;
+    border: 3px solid var(--solitude-100);
     border-radius: 16px;
-    padding: 12px;
-    color: #fff;
+    color: var(--solitude-100);
+}
+
+.InputItems_text {
+    display: flex;
+    align-items: center;
+    width: 12.5vw; 
+    height: 7.41vh;
+}
+  
+.InputItems_email {
+    width: 25vw;
+    height: 7.41vh;
+}
+  
+.InputItems_number {
+    width: 25vw;
+    height: 7.41vh;
+}
+  
+.InputItems_password {
+    width: 25vw;
+    height: 7.41vh;
+}
+  
+.InputItems_date {
+    width: 25vw;
+    height: 7.41vh;
 }
 
 .InputIcon {
-    margin-right: 12px;
-    font-size: 24px;
-    color: #fff;
+    width: 1.46vw;
+    height: 2.59vh;
+    margin-left: 25px;
+    color: var(--solitude-100);
 }
 
 .Input {
     background: transparent;
     border: none;
     outline: none;
-    color: #fff;
-    font-size: 18px;
+    color: var(--solitude-100);
+    font-size: 24px;
+    font-weight: 300;
     flex: 1;
+    height: 80px;
+    margin-left: 25px;
+    width:  20vw;
+}
+
+.Input_password {
+    margin-left: 25px;
+    width: 16.6vw;
+}
+
+.Input_password.isPasswordVisible, 
+.Input[type="password"].isPasswordVisible {
+    width: 16.6vw;
+}
+
+.Input[type="text"] {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--solitude-100);
+    font-size: 24px;
+    font-weight: 300;
+    flex: 1;
+    height: 7.41vh;
+}
+
+.Input_text {
+    max-width: 140px;
+}
+
+.Input[type="number"] {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--solitude-100);
+    font-size: 24px;
+    font-weight: 300;
+    flex: 1;
+    height: 7.41vh;
+    margin-left: 25px;
+    width:  2vw;
+}
+
+.Input[type="password"] {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--solitude-100);
+    font-size: 24px;
+    font-weight: 300;
+    flex: 1;
+    height: 7.41vh;
+    margin-left: 25px;
+    width:  16.6vw;
+}
+
+.Input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.Input::placeholder {
+    color: #ccc; 
+}
+
+.Input[type="number"]::-webkit-inner-spin-button,
+.Input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+.UnitText {
+    color: var(--solitude-100); 
+    font-size: 24px;
+    pointer-events: none;
+}
+
+.Input_checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+  
+.Input_checkbox input[type="checkbox"] {
+    appearance: none; 
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--solitude-100);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+  
+.Input_checkbox input[type="checkbox"]:checked {
+    background-color: #000000; 
+}
+  
+.Input_checkbox .CheckIcon {
+    position: absolute;
+    color: var(--solitude-100); 
+    width: 1.46vw;
+    height: 2.59vh;
+    pointer-events: none;
+}
+  
+.Input_checkbox label {
+    color: var(--solitude-100);
+    font-size: 18px;
+    font-weight: 300;
+    cursor: pointer;
 }
