@@ -1,6 +1,8 @@
 import { Link } from "react-router";
-import classes from "./Logo.module.css";
+
 import { LogoProps } from "./Logo.props";
+
+import classes from "./Logo.module.css";
 
 const Logo: React.FC<LogoProps> = ({
   color = "var(--solitude-100)",

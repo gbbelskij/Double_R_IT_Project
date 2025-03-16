@@ -1,9 +1,9 @@
+import { Link } from "react-router";
 import { AiFillGithub } from "react-icons/ai";
-import Logo from "../Logo/Logo";
+import useWindowWidth from "@hooks/useWindowWidth";
+import Logo from "@components/Logo/Logo";
 
 import classes from "./Footer.module.css";
-import { Link } from "react-router";
-import useWindowWidth from "../../hooks/useWindowWidth";
 
 const Footer: React.FC = () => {
   const windowWidth = useWindowWidth();

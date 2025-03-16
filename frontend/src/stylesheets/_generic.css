@@ -7,6 +7,10 @@
   font-size: var(--font-size-md);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   background-color: var(--firefly-100);
   color: var(--solitude-100);
@@ -35,13 +39,4 @@ h4 {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-html,
-body,
-header,
-footer,
-main,
-div {
-  box-sizing: border-box;
 }
