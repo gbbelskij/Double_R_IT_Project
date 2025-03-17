@@ -78,6 +78,7 @@ class UpdatePersonalAccountData(Resource):
         user.preferences = preferences
 
         try:
+            user.updated_at = db.func.current_timestamp()
             db.session.commit()
             return {'message': 'User data updated successfully'}, 200
         except Exception as e:
