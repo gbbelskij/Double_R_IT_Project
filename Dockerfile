@@ -17,8 +17,12 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Копируем исходный код приложения
 COPY . .
 
+# Применяем миграции
+RUN flask db upgrade
+
 # Открываем порт для доступа к приложению
 EXPOSE 5000
 
 # Запускаем приложение
 CMD ["python3", "app.py"]
+
