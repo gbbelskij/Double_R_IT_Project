@@ -1,6 +1,7 @@
 import { InputProps } from "./Input.props";
 import classes from "./Input.module.css";
 import { useState } from 'react';
+import classNames from 'classnames';
 
 import { FaCheck } from 'react-icons/fa6';
 import { FaRegUserCircle } from 'react-icons/fa';
@@ -25,15 +26,12 @@ import React from 'react';
 const Input: React.FC<InputProps> = ({
   type,
   leftIcon,
-  rightIcon,
   name,
   label,
   hideIcons = false,
   prefix,
-  showEye = true,
   defaultValue,
   unit,
-  placeholder,
   ...props
 }) => {
   const getDefaultIcon = () => {
@@ -56,11 +54,18 @@ const Input: React.FC<InputProps> = ({
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+  
+  const typeMap: Record<string, string> = {
+    date: 'date',
+    email: 'email',
+    number: 'number',
+    text: 'text',
+  };
 
   const renderPasswordInput = () => (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div className={classes.InputWrapper}>
       <input 
-        className={`${classes.Input} ${classes.Input_password}`}
+        className={classNames(classes.Input, classes.InputPassword)}
         id={name}
         name={name}
         type={isPasswordVisible ? 'text' : 'password'}
@@ -75,7 +80,7 @@ const Input: React.FC<InputProps> = ({
   );
 
   const renderCheckboxInput = () => (
-    <div className={`${classes.Input} ${classes.Input_checkbox}`}>
+    <div className={classNames(classes.Input, classes.InputCheckbox)}>
       <input 
         type="checkbox"
         id={name}
@@ -98,7 +103,7 @@ const Input: React.FC<InputProps> = ({
       ) : (
         <>
           <label htmlFor={name} className={classes.InputsLabel}>{label}</label>
-          <div className={`${classes.InputItems} ${classes[`InputItems_${type}`]}`}>
+          <div className={classNames(classes.Input, classes[`InputItems_${type}`])}>
             {!hideIcons && (
                 leftIcon ? leftIcon : getDefaultIcon()
             )}
@@ -108,20 +113,12 @@ const Input: React.FC<InputProps> = ({
             {type === 'password' ? (
               renderPasswordInput() 
             ) : (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className={classes.InputsWrapper_default}>
                 <input 
-                  className={`${classes.Input} ${classes[`Input_${type}`]}`} 
+                  className={classNames(classes.Input, classes[`Input_${type}`])}
                   id={name}
                   name={name}
-                  type={
-                    type === 'date' 
-                      ? 'date' 
-                      : type === 'email' 
-                        ? 'email' 
-                        : type === 'number' 
-                          ? 'number' 
-                          : 'text'
-                  }
+                  type={typeMap[type] || 'text'}
                   value={value}
                   onChange={handleChange}
                   placeholder={type === 'email' ? 'example@mail.com' : undefined}

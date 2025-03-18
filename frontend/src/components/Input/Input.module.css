@@ -27,34 +27,36 @@
 .InputItems_text {
     display: flex;
     align-items: center;
-    width: 12.5vw; 
-    height: 7.41vh;
+    width: 240px;
+    height: 80px;
 }
   
 .InputItems_email {
-    width: 25vw;
-    height: 7.41vh;
+    width: 480px; 
+    height: 80px;
 }
   
 .InputItems_number {
-    width: 25vw;
-    height: 7.41vh;
+    width: 480px; 
+    height: 80px;
 }
   
 .InputItems_password {
-    width: 25vw;
-    height: 7.41vh;
+    width: 480px; 
+    height: 80px;
 }
   
 .InputItems_date {
-    width: 25vw;
-    height: 7.41vh;
+    width: 480px; 
+    height: 80px;
 }
 
 .InputIcon {
-    width: 1.46vw;
-    height: 2.59vh;
+    width: 28px; 
+    height: 28px;
     margin-left: 25px;
+    margin-top: 26px;
+    margin-bottom: 26px;
     color: var(--solitude-100);
 }
 
@@ -68,17 +70,17 @@
     flex: 1;
     height: 80px;
     margin-left: 25px;
-    width:  20vw;
+    width:  390px;
 }
 
-.Input_password {
+.InputPassword {
     margin-left: 25px;
-    width: 16.6vw;
+    width: 317px;
 }
 
-.Input_password.isPasswordVisible, 
+.InputPassword.isPasswordVisible, 
 .Input[type="password"].isPasswordVisible {
-    width: 16.6vw;
+    width: 317px;
 }
 
 .Input[type="text"] {
@@ -89,7 +91,7 @@
     font-size: 24px;
     font-weight: 300;
     flex: 1;
-    height: 7.41vh;
+    height: 80px;
 }
 
 .Input_text {
@@ -104,9 +106,9 @@
     font-size: 24px;
     font-weight: 300;
     flex: 1;
-    height: 7.41vh;
+    height: 80px;
     margin-left: 25px;
-    width:  2vw;
+    width: 38px;
 }
 
 .Input[type="password"] {
@@ -117,9 +119,9 @@
     font-size: 24px;
     font-weight: 300;
     flex: 1;
-    height: 7.41vh;
+    height: 80px;
     margin-left: 25px;
-    width:  16.6vw;
+    width:  317px;
 }
 
 .Input[type="date"]::-webkit-calendar-picker-indicator {
@@ -136,21 +138,19 @@
   margin: 0;
 }
 
-
-
 .UnitText {
     color: var(--solitude-100); 
     font-size: 24px;
     pointer-events: none;
 }
 
-.Input_checkbox {
+.InputCheckbox {
     display: flex;
     align-items: center;
     gap: 8px;
 }
   
-.Input_checkbox input[type="checkbox"] {
+.InputCheckbox input[type="checkbox"] {
     appearance: none; 
     width: 30px;
     height: 30px;
@@ -161,21 +161,31 @@
     position: relative;
 }
   
-.Input_checkbox input[type="checkbox"]:checked {
+.InputCheckbox input[type="checkbox"]:checked {
     background-color: #000000; 
 }
   
-.Input_checkbox .CheckIcon {
+.InputCheckbox .CheckIcon {
     position: absolute;
     color: var(--solitude-100); 
-    width: 1.46vw;
-    height: 2.59vh;
+    width: 28px;
+    height: 28px;
     pointer-events: none;
 }
   
-.Input_checkbox label {
+.InputCheckbox label {
     color: var(--solitude-100);
     font-size: 18px;
     font-weight: 300;
     cursor: pointer;
+}
+
+.InputWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.InputsWrapper_default {
+    display: flex;
+    align-items: center;
 }
