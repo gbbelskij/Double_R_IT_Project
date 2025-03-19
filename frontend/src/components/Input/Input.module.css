@@ -1,11 +1,7 @@
 .Inputs {
     margin-bottom: 20px;
-    min-width: 500px;
-}
-
-.Inputs[type="text"]{
-    margin-bottom: 20px;
     min-width: 250px;
+    max-width: 500px;
 }
 
 .InputsLabel {
@@ -14,13 +10,18 @@
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 8px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    min-width: 250px;
+    max-width: 500px;
 }
 
 .InputItems {
     display: flex;
     align-items: center;
     border: 3px solid var(--solitude-100);
-    border-radius: 16px;
+    border-radius: 20px;
     color: var(--solitude-100);
 }
 
@@ -52,8 +53,6 @@
 }
 
 .InputIcon {
-    width: 28px; 
-    height: 28px;
     margin-left: 25px;
     margin-top: 26px;
     margin-bottom: 26px;
@@ -130,12 +129,19 @@
 
 .Input::placeholder {
     color: #ccc; 
+    white-space: nowrap; 
+     overflow: hidden; 
+    text-overflow: ellipsis;
 }
 
 .Input[type="number"]::-webkit-inner-spin-button,
 .Input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.Input[type="number"] {
+    -moz-appearance: textfield; 
 }
 
 .UnitText {
@@ -168,8 +174,9 @@
 .InputCheckbox .CheckIcon {
     position: absolute;
     color: var(--solitude-100); 
-    width: 28px;
-    height: 28px;
+    width: 18px;
+    height: 18px;
+    margin: 6px;
     pointer-events: none;
 }
   

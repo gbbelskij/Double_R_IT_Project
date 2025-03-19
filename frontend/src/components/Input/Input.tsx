@@ -13,11 +13,11 @@ import { LuEye } from 'react-icons/lu';
 import { LuEyeOff } from 'react-icons/lu';
 
 const defaultIcons = {
-  text: <FaRegUserCircle className={classes.InputIcon}/>,
-  date: <TbCalendarQuestion className={classes.InputIcon}/>,
-  email: <AiOutlineMail className={classes.InputIcon}/>,
-  number: <MdAccessTime className={classes.InputIcon}/>,
-  password: <LuKeyRound className={classes.InputIcon}/>,
+  text: <FaRegUserCircle className={classes.InputIcon} size={"28px"}/>,
+  date: <TbCalendarQuestion className={classes.InputIcon} size={"28px"}/>,
+  email: <AiOutlineMail className={classes.InputIcon} size={"28px"}/>,
+  number: <MdAccessTime className={classes.InputIcon} size={"28px"}/>,
+  password: <LuKeyRound className={classes.InputIcon} size={"28px"}/>,
   checkbox: <FaCheck className={classes.InputIcon}/>,
 };
 
@@ -65,7 +65,7 @@ const Input: React.FC<InputProps> = ({
   const renderPasswordInput = () => (
     <div className={classes.InputWrapper}>
       <input 
-        className={classNames(classes.Input, classes.InputPassword)}
+        className={`${classes.Input} ${classes.Input_password}`}
         id={name}
         name={name}
         type={isPasswordVisible ? 'text' : 'password'}
@@ -103,7 +103,7 @@ const Input: React.FC<InputProps> = ({
       ) : (
         <>
           <label htmlFor={name} className={classes.InputsLabel}>{label}</label>
-          <div className={classNames(classes.Input, classes[`InputItems_${type}`])}>
+          <div className={`${classes.InputItems} ${classes[`InputItems_${type}`]}`}>
             {!hideIcons && (
                 leftIcon ? leftIcon : getDefaultIcon()
             )}
@@ -115,7 +115,7 @@ const Input: React.FC<InputProps> = ({
             ) : (
               <div className={classes.InputsWrapper_default}>
                 <input 
-                  className={classNames(classes.Input, classes[`Input_${type}`])}
+                  className={`${classes.Input} ${classes[`Input_${type}`]}`}
                   id={name}
                   name={name}
                   type={typeMap[type] || 'text'}
