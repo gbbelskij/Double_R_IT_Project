@@ -1,0 +1,80 @@
+:root {
+    --color-action-bg: #213b32;
+    --color-action-border: #2f563f;
+    --color-dangerous-bg: #4f2732;
+    --color-dangerous-border: #96474f;
+    --color-default-bg: #273952;
+    --color-default-border: #777f91;
+    --color-submit-bg: #a2adc0;
+    --color-white: #ffffff;
+    --color-black: #000000;
+  }
+  
+  .Button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    max-width: 400px;
+    margin: 0;
+    padding: 10px 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 9999px;
+    font-size: 16px;
+    transition: opacity 0.3s;
+    opacity: 0.7;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .Button:hover {
+    opacity: 1;
+  }
+  
+  .ButtonFullWidth {
+    width: 100%;
+  }
+  
+  .ButtonAction {
+    background-color: var(--color-action-bg);
+    border-color: var(--color-action-border);
+    color: var(--color-white);
+  }
+  
+  .ButtonDangerousAction {
+    background-color: var(--color-dangerous-bg);
+    border-color: var(--color-dangerous-border);
+    color: var(--color-white);
+  }
+  
+  .ButtonDefault {
+    background-color: var(--color-default-bg);
+    border-color: var(--color-default-border);
+    color: var(--color-default-border);
+  }
+  
+  .ButtonSubmit {
+    background-color: var(--color-submit-bg);
+    border: none;
+    color: var(--color-black);
+  }
+  
+  .ButtonIconLeft {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+  }
+  
+  .ButtonIconRight {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+  }
+  
+  .ButtonContent {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
