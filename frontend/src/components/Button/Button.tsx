@@ -1,8 +1,10 @@
-import React from 'react';
-import classNames from 'classnames';
-import { ButtonProps } from './Button/Button.props';
-import { ButtonTypes } from './enums/ButtonTypes';
-import styles from './Button.module.css';
+import React from "react";
+import classNames from "classnames";
+
+import { ButtonProps } from "./Button.props";
+import { ButtonTypes } from "./enums/ButtonTypes";
+
+import classes from "./Button.module.css";
 
 const Button: React.FC<ButtonProps> = ({
   type,
@@ -11,22 +13,24 @@ const Button: React.FC<ButtonProps> = ({
   rightIcon,
   children,
 }) => {
-  const buttonClasses = classNames(styles.Button, {
-    [styles.ButtonAction]: type === ButtonTypes.Action,
-    [styles.ButtonDangerousAction]: type === ButtonTypes.DangerousAction,
-    [styles.ButtonDefault]: type === ButtonTypes.Default,
-    [styles.ButtonSubmit]: type === ButtonTypes.Submit,
-    [styles.ButtonFullWidth]: fullWidth,
+  const buttonClasses = classNames(classes.Button, {
+    [classes.ButtonAction]: type === ButtonTypes.Action,
+    [classes.ButtonDangerousAction]: type === ButtonTypes.DangerousAction,
+    [classes.ButtonDefault]: type === ButtonTypes.Default,
+    [classes.ButtonSubmit]: type === ButtonTypes.Submit,
+    [classes.ButtonFullWidth]: fullWidth,
   });
 
   return (
     <button
       className={buttonClasses}
-      type={type === ButtonTypes.Submit ? 'submit' : 'button'}
+      type={type === ButtonTypes.Submit ? "submit" : "button"}
     >
-      {leftIcon && <span className={styles.ButtonIconLeft}>{leftIcon}</span>}
-      <span className={styles.ButtonContent}>{children}</span>
-      {rightIcon && <span className={styles.ButtonIconRight}>{rightIcon}</span>}
+      {leftIcon && <span className={classes.ButtonIconLeft}>{leftIcon}</span>}
+      <span className={classes.ButtonContent}>{children}</span>
+      {rightIcon && (
+        <span className={classes.ButtonIconRight}>{rightIcon}</span>
+      )}
     </button>
   );
 };

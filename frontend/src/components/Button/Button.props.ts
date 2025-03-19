@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { ButtonTypes } from '../enums/ButtonTypes';
+import { ReactNode } from "react";
+import { ButtonTypes } from "./enums/ButtonTypes";
 
 /**
  * Props for the Button component
