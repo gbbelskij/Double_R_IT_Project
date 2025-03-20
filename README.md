@@ -13,15 +13,15 @@
 ## Технологии
 
 - **Backend**: Flask (Python)
-- **Frontend**: HTML/CSS с использованием шаблонов Jinja2
+- **Frontend**: Vite, React, TypeScript
 - **База данных**: PostgreSQL
 - **Модели рекомендательной системы**: Контентные рекомендации на основе навыков и профиля сотрудников
 - **API**: REST API для взаимодействия с фронтендом и базой данных
 
 ## Установка и запуск
 
-### 1. Клонирование репозитория
 
 ```bash
 git clone https://github.com/gbbelskij/Double_R_IT_Project
 cd Double_R_IT_Project
+sudo docker-compose up --build
