@@ -1,49 +1,49 @@
 .CourseSection {
-    position: relative;
-  
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 0;
-    padding: 40px 20px;
-  
-    background-color: var(--firefly-100);
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 40px 20px;
+
+  background-color: var(--firefly-100);
+}
+
+.CourseSectionTitle {
+  margin: 0 0 20px 0;
+
+  font-size: var(--font-size-lg);
+  color: var(--solitude-100);
+}
+
+.CourseSectionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+
+.CourseSectionButtonWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .CourseSectionGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .CourseSection_Title {
-    margin: 0 0 20px 0;
-  
-    font-size: var(--font-size-lg);
-    color: var(--solitude-100);
+
+  .CourseSectionGrid > :nth-child(3n) {
+    grid-column: span 2;
   }
-  
-  .CourseSection_Grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    width: 100%;
-    margin: 0 0 20px 0;
+}
+
+@media (max-width: 767px) {
+  .CourseSectionGrid {
+    grid-template-columns: 1fr;
   }
-  
-  .CourseSection_ButtonWrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 0;
-  }
-  
-  @media (min-width: 768px) and (max-width: 1024px) {
-    .CourseSection_Grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  
-    .CourseSection_Grid > :nth-child(3n) {
-      grid-column: span 2;
-    }
-  }
-  
-  @media (max-width: 767px) {
-    .CourseSection_Grid {
-      grid-template-columns: 1fr;
-    }
-  }
+}
