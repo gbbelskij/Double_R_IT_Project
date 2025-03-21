@@ -1,7 +1,23 @@
 version: '3.8'
+
 services:
+  web:
+    build: .
+    container_name: flask_app
+    command: python3 app.py
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://myuser:mypassword@db:5432/RRecomend_db
+      - SECRET_KEY=MAI_IS_THE_BEST_PLACE_FOR_VIPERRS
+      - JWT_ALGORITHM=HS256
+
   db:
-    image: postgres:latest
+    image: postgres:17
     container_name: postgres_db
     environment:
       POSTGRES_USER: myuser
@@ -11,21 +27,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - backend
 
-  app:
-    build: .
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgres://myuser:mypassword@db:5432/RRecomend_db
-    networks:
-      - backend
 
 volumes:
   pgdata:
-  
-networks:
-  backend:
-    driver: bridge
