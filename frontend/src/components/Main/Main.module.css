@@ -6,9 +6,29 @@
   flex: 1;
 
   gap: 60px;
-  padding: 80px;
+  padding: 80px 200px;
 }
 
 .MainWithHeaderOffset {
   margin-top: 75px;
+}
+
+@media screen and (max-width: 1440px) {
+  .Header {
+    padding: 60px 100px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Header {
+    gap: 40px;
+    padding: 50px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .Header {
+    gap: 20px;
+    padding: 20px;
+  }
 }

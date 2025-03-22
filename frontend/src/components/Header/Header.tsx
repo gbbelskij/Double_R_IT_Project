@@ -1,12 +1,37 @@
+import { useNavigate } from "react-router";
+import { FaRegUserCircle } from "react-icons/fa";
+
+import useWindowWidth from "@hooks/useWindowWidth";
 import Logo from "@components/Logo/Logo";
+import Button from "@components/Button/Button";
 
 import classes from "./Header.module.css";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const handleProfileClick = () => navigate("/profile");
+
+  const windowWidth = useWindowWidth();
+
   return (
     <header className={classes.Header}>
       <Logo hasText />
-      <button>Заменить</button>
+
+      {windowWidth >= 440 ? (
+        <Button
+          color="dim"
+          rightIcon={<FaRegUserCircle size={18} />}
+          onClick={handleProfileClick}
+        >
+          Профиль
+        </Button>
+      ) : (
+        <FaRegUserCircle
+          size={30}
+          onClick={handleProfileClick}
+          className={classes.HeaderProfileButton}
+        />
+      )}
     </header>
   );
 };
