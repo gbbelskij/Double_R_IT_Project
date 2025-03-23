@@ -420,6 +420,18 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@react-input/core@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@react-input/core/-/core-2.0.2.tgz#c7094c5ab955e740d4c34777688aff54785024a1"
+  integrity sha512-xLLBueYFbant9308uv3cIJQz5NYSixeGspjP3Nt6jogRHTcHYMRmlVFUuSzQiP8Z8/5BdnPkudRSsN0/AJ1fbw==
+
+"@react-input/mask@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@react-input/mask/-/mask-2.0.4.tgz#0a8df2694962ac10a76a329469d91f6ed01037b8"
+  integrity sha512-NOielvQSBOlGLVuEcxtkjaGneC0GJFXjC7KOF99ed9H9XSDruWnQirjht5uSbWqLeeiOup0VD2YjM+6FH+aWBg==
+  dependencies:
+    "@react-input/core" "^2.0.2"
+
 "@rollup/rollup-android-arm-eabi@4.36.0":
   version "4.36.0"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.36.0.tgz#6229c36cddc172c468f53107f2b7aebe2585609b"
