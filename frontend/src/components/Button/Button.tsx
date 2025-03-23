@@ -2,35 +2,38 @@ import React from "react";
 import classNames from "classnames";
 
 import { ButtonProps } from "./Button.props";
-import { ButtonTypes } from "./enums/ButtonTypes";
 
 import classes from "./Button.module.css";
 
 const Button: React.FC<ButtonProps> = ({
-  type,
-  fullWidth = false,
+  children,
+  type = "button",
+  size = "small",
+  color = "default",
+  isFullWidth = false,
   leftIcon,
   rightIcon,
-  children,
+  onClick = () => {},
 }) => {
   const buttonClasses = classNames(classes.Button, {
-    [classes.ButtonAction]: type === ButtonTypes.Action,
-    [classes.ButtonDangerousAction]: type === ButtonTypes.DangerousAction,
-    [classes.ButtonDefault]: type === ButtonTypes.Default,
-    [classes.ButtonSubmit]: type === ButtonTypes.Submit,
-    [classes.ButtonFullWidth]: fullWidth,
+    [classes.ButtonDefault]: color === "default",
+    [classes.ButtonInverse]: color === "inverse",
+    [classes.ButtonDim]: color === "dim",
+    [classes.ButtonGreen]: color === "green",
+    [classes.ButtonRed]: color === "red",
+
+    [classes.ButtonSmall]: size === "small",
+    [classes.ButtonMedium]: size === "medium",
+    [classes.ButtonLarge]: size === "large",
+
+    [classes.ButtonFullWidth]: isFullWidth,
   });
 
   return (
-    <button
-      className={buttonClasses}
-      type={type === ButtonTypes.Submit ? "submit" : "button"}
-    >
-      {leftIcon && <span className={classes.ButtonIconLeft}>{leftIcon}</span>}
+    <button className={buttonClasses} type={type} onClick={onClick}>
+      {leftIcon}
       <span className={classes.ButtonContent}>{children}</span>
-      {rightIcon && (
-        <span className={classes.ButtonIconRight}>{rightIcon}</span>
-      )}
+      {rightIcon}
     </button>
   );
 };

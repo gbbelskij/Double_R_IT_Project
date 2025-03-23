@@ -1,0 +1,28 @@
+.Checkbox {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  cursor: pointer;
+}
+
+.CheckboxInput {
+  position: absolute;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.Checkmark {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+
+  border: 2px solid var(--solitude-100);
+  border-radius: 10px;
+}
