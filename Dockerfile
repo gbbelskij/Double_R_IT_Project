@@ -25,5 +25,5 @@ RUN chmod +x /entrypoint.sh
 EXPOSE 5000
 
 # Запускаем скрипт, который сначала выполнит миграции, а затем запустит приложение
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["bash", "entrypoint.sh"]
 CMD ["python3", "app.py"]
