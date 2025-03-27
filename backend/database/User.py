@@ -1,4 +1,4 @@
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, TEXT
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import UUID
@@ -39,3 +39,16 @@ class TokenBlockList(db.Model):
     jti = db.Column(db.String(36), nullable=False, unique=True)  # JWT ID
     user_id = db.Column(UUID(as_uuid=True), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+
+
+class Course(db.Model):
+    __tablename__ = 'courses'
+
+    course_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    title = db.Column(TEXT)
+    link = db.Column(TEXT)
+    duration = db.Column(TEXT)
+    description = db.Column(TEXT)
+    price = db.Column(TEXT)
+    type = db.Column(TEXT)
+    direction = db.Column(TEXT)
