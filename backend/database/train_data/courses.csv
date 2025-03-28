@@ -1,0 +1,11 @@
+course_id,Lang,Department,Add tags,Lvl
+0,Python,Dev,Web,Beginner
+1,C++,QA,QA,Advanced
+2,JavaScript,Dev,Frontend,Intermediate
+3,Python,DataScience,AI+ML,Advanced
+4,Java,Dev,Backend,Intermediate
+5,C#,GameDev,Unity,Beginner
+6,Python,Dev,Backend,Intermediate
+7,JavaScript,Dev,Fullstack,Advanced
+8,C++,GameDev,Unreal,Advanced
+9,SQL,DataScience,DB,Beginner
