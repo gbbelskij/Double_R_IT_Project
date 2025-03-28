@@ -22,6 +22,13 @@ class RecSysModel(nn.Module):
         x = torch.cat([user_emb, course_emb], dim=1)
         return self.fc(x)
 
+    def predict_all_courses(self, user_vec, course_features):
+        course_tensor = torch.tensor(course_features, dtype=torch.float32)
+        user_tensor = user_vec.repeat(course_features.shape[0], 1)
+        with torch.no_grad():
+            predictions = self(user_tensor, course_tensor)
+        return predictions.squeeze().numpy()
+
 def train_model(model, train_loader, epochs=1000, lr=0.001):
     optimizer = optim.Adam(model.parameters(), lr=lr)
     criterion = nn.BCELoss()

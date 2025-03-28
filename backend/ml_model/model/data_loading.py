@@ -3,9 +3,9 @@ import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
 def load_data():
-    users = pd.read_csv("users.csv")
-    courses = pd.read_csv("courses.csv")
-    interactions = pd.read_csv("interactions.csv")
+    users = pd.read_csv("backend/database/train_data/users.csv")
+    courses = pd.read_csv("backend/database/train_data/courses.csv")
+    interactions = pd.read_csv("backend/database/train_data/interactions.csv")
     return users, courses, interactions
 
 def prepare_features(users, courses):
