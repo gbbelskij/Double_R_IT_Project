@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
       <Header />
       <Main>
         <Logo hasText />
-        <CourseSection courses={courses} title="Our Courses" /> {/* Добавлен CourseSection */}
+        <CourseSection courses={courses} title="РЕКОМЕНДОВАННЫЕ ВАМ" />
       </Main>
       <Footer />
     </>

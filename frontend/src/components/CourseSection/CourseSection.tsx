@@ -18,19 +18,21 @@ const CourseSection: React.FC<CourseSectionProps> = ({ courses, title }) => {
 
   return (
     <section className={styles.CourseSection}>
-      <h2 className={styles.CourseSection_Title}>{title}</h2>
       <div className={styles.CourseSection_Grid}>
-        {courses.slice(0, visibleCourses).map((course) => (
-          <Course key={course.id} {...course} />
-        ))}
-      </div>
-      {isMoreCoursesAvailable && (
-        <div className={styles.CourseSection_ButtonWrapper}>
-          <button onClick={handleShowMore} style={{ all: "unset" }}>
-            <Button type={ButtonTypes.Default}>Show more</Button>
-          </button>
+        <h2 className={styles.CourseSection_Title}>{title}</h2>
+        <div className={styles.CourseSection_Cards}>
+          {courses.slice(0, visibleCourses).map((course) => (
+            <Course key={course.id} {...course} />
+          ))}
         </div>
-      )}
+        {isMoreCoursesAvailable && (
+          <div className={styles.CourseSection_ButtonWrapper}>
+<Button type={ButtonTypes.Default} className={styles.ShowMoreButton}>
+  Больше курсов
+</Button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };

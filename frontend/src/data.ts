@@ -4,6 +4,7 @@ export interface Course {
   duration: number;
   description: string;
   url: string;
+  imageSrc: string;
 }
 
 export const courses: Course[] = [

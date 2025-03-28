@@ -1,6 +1,17 @@
-import { Course } from "../../data";
+export interface Preference {
+    id: number;
+    value: string;
+  }
+  
+  export interface CheckboxButtonGroupProps {
+    preferences: Preference[];
+  }
 
-/**
- * Props for the Course component
- */
-export interface CourseProps extends Course {}
+
+  export interface CourseProps {
+    title: string;
+    duration: string;
+    description: string;
+    url: string;
+    imageSrc: string; /* Новое свойство для изображения */
+  }
