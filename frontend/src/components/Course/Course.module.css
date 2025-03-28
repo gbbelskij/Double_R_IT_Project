@@ -6,11 +6,9 @@
   width: 440px;
   height: 440px;
   margin: 0;
-  padding: 20px;
-  font-size: var(--font-size-sm);
-  line-height: 1.5;
-  color: var(--solitude-100);
-  background-color: var(--firefly-100);
+  padding: 0; /* Убираем padding, чтобы изображение заполнило карточку */
+  background-size: cover; /* Изображение заполняет карточку */
+  background-position: center; /* Центрируем изображение */
   border: 2px solid #DEFEFF;
   border-radius: 30px;
   opacity: 0.7;
@@ -23,15 +21,24 @@
   transform: translateY(-5px);
 }
 
-.Course_Image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
+.TextOverlay {
+  position: absolute;
+  bottom: 20px; /* Текст внизу карточки */
+  left: 20px;
+  right: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  color: var(--solitude-100);
+  /* Убираем background */
+  /* Добавляем тень для читаемости текста */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .Course_Duration {
   margin: 0 0 10px 0;
   color: var(--mantis-100);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
 }
 
 .Course_Description {
@@ -39,10 +46,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
 }
 
 .Course_Title {
-  margin-top: auto; /* Опускаем заголовок вниз */
+  margin: 0; /* Убираем margin-top: auto, так как текст уже внизу */
   font-size: var(--font-size-md);
   font-weight: bold;
 }
@@ -51,6 +60,7 @@
   .Course {
     width: 100%;
     height: auto;
+    min-height: 440px; /* Сохраняем минимальную высоту */
   }
   .Course:hover {
     transform: none;

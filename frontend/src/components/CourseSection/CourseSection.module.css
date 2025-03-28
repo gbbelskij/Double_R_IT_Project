@@ -15,7 +15,7 @@
   align-items: center;
   width: 1541px;
   height: auto;
-  padding: 150px 57px 138px 57px; /* Отступы: 150px сверху, 57px слева/справа, 138px снизу */
+  padding: 60px 57px 138px 57px; /* Уменьшаем padding-top с 150px до 60px */
   border-radius: 60px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
   position: relative;
@@ -24,7 +24,7 @@
 
 .CourseSection_Title {
   align-self: flex-start;
-  margin: 0;
+  margin: 0 0 60px 0; /* Добавляем margin-bottom: 60px, чтобы карточки не прилипли к заголовку */
   font-family: 'Nunito', sans-serif;
   font-weight: 40;
   font-size: 40px;
@@ -59,7 +59,7 @@
   .CourseSection_Grid {
     width: 100%;
     height: auto;
-    padding: 100px 40px 100px 40px; /* Уменьшаем отступы для планшетов */
+    padding: 40px 40px 100px 40px; /* Уменьшаем отступы для планшетов */
   }
   .CourseSection_Cards {
     flex-wrap: wrap;
@@ -70,7 +70,7 @@
   .CourseSection_Grid {
     width: 100%;
     height: auto;
-    padding: 60px 20px 60px 20px; /* Уменьшаем отступы для мобильных */
+    padding: 20px 20px 60px 20px; /* Уменьшаем отступы для мобильных */
   }
   .CourseSection_Cards {
     flex-direction: column;
