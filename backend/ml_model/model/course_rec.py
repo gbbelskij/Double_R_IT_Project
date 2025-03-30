@@ -10,7 +10,8 @@ class RecommendationSystem:
         self.users, self.courses, self.interactions = load_data()
         self.user_features, self.course_features = prepare_features(self.users, self.courses)
         
-        self.knn = KNNRecommender(self.user_features, 
+        self.knn = KNNRecommender(self.user_features,
+                                self.users,
                                 similarity_threshold=similarity_threshold)
         
         self.model = RecSysModel(self.user_features.shape[1], 
@@ -42,7 +43,18 @@ class RecommendationSystem:
         ]
         return liked["course_id"].unique()
     
+    def _get_disliked_courses(self, user_id):
+        disliked = self.interactions[
+            (self.interactions["user_id"] == user_id) &
+            (self.interactions["liked"] == 0)
+        ]
+        return disliked["course_id"].unique()
+    
     def recommend(self, user_id):
+
+        # Получаем не понравившиеся курсы
+        disliked_courses = self._get_disliked_courses(user_id)
+        
         # Получаем похожих пользователей
         similar_users = self.knn.get_similar_users(user_id)
         print(50 * "=")
@@ -51,34 +63,46 @@ class RecommendationSystem:
         
         # Если нет похожих пользователей, используем только MLP
         if not similar_users:
-            return self._mlp_based_recommendations(user_id)
+            mlp_recommendations = self._mlp_based_recommendations(user_id)
+            # Фильтруем не понравившиеся
+            filtered = [course for course in mlp_recommendations if course[0] not in disliked_courses]
+            return filtered[:self.n_recommendations]
         
         # Получаем курсы, которые понравились похожим пользователям
         candidate_courses = self._get_liked_courses(similar_users)
+        # Исключаем не понравившиеся
+        candidate_courses = [c for c in candidate_courses if c not in disliked_courses]
         print(50 * "=")
         print(f"courses liked by similar_users:\n{candidate_courses}")
         print(50 * "=")
-        
+
         # Если кандидатов достаточно
         if len(candidate_courses) >= self.n_recommendations:
             return self._rank_and_select(user_id, candidate_courses)
             
         # Если кандидатов недостаточно, дополняем MLP-рекомендациями
         count = self.n_recommendations - len(candidate_courses)
-        mlp_candidates = self._get_mlp_candidates(user_id, count, exclude=candidate_courses)
+        mlp_candidates = self._get_mlp_candidates(
+            user_id, 
+            count, 
+            exclude=np.concatenate([candidate_courses, disliked_courses])
+        )
         combined = np.concatenate([candidate_courses, mlp_candidates])
         
         return self._rank_and_select(user_id, combined)
     
-    def _mlp_based_recommendations(self, user_id):
-        user_vec = torch.tensor(self.user_features[user_id], 
-                              dtype=torch.float32).unsqueeze(0)
+    def _mlp_based_recommendations(self, user_id, exclude=None):
+        if exclude is None:
+            exclude = []
+        user_vec = torch.tensor(self.user_features[user_id], dtype=torch.float32).unsqueeze(0)
         predictions = self.model.predict_all_courses(user_vec, self.course_features)
         
         course_scores = list(zip(self.all_course_ids, predictions))
         course_scores.sort(key=lambda x: x[1], reverse=True)
         
-        return [int(course_id) for course_id, _ in course_scores[:self.n_recommendations]]
+        # Фильтруем исключенные курсы
+        filtered = [course for course in course_scores if course[0] not in exclude]
+        return [int(course_id) for course_id, _ in filtered[:self.n_recommendations]]
     
     def _get_mlp_candidates(self, user_id, count, exclude=[]):
         user_vec = torch.tensor(self.user_features[user_id], 
@@ -87,7 +111,7 @@ class RecommendationSystem:
         
         # Фильтруем исключенные курсы
         valid_indices = [i for i, cid in enumerate(self.all_course_ids) 
-                       if (cid not in exclude)]
+                    if (cid not in exclude)]
         valid_scores = predictions[valid_indices]
         valid_courses = self.all_course_ids[valid_indices]
         
