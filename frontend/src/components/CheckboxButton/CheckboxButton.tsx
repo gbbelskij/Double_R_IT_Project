@@ -1,13 +1,22 @@
-import { CheckboxButtonProps } from './CheckboxButton.props';
-import styles from './CheckboxButton.module.css';
+import React from "react";
+import classes from "./CheckboxButton.module.css";
+import { CheckboxButtonProps } from "./CheckboxButton.props";
 
-export const CheckboxButton = ({ name, children }: CheckboxButtonProps) => {
+const CheckboxButton: React.FC<CheckboxButtonProps> = ({ value, isSelected, onClick }) => {
   return (
-    <div className={styles.checkboxContainer}>
-      <input type="checkbox" id={name} name={name} className={styles.input} />
-      <label htmlFor={name} className={styles.label}>
-        {children}
+    <div className={classes.checkboxContainer}>
+      <input
+        type="checkbox"
+        id={value}
+        checked={isSelected}
+        onChange={() => onClick(value)}
+        className={classes.input}
+      />
+      <label htmlFor={value} className={classes.label}>
+        {value}
       </label>
     </div>
   );
 };
+
+export default CheckboxButton;

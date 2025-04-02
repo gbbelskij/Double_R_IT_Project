@@ -1,5 +1,8 @@
 .groupContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 30px; 
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
