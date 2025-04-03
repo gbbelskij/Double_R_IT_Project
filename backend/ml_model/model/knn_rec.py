@@ -21,6 +21,12 @@ class KNNRecommender:
             le = LabelEncoder()
             self.encoded_data[col] = le.fit_transform(users_df[col])
             self.encoders[col] = le
+
+        print("=" * 50)
+        print("Инициализация KNNRecommender...")
+        print(f"- Веса признаков: {self.weights}")
+        print(f"- Порог схожести: {similarity_threshold}")
+        print("=" * 50)
     
     def _calculate_similarity(self, user1_idx, user2_idx):
         """Вычисляет взвешенную схожесть между двумя пользователями"""

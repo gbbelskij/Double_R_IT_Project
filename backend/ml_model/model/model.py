@@ -16,6 +16,9 @@ class RecSysModel(nn.Module):
             nn.Sigmoid()
         )
 
+        print("=" * 50)
+        print("Обучение модели RecSysModel...")
+
     def forward(self, user_vec, course_vec):
         user_emb = self.user_embed(user_vec)
         course_emb = self.course_embed(course_vec)
