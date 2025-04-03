@@ -40,7 +40,8 @@
 .ButtonDefault {
   background-color: var(--firefly-100);
   border-color: var(--solitude-40);
-  color: var(--solitude-40);
+  color: #DFECFF; 
+  font-family: 'Nunito', sans-serif;
 }
 
 .ButtonSubmit {

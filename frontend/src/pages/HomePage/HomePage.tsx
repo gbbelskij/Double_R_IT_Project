@@ -3,8 +3,8 @@ import Footer from "@components/Footer/Footer";
 import Header from "@components/Header/Header";
 import Logo from "@components/Logo/Logo";
 import Main from "@components/Main/Main";
-import CourseSection from "../../components/CourseSection/CourseSection"; // Импорт CourseSection
-import { courses } from "../../data"; // Импорт данных курсов
+import CourseSection from "../../components/CourseSection/CourseSection"; 
+import { courses } from "../../data"; 
 
 import "./HomePage.css";
 
@@ -13,8 +13,9 @@ const HomePage: React.FC = () => {
     <>
       <Header />
       <Main>
-        <Logo hasText />
+        
         <CourseSection courses={courses} title="РЕКОМЕНДОВАННЫЕ ВАМ" />
+        <CourseSection courses={courses} title="ПОПУЛЯРНОЕ" />
       </Main>
       <Footer />
     </>

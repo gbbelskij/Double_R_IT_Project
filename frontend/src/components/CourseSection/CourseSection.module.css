@@ -15,7 +15,7 @@
   align-items: center;
   width: 1541px;
   height: auto;
-  padding: 60px 57px 138px 57px; /* Уменьшаем padding-top с 150px до 60px */
+  padding: 60px 57px 60px 57px;
   border-radius: 60px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
   position: relative;
@@ -24,8 +24,7 @@
 
 .CourseSection_Title {
   align-self: flex-start;
-  margin: 0 0 60px 0; /* Добавляем margin-bottom: 60px, чтобы карточки не прилипли к заголовку */
-  font-family: 'Nunito', sans-serif;
+  margin: 0 0 60px 0; 
   font-weight: 40;
   font-size: 40px;
   line-height: 100%;
@@ -43,10 +42,9 @@
 }
 
 .CourseSection_ButtonWrapper {
-  position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
 }
 
 .ShowMoreButton {
@@ -54,12 +52,12 @@
   height: 38px;
 }
 
-/* Responsiveness */
+
 @media (min-width: 768px) and (max-width: 1024px) {
   .CourseSection_Grid {
     width: 100%;
     height: auto;
-    padding: 40px 40px 100px 40px; /* Уменьшаем отступы для планшетов */
+    padding: 40px 40px 100px 40px; 
   }
   .CourseSection_Cards {
     flex-wrap: wrap;
@@ -70,7 +68,7 @@
   .CourseSection_Grid {
     width: 100%;
     height: auto;
-    padding: 20px 20px 60px 20px; /* Уменьшаем отступы для мобильных */
+    padding: 20px 20px 60px 20px;
   }
   .CourseSection_Cards {
     flex-direction: column;

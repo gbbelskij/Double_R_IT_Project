@@ -13,5 +13,5 @@ export interface Preference {
     duration: string;
     description: string;
     url: string;
-    imageSrc: string; /* Новое свойство для изображения */
+    imageSrc: string; 
   }

@@ -5,7 +5,7 @@
   justify-content: center;
   flex: 1;
 
-  gap: 60px;
+  gap: 0px; /*пришлось занулить из-за большого расстояния*/
   padding: 80px;
 }
 
