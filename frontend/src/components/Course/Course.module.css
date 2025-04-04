@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
+
+.Course {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 440px;
+  height: 440px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #defeff;
+  border-radius: 30px;
+  overflow: hidden;
+  opacity: 0.7;
+  transition: opacity 0.3s, transform 0.3s;
+  text-decoration: none;
+}
+
+.CourseBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);
+  transition: filter 0.3s ease;
+  z-index: 0;
+}
+
+.Course:hover .CourseBackground {
+  filter: blur(0);
+}
+
+.Course:hover {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+
+.TextOverlay {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  padding: 20px;
+  color: #dfecff;
+  font-family: "Nunito", sans-serif;
+}
+
+.Course_Duration {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.Course_Title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.Course_Description {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #dfecff;
+  font-family: "Nunito", sans-serif;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+}
+@media (max-width: 767px) {
+  .Course {
+    width: 100%;
+    height: auto;
+    min-height: 440px;
+  }
+
+  .Course:hover {
+    transform: none;
+  }
+}
+
+.CourseOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  border-radius: 30px;
+  pointer-events: none;
+}
