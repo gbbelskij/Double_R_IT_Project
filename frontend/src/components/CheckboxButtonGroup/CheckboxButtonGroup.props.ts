@@ -6,12 +6,3 @@ export interface Preference {
   export interface CheckboxButtonGroupProps {
     preferences: Preference[];
   }
-
-
-  export interface CourseProps {
-    title: string;
-    duration: string;
-    description: string;
-    url: string;
-    imageSrc: string; 
-  }

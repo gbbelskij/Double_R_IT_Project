@@ -1,0 +1,32 @@
+.checkboxContainer {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.input {
+  display: none;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border: 1px solid var(--solitude-20);
+  border-radius: 50px;
+  background-color: var(--firefly-100);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: var(--font-size-sm);
+  color: var(--solitude-100);
+  text-align: center;
+}
+
+.label:hover {
+  border-color: var(--solitude-30);
+}
+
+.input:checked + .label {
+  border-color: var(--mantis-100);
+  background-color: var(--mantis-20);
+}
