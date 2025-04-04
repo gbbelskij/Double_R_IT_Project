@@ -17,20 +17,23 @@
   height: auto;
   padding: 60px 57px 60px 57px;
   border-radius: 60px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(0, 0, 0, 0.3)
+  );
   position: relative;
-  border: 2px solid #DEFEFF;
+  border: 2px solid #defeff;
 }
 
 .CourseSection_Title {
   align-self: flex-start;
-  margin: 0 0 60px 0; 
   font-weight: 40;
   font-size: 40px;
   line-height: 100%;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #DEFEFF;
+  color: #defeff;
 }
 
 .CourseSection_Cards {
@@ -47,17 +50,11 @@
   justify-content: center;
 }
 
-.ShowMoreButton {
-  width: 139px;
-  height: 38px;
-}
-
-
 @media (min-width: 768px) and (max-width: 1024px) {
   .CourseSection_Grid {
     width: 100%;
     height: auto;
-    padding: 40px 40px 100px 40px; 
+    padding: 40px 40px 100px 40px;
   }
   .CourseSection_Cards {
     flex-wrap: wrap;

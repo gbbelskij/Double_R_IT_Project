@@ -2,7 +2,13 @@ import React from "react";
 import { CourseProps } from "./Course.props";
 import styles from "./Course.module.css";
 
-const Course: React.FC<CourseProps> = ({ title, duration, description, url, imageSrc }) => {
+const Course: React.FC<CourseProps> = ({
+  title,
+  duration,
+  description,
+  url,
+  imageSrc,
+}) => {
   return (
     <a href={url} className={styles.Course}>
       {/* Фоновое изображение */}

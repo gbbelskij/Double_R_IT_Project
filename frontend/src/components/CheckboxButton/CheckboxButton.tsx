@@ -1,5 +1,5 @@
-import { CheckboxButtonProps } from './CheckboxButton.props';
-import styles from './CheckboxButton.module.css';
+import { CheckboxButtonProps } from "./CheckboxButton.props";
+import styles from "./CheckboxButton.module.css";
 
 export const CheckboxButton = ({ name, children }: CheckboxButtonProps) => {
   return (

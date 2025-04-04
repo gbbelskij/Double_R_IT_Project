@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { CourseSectionProps } from "./CourseSection.props";
 import Course from "../Course/Course";
 import Button from "../Button/Button";
-import { ButtonTypes } from "../Button/enums/ButtonTypes";
 import styles from "./CourseSection.module.css";
 
 const COURSES_PER_PAGE = 3;
@@ -27,9 +26,9 @@ const CourseSection: React.FC<CourseSectionProps> = ({ courses, title }) => {
         </div>
         {isMoreCoursesAvailable && (
           <div className={styles.CourseSection_ButtonWrapper}>
-<Button type={ButtonTypes.Default} className={styles.ShowMoreButton}>
-  Больше курсов
-</Button>
+            <Button type="button" color="dim" onClick={handleShowMore}>
+              Больше курсов
+            </Button>
           </div>
         )}
       </div>

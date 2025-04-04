@@ -1,17 +1,16 @@
 export interface Preference {
-    id: number;
-    value: string;
-  }
-  
-  export interface CheckboxButtonGroupProps {
-    preferences: Preference[];
-  }
+  id: number;
+  value: string;
+}
 
+export interface CheckboxButtonGroupProps {
+  preferences: Preference[];
+}
 
-  export interface CourseProps {
-    title: string;
-    duration: string;
-    description: string;
-    url: string;
-    imageSrc: string; 
-  }
+export interface CourseProps {
+  title: string;
+  duration: string;
+  description: string;
+  url: string;
+  imageSrc: string;
+}
