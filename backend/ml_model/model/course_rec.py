@@ -1,13 +1,13 @@
 from data_loading import load_data, prepare_features
 from knn_rec import KNNRecommender
-from model import RecSysModel, train_model
-from matrix_factorization import MatrixFactorization, train_matrix_factorization  # Новая строка
+from two_tower_model import TwoTowerModel, train_model
+from matrix_factorization import MatrixFactorization, train_matrix_factorization
 import torch
 import numpy as np
 from torch.utils.data import DataLoader, TensorDataset
 
 class RecommendationSystem:
-    def __init__(self, n_recommendations=5, similarity_threshold=0.3, mf_weight=0.3):  # Добавлен параметр mf_weight
+    def __init__(self, n_recommendations=5, similarity_threshold=0.3, mf_weight=0.3):
         self.users, self.courses, self.interactions = load_data()
         self.user_features, self.course_features = prepare_features(self.users, self.courses)
         
@@ -19,13 +19,24 @@ class RecommendationSystem:
                                 self.users,
                                 similarity_threshold=similarity_threshold)
         
-        self.model = RecSysModel(self.user_features.shape[1], 
-                               self.course_features.shape[1])
+        # Initialize the Two Tower model instead of RecSysModel
+        self.model = TwoTowerModel(
+            user_dim=self.user_features.shape[1],
+            course_dim=self.course_features.shape[1],
+            embedding_dim=64,
+            tower_hidden_dims=[128, 64]
+        )
         
         self._prepare_training_data()
-        self.model = train_model(self.model, self.train_loader)
+        self.model = train_model(
+            self.model, 
+            self.train_loader, 
+            epochs=1000,
+            lr=0.001,
+            weight_decay=1e-5
+        )
         
-        # Матричная факторизация - НОВЫЙ КОД
+        # Матричная факторизация
         n_users = len(self.users['user_id'].unique())
         n_courses = len(self.courses['course_id'].unique())
         self.mf_model = train_matrix_factorization(
@@ -110,17 +121,20 @@ class RecommendationSystem:
         print(f"Matrix factorization recommendations:\n{mf_courses}")
         print(50 * "=")
         
-        # 3. Если нужно, дополняем рекомендациями от MLP
+        # 3. Если нужно, дополняем рекомендациями от Two Tower модели
         if len(candidates) < self.n_recommendations * 2:
             count = self.n_recommendations * 2 - len(candidates)
-            mlp_courses = self._get_mlp_candidates(
+            tt_courses = self._get_two_tower_candidates(
                 user_id,
                 count,
                 exclude=np.concatenate([list(candidates), exclude])
             )
-            candidates.update(mlp_courses)
+            candidates.update(tt_courses)
+            print(50 * "=")
+            print(f"Two Tower model recommendations:\n{tt_courses}")
+            print(50 * "=")
         
-        # Ранжируем кандидатов, комбинируя оценки от MLP и матричной факторизации
+        # Ранжируем кандидатов, комбинируя оценки от Two Tower и матричной факторизации
         ranked_candidates = self._rank_with_ensemble(user_id, list(candidates))
 
         print("=" * 50)
@@ -128,7 +142,7 @@ class RecommendationSystem:
         print("=" * 50)
         print("Топ-5 рекомендаций:")
         for c in ranked_candidates[:self.n_recommendations]:
-            print(f"Курс: {c[0]}\tОбщий: {c[1]:.2f}\tMF: {c[2]:.2f}\tMLP: {c[3]:.2f}")
+            print(f"Курс: {c[0]}\tОбщий: {c[1]:.2f}\tMF: {c[2]:.2f}\tTT: {c[3]:.2f}")
         
         return ranked_candidates[:self.n_recommendations]
     
@@ -151,22 +165,12 @@ class RecommendationSystem:
         
         return [cid for cid, _ in course_scores[:count]]
     
-    def _mlp_based_recommendations(self, user_id, exclude=None):
-        if exclude is None:
-            exclude = []
-        user_vec = torch.tensor(self.user_features[user_id], dtype=torch.float32).unsqueeze(0)
-        predictions = self.model.predict_all_courses(user_vec, self.course_features)
-        
-        course_scores = list(zip(self.all_course_ids, predictions))
-        course_scores.sort(key=lambda x: x[1], reverse=True)
-        
-        # Фильтруем исключенные курсы
-        filtered = [course for course in course_scores if course[0] not in exclude]
-        return [int(course_id) for course_id, _ in filtered[:self.n_recommendations]]
-    
-    def _get_mlp_candidates(self, user_id, count, exclude=[]):
+    def _get_two_tower_candidates(self, user_id, count, exclude=[]):
+        """Получить рекомендации от Two Tower модели"""
         user_vec = torch.tensor(self.user_features[user_id], 
                               dtype=torch.float32).unsqueeze(0)
+
+        self.model.eval()
         predictions = self.model.predict_all_courses(user_vec, self.course_features)
         
         # Фильтруем исключенные курсы
@@ -183,18 +187,18 @@ class RecommendationSystem:
         return valid_courses[top_indices]
     
     def _rank_with_ensemble(self, user_id, candidate_courses):
-        """Ранжирует кандидатов, комбинируя оценки MLP и матричной факторизации"""
+        """Ранжирует кандидатов, комбинируя оценки Two Tower модели и матричной факторизации"""
         user_vec = torch.tensor(self.user_features[user_id], 
                             dtype=torch.float32).unsqueeze(0)
         user_idx = self.user_id_to_idx[user_id]
         
         scores = []
         for course_id in candidate_courses:
-            # Оценка от MLP
+            # Оценка от Two Tower модели
             course_idx = np.where(self.all_course_ids == course_id)[0][0]
             course_vec = torch.tensor(self.course_features[course_idx], 
                                     dtype=torch.float32).unsqueeze(0)
-            mlp_score = self.model(user_vec, course_vec).item()
+            tt_score = self.model(user_vec, course_vec).item()
             
             # Оценка от матричной факторизации
             mf_course_idx = self.course_id_to_idx[course_id]
@@ -202,27 +206,12 @@ class RecommendationSystem:
             mf_score = float(mf_score)
             
             # Взвешенная комбинация
-            ensemble_score = (1 - self.mf_weight) * mlp_score + self.mf_weight * mf_score
+            ensemble_score = (1 - self.mf_weight) * tt_score + self.mf_weight * mf_score
             
-            scores.append((course_id, ensemble_score, mf_score, mlp_score))
+            scores.append((course_id, ensemble_score, mf_score, tt_score))
         
         scores.sort(key=lambda x: x[1], reverse=True)
-        return [[int(course_id), float(score), float(mf_score), float(mlp_score)] for course_id, score, mf_score, mlp_score in scores]
-    
-    def _rank_and_select(self, user_id, candidate_courses):
-        user_vec = torch.tensor(self.user_features[user_id], 
-                              dtype=torch.float32).unsqueeze(0)
-        
-        scores = []
-        for course_id in candidate_courses:
-            course_idx = np.where(self.all_course_ids == course_id)[0][0]
-            course_vec = torch.tensor(self.course_features[course_idx], 
-                                    dtype=torch.float32).unsqueeze(0)
-            score = self.model(user_vec, course_vec).item()
-            scores.append((course_id, score))
-        
-        scores.sort(key=lambda x: x[1], reverse=True)
-        return [[int(course_id), float(score)] for course_id, score in scores[:self.n_recommendations]]
+        return [[int(course_id), float(score), float(mf_score), float(tt_score)] for course_id, score, mf_score, tt_score in scores]
 
 def main():
     # Новый параметр mf_weight
