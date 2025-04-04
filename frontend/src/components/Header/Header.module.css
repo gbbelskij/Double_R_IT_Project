@@ -1,5 +1,6 @@
 .Header {
   position: fixed;
+  z-index: 999;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10,6 +11,10 @@
   background-color: var(--anikawa-5);
   backdrop-filter: blur(20px);
   border-bottom: solid 1px var(--solitude-30);
+}
+
+.HeaderProfileButton {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1440px) {

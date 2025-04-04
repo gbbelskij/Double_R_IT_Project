@@ -1,198 +1,68 @@
-.Inputs {
-    margin-bottom: 20px;
-    min-width: 250px;
-    max-width: 500px;
+.InputField {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  gap: 10px;
+  overflow: hidden;
 }
 
-.InputsLabel {
-    display: block;
-    color: var(--solitude-100);
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
-    min-width: 250px;
-    max-width: 500px;
-}
-
-.InputItems {
-    display: flex;
-    align-items: center;
-    border: 3px solid var(--solitude-100);
-    border-radius: 20px;
-    color: var(--solitude-100);
-}
-
-.InputItems_text {
-    display: flex;
-    align-items: center;
-    width: 240px;
-    height: 80px;
-}
-  
-.InputItems_email {
-    width: 480px; 
-    height: 80px;
-}
-  
-.InputItems_number {
-    width: 480px; 
-    height: 80px;
-}
-  
-.InputItems_password {
-    width: 480px; 
-    height: 80px;
-}
-  
-.InputItems_date {
-    width: 480px; 
-    height: 80px;
-}
-
-.InputIcon {
-    margin-left: 25px;
-    margin-top: 26px;
-    margin-bottom: 26px;
-    color: var(--solitude-100);
-}
-
-.Input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--solitude-100);
-    font-size: 24px;
-    font-weight: 300;
-    flex: 1;
-    height: 80px;
-    margin-left: 25px;
-    width:  390px;
-}
-
-.InputPassword {
-    margin-left: 25px;
-    width: 317px;
-}
-
-.InputPassword.isPasswordVisible, 
-.Input[type="password"].isPasswordVisible {
-    width: 317px;
-}
-
-.Input[type="text"] {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--solitude-100);
-    font-size: 24px;
-    font-weight: 300;
-    flex: 1;
-    height: 80px;
-}
-
-.Input_text {
-    max-width: 140px;
-}
-
-.Input[type="number"] {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--solitude-100);
-    font-size: 24px;
-    font-weight: 300;
-    flex: 1;
-    height: 80px;
-    margin-left: 25px;
-    width: 38px;
-}
-
-.Input[type="password"] {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--solitude-100);
-    font-size: 24px;
-    font-weight: 300;
-    flex: 1;
-    height: 80px;
-    margin-left: 25px;
-    width:  317px;
-}
-
-.Input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-}
-
-.Input::placeholder {
-    color: #ccc; 
-    white-space: nowrap; 
-     overflow: hidden; 
-    text-overflow: ellipsis;
-}
-
-.Input[type="number"]::-webkit-inner-spin-button,
-.Input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.Input[type="number"] {
-    -moz-appearance: textfield; 
-}
-
-.UnitText {
-    color: var(--solitude-100); 
-    font-size: 24px;
-    pointer-events: none;
-}
-
-.InputCheckbox {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-  
-.InputCheckbox input[type="checkbox"] {
-    appearance: none; 
-    width: 30px;
-    height: 30px;
-    border: 2px solid var(--solitude-100);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    position: relative;
-}
-  
-.InputCheckbox input[type="checkbox"]:checked {
-    background-color: #000000; 
-}
-  
-.InputCheckbox .CheckIcon {
-    position: absolute;
-    color: var(--solitude-100); 
-    width: 18px;
-    height: 18px;
-    margin: 6px;
-    pointer-events: none;
-}
-  
-.InputCheckbox label {
-    color: var(--solitude-100);
-    font-size: 18px;
-    font-weight: 300;
-    cursor: pointer;
+.InputLabel {
+  font-weight: 700;
+  white-space: wrap;
 }
 
 .InputWrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 76px;
+  gap: 25px;
+
+  background: var(--anikawa-20);
+  border: var(--solitude-100) solid 2px;
+  border-radius: 20px;
+  padding: 0px 25px;
 }
 
-.InputsWrapper_default {
-    display: flex;
-    align-items: center;
+.Input {
+  height: 100%;
+  flex: 1;
+
+  color: var(--solitude-100);
+  font-size: var(--font-size-lg);
+  font-weight: 300;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Input::placeholder {
+  color: var(--solitude-60);
+}
+
+.Input[type="number"],
+.Input[type="date"] {
+  -moz-appearance: textfield;
+}
+
+.Input[type="number"]::-webkit-inner-spin-button,
+.Input[type="number"]::-webkit-outer-spin-button,
+.Input[type="date"]::-webkit-calendar-picker-indicator {
+  -webkit-appearance: none;
+  display: none;
+  margin: 0;
+}
+
+.MaskedInput {
+  flex: 0;
+  min-width: 33px;
+}
+
+.UnitText {
+  flex: 1;
+  margin-left: -20px;
+  font-size: var(--font-size-lg);
+  font-weight: 300;
 }
