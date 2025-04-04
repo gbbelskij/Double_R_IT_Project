@@ -1,6 +1,6 @@
 .checkboxContainer {
   display: inline-block;
-  margin-bottom: 16px;
+  width: 100%;
 }
 
 .input {
@@ -11,15 +11,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 20px;
+  padding: 20px;
+  min-height: 110px;
   border: 1px solid var(--solitude-20);
-  border-radius: 50px;
+  border-radius: 20px;
   background-color: var(--firefly-100);
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: var(--font-size-sm);
+  font-size: 18px;
   color: var(--solitude-100);
   text-align: center;
+  width: 100%;
 }
 
 .label:hover {

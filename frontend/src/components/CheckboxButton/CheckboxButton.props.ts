@@ -1,6 +1,5 @@
-import { ReactNode } from "react";
-
 export interface CheckboxButtonProps {
-  name: string;
-  children: ReactNode;
+  value: string;
+  isSelected: boolean;
+  onClick: (value: string) => void;
 }

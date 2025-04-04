@@ -1,8 +1,7 @@
-export interface Preference {
-  id: number;
-  value: string;
-}
+import { Preference } from "../../data";
 
 export interface CheckboxButtonGroupProps {
-  preferences: Preference[];
+  options: Preference[];
+  selectedOptions: string[];
+  onChange: (selected: string[]) => void;
 }
