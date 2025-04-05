@@ -1,11 +1,12 @@
-import { Course } from "../../data";
+import { Course } from "types/course";
 
-/**
- * Props for the CourseSection component
- */
 export interface CourseSectionProps {
-  /** Array of courses to display */
+  /**
+   * Array of course objects to be displayed in the section
+   */
   courses: Course[];
-  /** Title of the section */
+  /**
+   * Title of the course section
+   */
   title: string;
 }

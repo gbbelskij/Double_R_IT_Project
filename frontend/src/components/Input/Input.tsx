@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { InputMask } from "@react-input/mask";
 
-import { InputTypes } from "./Input.types";
-import { InputProps } from "./Input.props";
-
-import Checkbox from "./Checkbox/Checkbox";
-
 import { FaCheck } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbCalendarQuestion } from "react-icons/tb";
@@ -14,6 +9,9 @@ import { MdAccessTime } from "react-icons/md";
 import { LuKeyRound } from "react-icons/lu";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
+
+import { InputTypes } from "./Input.types";
+import { InputProps } from "./Input.props";
 
 import classes from "./Input.module.css";
 import classNames from "classnames";
@@ -40,7 +38,8 @@ const Input: React.FC<InputProps> = ({
   defaultValue = "",
   getUnit,
 }) => {
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState<string>(defaultValue);
+  const [width, setWidth] = useState<string>("16px");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const inputType =
@@ -52,12 +51,20 @@ const Input: React.FC<InputProps> = ({
     setValue(e.target.value);
   };
 
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+
+    setValue(newValue);
+
+    if (0 <= parseInt(newValue) && parseInt(newValue) <= 9) {
+      setWidth("16px");
+    } else {
+      setWidth("33px");
+    }
+  };
+
   const InputIcon = icon || getDefaultIcon(type);
   const PasswordVisibilityIcon = isPasswordVisible ? LuEye : LuEyeOff;
-
-  if (type === "checkbox") {
-    return <Checkbox name={name} label={label} />;
-  }
 
   return (
     <label className={classes.InputField} htmlFor={name}>
@@ -68,13 +75,13 @@ const Input: React.FC<InputProps> = ({
 
         {type === "number" ? (
           <InputMask
+            style={{ width: width }}
             className={classNames(classes.Input, classes.MaskedInput)}
             id={name}
             name={name}
             mask="__"
             replacement={{ _: /\d/ }}
-            value={value}
-            onChange={handleChange}
+            onChange={handleNumberChange}
             placeholder={placeholder}
           />
         ) : (
@@ -83,14 +90,13 @@ const Input: React.FC<InputProps> = ({
             id={name}
             name={name}
             type={inputType}
-            value={value}
             onChange={handleChange}
             placeholder={
               placeholder
                 ? placeholder
                 : type === "email"
-                ? "example@mail.com"
-                : undefined
+                  ? "example@mail.com"
+                  : undefined
             }
           />
         )}

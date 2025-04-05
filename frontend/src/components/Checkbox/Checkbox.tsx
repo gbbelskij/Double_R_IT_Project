@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { FaCheck } from "react-icons/fa6";
 
 import { CheckboxProps } from "./Checkbox.props";

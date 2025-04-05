@@ -10,24 +10,24 @@
 }
 
 .MainWithHeaderOffset {
-  margin-top: 75px;
+  margin-top: 81px;
 }
 
 @media screen and (max-width: 1440px) {
-  .Header {
+  .Main {
     padding: 60px 100px;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .Header {
+  .Main {
     gap: 40px;
     padding: 50px;
   }
 }
 
 @media screen and (max-width: 375px) {
-  .Header {
+  .Main {
     gap: 20px;
     padding: 20px;
   }

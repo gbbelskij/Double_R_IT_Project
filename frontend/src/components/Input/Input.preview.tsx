@@ -1,7 +1,8 @@
 import React from "react";
-import Input from "./Input";
-
 import { TbRepeat } from "react-icons/tb";
+
+import Input from "./Input";
+import Checkbox from "@components/Checkbox/Checkbox";
 
 import "./preview.css";
 
@@ -27,7 +28,7 @@ function getYearWord(n: number): string {
 const InputPreview: React.FC = () => {
   return (
     <div className="test-container">
-      <Input type="checkbox" name="remember" label="Запомнить меня" />
+      <Checkbox name="remember" label="Запомнить меня" />
 
       <Input type="text" name="name" label="Имя" placeholder="Имя" />
       <Input type="text" name="surname" label="Фамилия" />

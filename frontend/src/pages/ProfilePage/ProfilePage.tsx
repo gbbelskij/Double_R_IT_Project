@@ -4,6 +4,7 @@ import Logo from "@components/Logo/Logo";
 import Main from "@components/Main/Main";
 
 import "./ProfilePage.css";
+import InputPreview from "@components/Input/Input.preview";
 
 const ProfilePage: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const ProfilePage: React.FC = () => {
       <Header />
       <Main>
         <Logo hasText />
+        <InputPreview />
       </Main>
       <Footer />
     </>

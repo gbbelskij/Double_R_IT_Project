@@ -1,7 +1,1 @@
-export type InputTypes =
-  | "text"
-  | "date"
-  | "email"
-  | "number"
-  | "password"
-  | "checkbox";
+export type InputTypes = "text" | "date" | "email" | "number" | "password";

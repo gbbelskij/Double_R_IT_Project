@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { CourseSectionProps } from "./CourseSection.props";
+import { useState } from "react";
+
 import Course from "../Course/Course";
 import Button from "../Button/Button";
-import styles from "./CourseSection.module.css";
+
+import { CourseSectionProps } from "./CourseSection.props";
+
+import classes from "./CourseSection.module.css";
 
 const COURSES_PER_PAGE = 3;
 
@@ -16,22 +19,22 @@ const CourseSection: React.FC<CourseSectionProps> = ({ courses, title }) => {
   const isMoreCoursesAvailable = visibleCourses < courses.length;
 
   return (
-    <section className={styles.CourseSection}>
-      <div className={styles.CourseSection_Grid}>
-        <h2 className={styles.CourseSection_Title}>{title}</h2>
-        <div className={styles.CourseSection_Cards}>
-          {courses.slice(0, visibleCourses).map((course) => (
-            <Course key={course.id} {...course} />
-          ))}
-        </div>
-        {isMoreCoursesAvailable && (
-          <div className={styles.CourseSection_ButtonWrapper}>
-            <Button type="button" color="dim" onClick={handleShowMore}>
-              Больше курсов
-            </Button>
-          </div>
-        )}
+    <section className={classes.CourseSection}>
+      <h2 className={classes.CourseSectionTitle}>{title}</h2>
+
+      <div className={classes.CourseSectionCards}>
+        {courses.slice(0, visibleCourses).map((course) => (
+          <Course key={course.id} {...course} />
+        ))}
       </div>
+
+      {isMoreCoursesAvailable && (
+        <div className={classes.CourseSectionButtonWrapper}>
+          <Button type="button" color="dim" onClick={handleShowMore}>
+            Больше курсов
+          </Button>
+        </div>
+      )}
     </section>
   );
 };

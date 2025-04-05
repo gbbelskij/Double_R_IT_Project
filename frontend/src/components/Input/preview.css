@@ -9,6 +9,6 @@
 
   background-color: var(--anikawa-10);
   border-radius: 50px;
-  border: var(--solitude-100) solid 4px;
+  border: 2px solid var(--solitude-100);
   backdrop-filter: blur(50px);
 }

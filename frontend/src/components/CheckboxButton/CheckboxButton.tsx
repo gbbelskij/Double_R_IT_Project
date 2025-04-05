@@ -1,6 +1,6 @@
-import React from "react";
-import classes from "./CheckboxButton.module.css";
 import { CheckboxButtonProps } from "./CheckboxButton.props";
+
+import classes from "./CheckboxButton.module.css";
 
 const CheckboxButton: React.FC<CheckboxButtonProps> = ({
   value,

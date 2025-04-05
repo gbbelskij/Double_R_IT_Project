@@ -20,7 +20,7 @@
   gap: 25px;
 
   background: var(--anikawa-20);
-  border: var(--solitude-100) solid 2px;
+  border: 2px solid var(--solitude-100);
   border-radius: 20px;
   padding: 0px 25px;
 }
@@ -45,6 +45,7 @@
 .Input[type="number"],
 .Input[type="date"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .Input[type="number"]::-webkit-inner-spin-button,
@@ -57,7 +58,6 @@
 
 .MaskedInput {
   flex: 0;
-  min-width: 33px;
 }
 
 .UnitText {
