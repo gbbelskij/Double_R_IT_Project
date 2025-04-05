@@ -30,3 +30,12 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+
+class TokenBlockList(db.Model):
+    __tablename__ = 'tokens_black_list'
+
+    token_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    jti = db.Column(db.String(36), nullable=False, unique=True)  # JWT ID
+    user_id = db.Column(UUID(as_uuid=True), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
