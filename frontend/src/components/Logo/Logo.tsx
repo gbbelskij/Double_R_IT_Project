@@ -8,9 +8,10 @@ const Logo: React.FC<LogoProps> = ({
   color = "var(--solitude-100)",
   hasText = false,
   href = "/",
+  ...props
 }) => {
   return (
-    <Link className={classes.LogoContainer} to={href}>
+    <Link {...props} className={classes.LogoContainer} to={href}>
       <svg
         width="84"
         height="86"

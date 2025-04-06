@@ -40,15 +40,12 @@ const Course: React.FC<CourseProps> = ({
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
 
-    if (!descriptionElement) return;
+    if (!descriptionElement) {
+      return;
+    }
 
     const handleResize = () => {
-      setTimeout(() => {
-        shave(
-          descriptionElement,
-          isHovered ? HOVERED_DESCRIPTION_HEIGHT : UNHOVERED_DESCRIPTION_HEIGHT
-        );
-      }, 100);
+      shave(descriptionElement, UNHOVERED_DESCRIPTION_HEIGHT);
     };
 
     handleResize();
@@ -57,6 +54,19 @@ const Course: React.FC<CourseProps> = ({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    const descriptionElement = descriptionRef.current;
+
+    if (descriptionElement) {
+      setTimeout(() => {
+        shave(
+          descriptionElement,
+          isHovered ? HOVERED_DESCRIPTION_HEIGHT : UNHOVERED_DESCRIPTION_HEIGHT
+        );
+      }, 100);
+    }
   }, [isHovered]);
 
   return (

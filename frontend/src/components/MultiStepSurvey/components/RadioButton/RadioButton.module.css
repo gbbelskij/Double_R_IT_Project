@@ -1,34 +1,33 @@
-.checkboxContainer {
+.Radio {
   display: inline-block;
   width: 100%;
 }
 
-.input {
+.RadioInput {
   display: none;
 }
 
-.label {
+.RadioLabel {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  min-height: 110px;
-  border: 1px solid var(--solitude-20);
   border-radius: 20px;
-  background-color: var(--firefly-100);
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 18px;
-  color: var(--solitude-100);
+  font-size: var(--font-size-ms);
   text-align: center;
   width: 100%;
+  opacity: 70%;
+  border: 1px solid var(--solitude-100);
+  background-color: var(--solitude-20);
+  transition: all 0.3s ease-out;
 }
 
-.label:hover {
-  border-color: var(--solitude-30);
+.RadioLabel:hover {
+  opacity: 100%;
 }
 
-.input:checked + .label {
+.RadioInput:checked + .RadioLabel {
   border-color: var(--mantis-100);
   background-color: var(--mantis-20);
 }

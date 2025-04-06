@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useRouteError } from "react-router-dom";
 
 import Main from "@components/Main/Main";
+import Logo from "@components/Logo/Logo";
 
 import "./ErrorPage.css";
 
@@ -34,7 +35,10 @@ const ErrorPage: React.FC = () => {
   return (
     <Main disableHeaderOffset>
       <div className="error-container">
+        <Logo />
+
         <h1>Упс! Что-то пошло не так!</h1>
+
         <p>Перенаправление на главную страницу...</p>
       </div>
     </Main>
