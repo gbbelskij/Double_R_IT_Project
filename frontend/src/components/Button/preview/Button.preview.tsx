@@ -1,18 +1,13 @@
 import React from "react";
-import Button from "./Button";
+import Button from "../Button";
+
 import { FaRegUserCircle } from "react-icons/fa";
+
+import "./preview.css";
 
 const ButtonPreview: React.FC = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "400px",
-        gap: "20px",
-      }}
-    >
+    <div className="preview-container">
       <Button color="default" size="large" isFullWidth>
         color="default" + size="large" + isFullWidth
       </Button>

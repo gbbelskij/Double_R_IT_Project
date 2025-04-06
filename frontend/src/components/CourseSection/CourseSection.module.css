@@ -15,7 +15,7 @@
 .CourseSectionTitle {
   align-self: flex-start;
   font-weight: 400;
-  font-size: 40px;
+  font-size: var(--font-size-xl);
   line-height: normal !important;
   letter-spacing: 2px;
   text-transform: uppercase;

@@ -1,0 +1,25 @@
+.DefaultOutro {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 600px;
+  padding: 100px 50px;
+  background-color: var(--anikawa-10);
+  border: 2px solid var(--solitude-100);
+  backdrop-filter: blur(50px);
+  border-radius: 50px;
+}
+
+.DefaultOutroSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  font-size: var(--font-size-md);
+}
+
+.DefaultOutroHeading {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}

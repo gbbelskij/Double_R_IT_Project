@@ -1,0 +1,42 @@
+.MultiStepSurvey {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  width: 100%;
+  max-width: 600px;
+  padding: 40px 50px;
+  background-color: var(--anikawa-10);
+  backdrop-filter: blur(50px);
+  border: 2px solid var(--solitude-100);
+  border-radius: 50px;
+}
+
+.MultiStepSurveyChoice {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.MultiStepSurveyQuestion {
+  font-size: var(--font-size-xlg);
+  font-weight: 700px;
+  line-height: 40px;
+}
+
+.MultiStepSurveyAnswers {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.MultiStepSurveyButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.HiddenButton {
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}

@@ -14,23 +14,28 @@ const Button: React.FC<ButtonProps> = ({
   leftIcon,
   rightIcon,
   onClick = () => {},
+  ...props
 }) => {
-  const buttonClasses = classNames(classes.Button, {
-    [classes.ButtonDefault]: color === "default",
-    [classes.ButtonInverse]: color === "inverse",
-    [classes.ButtonDim]: color === "dim",
-    [classes.ButtonGreen]: color === "green",
-    [classes.ButtonRed]: color === "red",
+  const buttonClasses = classNames(
+    classes.Button,
+    {
+      [classes.ButtonDefault]: color === "default",
+      [classes.ButtonInverse]: color === "inverse",
+      [classes.ButtonDim]: color === "dim",
+      [classes.ButtonGreen]: color === "green",
+      [classes.ButtonRed]: color === "red",
 
-    [classes.ButtonSmall]: size === "small",
-    [classes.ButtonMedium]: size === "medium",
-    [classes.ButtonLarge]: size === "large",
+      [classes.ButtonSmall]: size === "small",
+      [classes.ButtonMedium]: size === "medium",
+      [classes.ButtonLarge]: size === "large",
 
-    [classes.ButtonFullWidth]: isFullWidth,
-  });
+      [classes.ButtonFullWidth]: isFullWidth,
+    },
+    props.className
+  );
 
   return (
-    <button className={buttonClasses} type={type} onClick={onClick}>
+    <button {...props} className={buttonClasses} type={type} onClick={onClick}>
       {leftIcon}
       <span className={classes.ButtonContent}>{children}</span>
       {rightIcon}
