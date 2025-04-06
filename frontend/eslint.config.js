@@ -6,9 +6,9 @@ import tseslint from "typescript-eslint";
 import eslintPluginPrettier from "eslint-plugin-prettier";
 
 export default tseslint.config({
-  ignores: ["dist"],
-  extends: [js.configs.recommended, ...tseslint.configs.recommended],
   files: ["**/*.{ts,tsx,js,jsx}"],
+  ignores: ["**/dist/**", "**/node_modules/**", "**/*.d.ts"],
+  extends: [js.configs.recommended, ...tseslint.configs.recommended],
   languageOptions: {
     ecmaVersion: 2020,
     globals: globals.browser,
