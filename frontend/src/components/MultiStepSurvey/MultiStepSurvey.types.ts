@@ -1,7 +1,4 @@
-export type AnswerEntry = {
-  question: string;
-  answer: string | null;
-};
+export type AnswerEntries = Record<string, string | null>;
 
 export interface IntroProps {
   /**

@@ -3,8 +3,9 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  width: 440px;
-  height: 440px;
+  aspect-ratio: 1 / 1;
+  max-width: 440px;
+  min-width: 350px;
   padding: 40px;
   border: 2px solid var(--solitude-100);
   border-radius: 30px;
@@ -43,7 +44,7 @@
 .CourseTitle {
   font-size: var(--font-size-lg);
   font-weight: 700;
-  margin: 20px 0 10px;
+  margin: 10px 0 20px;
 }
 
 .CourseBackground {
@@ -71,4 +72,25 @@
 
 .Course:hover .CourseOverlay {
   background-color: var(--black-40);
+}
+
+@media screen and (max-width: 375px) {
+  .Course {
+    padding: 30px 20px;
+  }
+
+  .CourseDuration,
+  .CourseDescription {
+    font-size: var(--font-size-xs);
+  }
+
+  .CourseTitle {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    margin: 10px 0 10px;
+  }
+
+  .CourseBackground {
+    filter: none;
+  }
 }

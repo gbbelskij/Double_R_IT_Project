@@ -1,3 +1,5 @@
+import { extractAnswer } from "@components/MultiStepSurvey/utils";
+
 import { RadioButtonProps } from "./RadioButton.props";
 
 import classes from "./RadioButton.module.css";
@@ -11,13 +13,13 @@ const RadioButton: React.FC<RadioButtonProps> = ({
     <div className={classes.Radio}>
       <input
         type="radio"
-        id={value}
+        id={extractAnswer(value)}
         checked={isSelected}
         onChange={() => onClick(value)}
         className={classes.RadioInput}
       />
-      <label htmlFor={value} className={classes.RadioLabel}>
-        {value}
+      <label htmlFor={extractAnswer(value)} className={classes.RadioLabel}>
+        {extractAnswer(value)}
       </label>
     </div>
   );

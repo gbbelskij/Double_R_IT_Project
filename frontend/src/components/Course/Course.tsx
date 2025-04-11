@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import shave from "shave";
+
+import useWindowWidth from "@hooks/useWindowWidth";
 
 import { CourseProps } from "./Course.props";
 
@@ -24,9 +26,6 @@ const declineMonth = (duration: number): string => {
   return `${duration} месяцев`;
 };
 
-const HOVERED_DESCRIPTION_HEIGHT = 400;
-const UNHOVERED_DESCRIPTION_HEIGHT = 44;
-
 const Course: React.FC<CourseProps> = ({
   title,
   duration,
@@ -34,40 +33,44 @@ const Course: React.FC<CourseProps> = ({
   url,
   imageSrc,
 }) => {
-  const descriptionRef = useRef(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const windowWidth = useWindowWidth();
 
-  useEffect(() => {
-    const descriptionElement = descriptionRef.current;
-
-    if (!descriptionElement) {
-      return;
-    }
-
-    const handleResize = () => {
-      shave(descriptionElement, UNHOVERED_DESCRIPTION_HEIGHT);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const HOVERED_DESCRIPTION_HEIGHT = useMemo(
+    () => (windowWidth <= 1700 ? 130 : 200),
+    [windowWidth]
+  );
+  const DEFAULT_DESCRIPTION_HEIGHT = useMemo(
+    () => (windowWidth <= 375 ? 76 : 150),
+    [windowWidth]
+  );
+  const UNHOVERED_DESCRIPTION_HEIGHT = 44;
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
 
     if (descriptionElement) {
-      setTimeout(() => {
-        shave(
-          descriptionElement,
-          isHovered ? HOVERED_DESCRIPTION_HEIGHT : UNHOVERED_DESCRIPTION_HEIGHT
-        );
-      }, 100);
+      if (windowWidth >= 768) {
+        setTimeout(() => {
+          shave(
+            descriptionElement,
+            isHovered
+              ? HOVERED_DESCRIPTION_HEIGHT
+              : UNHOVERED_DESCRIPTION_HEIGHT
+          );
+        }, 100);
+      } else {
+        shave(descriptionElement, DEFAULT_DESCRIPTION_HEIGHT);
+      }
     }
-  }, [isHovered]);
+  }, [
+    isHovered,
+    windowWidth,
+    description,
+    HOVERED_DESCRIPTION_HEIGHT,
+    DEFAULT_DESCRIPTION_HEIGHT,
+  ]);
 
   return (
     <a

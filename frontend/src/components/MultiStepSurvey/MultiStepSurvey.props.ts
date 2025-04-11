@@ -4,9 +4,9 @@ import { IntroProps } from "./MultiStepSurvey.types";
 
 export interface MultiStepSurveyProps {
   /**
-   * List of questions for the survey.
+   * Object of questions for the survey.
    */
-  questions: Question[];
+  questions: Record<string, Question>;
   /**
    * Optional custom Intro component that is shown before the first question.
    * Must call `onStepChange(0)` to proceed to the first question.

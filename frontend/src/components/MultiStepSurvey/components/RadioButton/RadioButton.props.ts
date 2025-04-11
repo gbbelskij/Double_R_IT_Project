@@ -1,8 +1,10 @@
+import { Answer } from "src/types/question";
+
 export interface RadioButtonProps {
   /**
    * Value associated with the radio button
    */
-  value: string;
+  value: Answer;
   /**
    * Whether the radio is currently selected
    */
@@ -10,5 +12,5 @@ export interface RadioButtonProps {
   /**
    * Click handler triggered when the radio is toggled
    */
-  onClick: (value: string) => void;
+  onClick: (value: Answer) => void;
 }

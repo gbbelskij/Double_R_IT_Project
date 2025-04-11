@@ -43,8 +43,9 @@
   --flush-orange-100: rgba(255, 123, 0, 1);
 
   /* FONT SIZES */
-  --font-size-xl: 40px;
-  --font-size-xlg: 36px;
+  --font-size-xxl: 40px;
+  --font-size-xl: 36px;
+  --font-size-xlg: 30px;
   --font-size-lg: 24px;
   --font-size-md: 20px;
   --font-size-ms: 18px;

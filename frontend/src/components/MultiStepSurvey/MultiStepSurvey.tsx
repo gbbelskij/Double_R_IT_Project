@@ -8,8 +8,11 @@ import DefaultIntro from "./components/DefaultIntro/DefaultIntro";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
 import Button from "@components/Button/Button";
 
+import { extractAnswer } from "./utils";
+
 import { MultiStepSurveyProps } from "./MultiStepSurvey.props";
-import { AnswerEntry } from "./MultiStepSurvey.types";
+import { AnswerEntries } from "./MultiStepSurvey.types";
+import { Answer } from "src/types/question";
 
 import classes from "./MultiStepSurvey.module.css";
 
@@ -19,20 +22,22 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
   Outro = DefaultOutro,
   userMeta = null,
 }) => {
+  const [answerIDs, setAnswerIDs] = useState<string[]>(
+    Object.keys(questions)
+      .filter((key) => !key.includes("."))
+      .sort((a, b) => parseInt(a) - parseInt(b))
+  );
   const [currentStep, setCurrentStep] = useState<number>(-1);
-  const [selectedAnswers, setSelectedAnswers] = useState<AnswerEntry[]>(
-    questions.map((question) => ({
-      question: question.text,
-      answer: null,
-    }))
+  const [selectedAnswers, setSelectedAnswers] = useState<AnswerEntries>(
+    Object.fromEntries(answerIDs.map((id) => [id, null]))
   );
 
   const isLastStep = () => {
-    return currentStep === questions.length - 1;
+    return currentStep === answerIDs.length - 1;
   };
 
   const AreAllQuestionsAnswered = () => {
-    return selectedAnswers.every((entry) => entry.answer !== null);
+    return Object.values(selectedAnswers).every((answer) => answer !== null);
   };
 
   const postSurveyResults = () => {
@@ -44,12 +49,12 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
     alert(JSON.stringify(result, null, 2));
   };
 
-  if (currentStep === -1) {
+  if (currentStep <= -1) {
     return <Intro onStepChange={setCurrentStep} />;
-  } else if (currentStep === questions.length) {
+  } else if (currentStep >= answerIDs.length) {
     return <Outro />;
   } else {
-    const currentQuestion = questions[currentStep];
+    const currentQuestion = questions[answerIDs[currentStep]];
 
     const backButtonClasses = classNames({
       [classes.HiddenButton]: currentStep <= 0,
@@ -57,21 +62,43 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
     const nextButtonClasses = classNames({
       [classes.HiddenButton]: isLastStep()
         ? !AreAllQuestionsAnswered()
-        : !selectedAnswers[currentStep].answer,
+        : !selectedAnswers[answerIDs[currentStep]],
     });
 
-    const handleRadioClick = (answer: string) => {
-      const updatedAnswers = selectedAnswers.map((entry, index) =>
-        index === currentStep ? { ...entry, answer } : entry
-      );
+    const handleRadioClick = (answer: Answer) => {
+      const currentQuestionId = answerIDs[currentStep];
 
-      setSelectedAnswers(updatedAnswers);
+      if (typeof answer === "string") {
+        setSelectedAnswers((prev) => ({
+          ...prev,
+          [currentQuestionId]: answer,
+        }));
+      } else {
+        const nextQuestionId = Object.values(answer)[0];
+        const selectedValue = Object.keys(answer)[0];
+
+        const updatedAnswerIDs = [...answerIDs];
+        updatedAnswerIDs.splice(currentStep + 1, 0, nextQuestionId);
+        setAnswerIDs(updatedAnswerIDs);
+
+        setSelectedAnswers((prev) => ({
+          ...prev,
+          [currentQuestionId]: selectedValue,
+          [nextQuestionId]: null,
+        }));
+      }
+
+      if (!isLastStep()) {
+        setCurrentStep((prev) => prev + 1);
+      }
     };
 
     return (
       <LogoContainer>
         <section className={classes.MultiStepSurvey}>
           <ProgressNav
+            questions={questions}
+            answerIDs={answerIDs}
             selectedAnswers={selectedAnswers}
             onStepChange={setCurrentStep}
           />
@@ -87,7 +114,10 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
                   key={index}
                   value={answer}
                   onClick={handleRadioClick}
-                  isSelected={selectedAnswers[currentStep].answer === answer}
+                  isSelected={
+                    selectedAnswers[answerIDs[currentStep]] ===
+                    extractAnswer(answer)
+                  }
                 />
               ))}
             </div>
