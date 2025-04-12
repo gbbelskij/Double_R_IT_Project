@@ -19,8 +19,8 @@
 
 .MultiStepSurveyQuestion {
   font-size: var(--font-size-xl);
+  line-height: var(--font-size-xxl);
   font-weight: 700px;
-  line-height: 40px;
 }
 
 .MultiStepSurveyAnswers {
@@ -39,4 +39,41 @@
   opacity: 0;
   pointer-events: none;
   user-select: none;
+}
+
+@media screen and (max-width: 768px) {
+  .MultiStepSurvey {
+    padding: 30px 40px;
+    gap: 40px;
+  }
+
+  .MultiStepSurveyQuestion {
+    font-size: var(--font-size-xlg);
+    line-height: var(--font-size-xl);
+  }
+
+  .MultiStepSurveyAnswers {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .MultiStepSurvey {
+    padding: 20px;
+    gap: 30px;
+    border-radius: 40px;
+  }
+
+  .MultiStepSurveyQuestion {
+    font-size: var(--font-size-lg);
+    line-height: var(--font-size-xlg);
+  }
+
+  .MultiStepSurveyAnswers {
+    gap: 20px;
+  }
+
+  .MultiStepSurveyButton {
+    padding: 8px;
+  }
 }

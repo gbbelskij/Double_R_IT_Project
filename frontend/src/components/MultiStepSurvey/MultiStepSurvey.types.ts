@@ -1,4 +1,4 @@
-export type AnswerEntries = Record<string, string | null>;
+export type SurveyData = Record<string, number | null>;
 
 export interface IntroProps {
   /**

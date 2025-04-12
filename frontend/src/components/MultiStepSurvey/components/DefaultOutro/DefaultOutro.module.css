@@ -16,10 +16,48 @@
   flex-direction: column;
   gap: 20px;
   text-align: center;
-  font-size: var(--font-size-md);
 }
 
 .DefaultOutroHeading {
   font-size: var(--font-size-xxl);
   font-weight: 700;
+}
+
+.DefaultOutroText {
+  font-size: var(--font-size-md);
+}
+
+@media screen and (max-width: 1440px) {
+  .DefaultOutro {
+    padding: 80px 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DefaultOutro {
+    padding: 40px;
+  }
+
+  .DefaultOutroHeading {
+    font-size: var(--font-size-xlg);
+  }
+
+  .DefaultOutroText {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .DefaultOutro {
+    padding: 30px 20px;
+    border-radius: 40px;
+  }
+
+  .DefaultOutroHeading {
+    font-size: var(--font-size-lg);
+  }
+
+  .DefaultOutroText {
+    font-size: var(--font-size-xs);
+  }
 }

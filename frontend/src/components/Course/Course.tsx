@@ -1,30 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import shave from "shave";
 
 import useWindowWidth from "@hooks/useWindowWidth";
+import { declineMonth } from "@utils/decline";
 
 import { CourseProps } from "./Course.props";
 
 import classes from "./Course.module.css";
-
-const declineMonth = (duration: number): string => {
-  const lastDigit = duration % 10;
-  const lastTwoDigits = duration % 100;
-
-  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-    return `${duration} месяцев`;
-  }
-
-  if (lastDigit === 1) {
-    return `${duration} месяц`;
-  }
-
-  if (lastDigit >= 2 && lastDigit <= 4) {
-    return `${duration} месяца`;
-  }
-
-  return `${duration} месяцев`;
-};
 
 const Course: React.FC<CourseProps> = ({
   title,
@@ -33,37 +15,41 @@ const Course: React.FC<CourseProps> = ({
   url,
   imageSrc,
 }) => {
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+
   const windowWidth = useWindowWidth();
 
-  const HOVERED_DESCRIPTION_HEIGHT = useMemo(
-    () => (windowWidth <= 1700 ? 130 : 200),
-    [windowWidth]
-  );
-  const DEFAULT_DESCRIPTION_HEIGHT = useMemo(
-    () => (windowWidth <= 375 ? 76 : 150),
-    [windowWidth]
-  );
+  const HOVERED_DESCRIPTION_HEIGHT = windowWidth <= 1700 ? 130 : 200;
+  const DEFAULT_DESCRIPTION_HEIGHT = windowWidth <= 375 ? 76 : 150;
   const UNHOVERED_DESCRIPTION_HEIGHT = 44;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const descriptionElement = descriptionRef.current;
 
-    if (descriptionElement) {
-      if (windowWidth >= 768) {
-        setTimeout(() => {
-          shave(
-            descriptionElement,
-            isHovered
-              ? HOVERED_DESCRIPTION_HEIGHT
-              : UNHOVERED_DESCRIPTION_HEIGHT
-          );
-        }, 100);
-      } else {
-        shave(descriptionElement, DEFAULT_DESCRIPTION_HEIGHT);
-      }
+    if (!descriptionElement) {
+      return;
     }
+
+    const height =
+      windowWidth >= 768
+        ? isHovered
+          ? HOVERED_DESCRIPTION_HEIGHT
+          : UNHOVERED_DESCRIPTION_HEIGHT
+        : DEFAULT_DESCRIPTION_HEIGHT;
+
+    if (!isHovered) {
+      shave(descriptionElement, height);
+
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      shave(descriptionElement, height);
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, [
     isHovered,
     windowWidth,

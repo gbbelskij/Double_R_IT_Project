@@ -1,4 +1,4 @@
-import { AnswerEntries } from "@components/MultiStepSurvey/MultiStepSurvey.types";
+import { SurveyData } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 import { Question } from "types/question";
 
 export interface ProgressNavProps {
@@ -7,16 +7,20 @@ export interface ProgressNavProps {
    */
   questions: Record<string, Question>;
   /**
-   * List of IDs of available and selected answers
+   * List of IDs of available questions.
    */
-  answerIDs: string[];
+  questionIDs: string[];
   /**
-   * List of available and selected answers
+   * List of available and selected answers.
    */
-  selectedAnswers: AnswerEntries;
+  surveyData: SurveyData;
   /**
-   * Callback to change the current step in the MultiStepSurvey
-   * @param stepIndex - Index of the step to navigate to
+   * Current survey step.
+   */
+  step: number;
+  /**
+   * Callback to change the current step in the MultiStepSurvey.
+   * @param stepIndex - Index of the step to navigate to.
    */
   onStepChange: (stepIndex: number) => void;
 }

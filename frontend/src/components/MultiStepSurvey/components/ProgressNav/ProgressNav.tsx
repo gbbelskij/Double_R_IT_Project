@@ -6,20 +6,22 @@ import classes from "./ProgressNav.module.css";
 
 const ProgressNav: React.FC<ProgressNavProps> = ({
   questions,
-  answerIDs,
-  selectedAnswers,
+  questionIDs,
+  surveyData,
   onStepChange,
+  step,
 }) => {
   return (
     <nav className={classes.ProgressNav}>
-      {answerIDs.map((item, index) => (
+      {questionIDs.map((item, index) => (
         <div
           className={classNames(classes.ProgressNavItem, {
-            [classes.ProgressNavItemActive]: selectedAnswers[item],
+            [classes.ProgressNavItemActive]: surveyData[item],
+            [classes.ProgressNavItemCurrent]: step === index,
           })}
           key={index}
-          onClick={() => onStepChange(index)}
           title={questions[item].text}
+          onClick={() => onStepChange(index)}
         />
       ))}
     </nav>

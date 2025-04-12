@@ -31,3 +31,16 @@
   border-color: var(--mantis-100);
   background-color: var(--mantis-20);
 }
+
+@media screen and (max-width: 768px) {
+  .RadioLabel {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .RadioLabel {
+    padding: 10px;
+    font-size: var(--font-size-xs);
+  }
+}

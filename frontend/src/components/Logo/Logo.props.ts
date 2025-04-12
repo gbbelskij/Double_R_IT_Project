@@ -13,4 +13,8 @@ export interface LogoProps extends Omit<LinkProps, "to"> {
    * The URL the logo should link to. Optional. Defaults to `/`.
    */
   href?: string;
+  /**
+   * The size of the logo in the number of px.
+   */
+  size?: number;
 }
