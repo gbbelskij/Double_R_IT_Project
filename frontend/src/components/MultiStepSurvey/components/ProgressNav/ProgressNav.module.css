@@ -23,3 +23,7 @@
 .ProgressNavItemActive {
   background-color: var(--solitude-100);
 }
+
+.ProgressNavItemCurrent {
+  opacity: 100%;
+}

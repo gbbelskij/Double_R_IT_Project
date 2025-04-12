@@ -15,6 +15,7 @@
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
       "@mocks/*": ["src/mocks/*"],
+      "@utils/*": ["src/utils/*"],
       "@pages": ["src/pages/index.ts"],
       "src/*": ["src/*"],
       "assets/*": ["src/assets/*"],

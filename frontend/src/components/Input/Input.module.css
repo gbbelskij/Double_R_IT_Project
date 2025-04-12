@@ -23,6 +23,7 @@
   border: 2px solid var(--solitude-100);
   border-radius: 20px;
   padding: 0px 25px;
+  cursor: text;
 }
 
 .Input {
@@ -58,6 +59,10 @@
 
 .MaskedInput {
   flex: 0;
+}
+
+.InputButton {
+  cursor: pointer;
 }
 
 .UnitText {

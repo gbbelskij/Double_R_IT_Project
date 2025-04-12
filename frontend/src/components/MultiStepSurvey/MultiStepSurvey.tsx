@@ -1,6 +1,8 @@
 import { useState } from "react";
 import classNames from "classnames";
 
+import { extractAnswer } from "./utils";
+
 import RadioButton from "./components/RadioButton/RadioButton";
 import ProgressNav from "./components/ProgressNav/ProgressNav";
 import DefaultOutro from "./components/DefaultOutro/DefaultOutro";
@@ -8,11 +10,8 @@ import DefaultIntro from "./components/DefaultIntro/DefaultIntro";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
 import Button from "@components/Button/Button";
 
-import { extractAnswer } from "./utils";
-
 import { MultiStepSurveyProps } from "./MultiStepSurvey.props";
-import { AnswerEntries } from "./MultiStepSurvey.types";
-import { Answer } from "src/types/question";
+import { SurveyData } from "./MultiStepSurvey.types";
 
 import classes from "./MultiStepSurvey.module.css";
 
@@ -22,28 +21,28 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
   Outro = DefaultOutro,
   userMeta = null,
 }) => {
-  const [answerIDs, setAnswerIDs] = useState<string[]>(
+  const [questionIDs, setQuestionIDs] = useState<string[]>(
     Object.keys(questions)
       .filter((key) => !key.includes("."))
       .sort((a, b) => parseInt(a) - parseInt(b))
   );
-  const [currentStep, setCurrentStep] = useState<number>(-1);
-  const [selectedAnswers, setSelectedAnswers] = useState<AnswerEntries>(
-    Object.fromEntries(answerIDs.map((id) => [id, null]))
+  const [surveyData, setSurveyData] = useState<SurveyData>(
+    Object.fromEntries(questionIDs.map((id) => [id, null]))
   );
+  const [currentStep, setCurrentStep] = useState<number>(-1);
 
   const isLastStep = () => {
-    return currentStep === answerIDs.length - 1;
+    return currentStep === questionIDs.length - 1;
   };
 
   const AreAllQuestionsAnswered = () => {
-    return Object.values(selectedAnswers).every((answer) => answer !== null);
+    return Object.values(surveyData).every((answer) => answer !== null);
   };
 
   const postSurveyResults = () => {
     const result = {
       ...(userMeta ? { userMeta } : {}),
-      answers: selectedAnswers,
+      answers: surveyData,
     };
 
     alert(JSON.stringify(result, null, 2));
@@ -51,41 +50,72 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
 
   if (currentStep <= -1) {
     return <Intro onStepChange={setCurrentStep} />;
-  } else if (currentStep >= answerIDs.length) {
+  } else if (currentStep >= questionIDs.length) {
     return <Outro />;
   } else {
-    const currentQuestion = questions[answerIDs[currentStep]];
+    const currentQuestionId = questionIDs[currentStep];
+    const currentQuestion = questions[currentQuestionId];
 
-    const backButtonClasses = classNames({
+    const backButtonClasses = classNames(classes.MultiStepSurveyButton, {
       [classes.HiddenButton]: currentStep <= 0,
     });
-    const nextButtonClasses = classNames({
+    const nextButtonClasses = classNames(classes.MultiStepSurveyButton, {
       [classes.HiddenButton]: isLastStep()
         ? !AreAllQuestionsAnswered()
-        : !selectedAnswers[answerIDs[currentStep]],
+        : !surveyData[questionIDs[currentStep]],
     });
 
-    const handleRadioClick = (answer: Answer) => {
-      const currentQuestionId = answerIDs[currentStep];
+    const handleRadioClick = (answerIndex: number) => {
+      const answer = currentQuestion.answers[answerIndex];
+      const subquestionPrefix = `${Number(currentQuestionId)}.`;
 
       if (typeof answer === "string") {
-        setSelectedAnswers((prev) => ({
-          ...prev,
-          [currentQuestionId]: answer,
-        }));
+        setSurveyData((prev) => {
+          const updated = { ...prev };
+
+          Object.keys(updated).forEach((key) => {
+            if (key.startsWith(subquestionPrefix)) {
+              delete updated[key];
+            }
+          });
+
+          return {
+            ...updated,
+            [currentQuestionId]: answerIndex,
+          };
+        });
+
+        setQuestionIDs((prev) =>
+          prev.filter((id) => !id.startsWith(subquestionPrefix))
+        );
       } else {
         const nextQuestionId = Object.values(answer)[0];
-        const selectedValue = Object.keys(answer)[0];
 
-        const updatedAnswerIDs = [...answerIDs];
-        updatedAnswerIDs.splice(currentStep + 1, 0, nextQuestionId);
-        setAnswerIDs(updatedAnswerIDs);
+        const cleanedAnswerIDs = questionIDs.filter(
+          (id) => !id.startsWith(subquestionPrefix)
+        );
+        const updatedAnswerIDs = [
+          ...cleanedAnswerIDs.slice(0, currentStep + 1),
+          nextQuestionId,
+          ...cleanedAnswerIDs.slice(currentStep + 1),
+        ];
+        setQuestionIDs(updatedAnswerIDs);
 
-        setSelectedAnswers((prev) => ({
-          ...prev,
-          [currentQuestionId]: selectedValue,
-          [nextQuestionId]: null,
-        }));
+        setSurveyData((prev) => {
+          const updated = { ...prev };
+
+          Object.keys(updated).forEach((key) => {
+            if (key.startsWith(subquestionPrefix)) {
+              delete updated[key];
+            }
+          });
+
+          return {
+            ...updated,
+            [currentQuestionId]: answerIndex,
+            [nextQuestionId]: null,
+          };
+        });
       }
 
       if (!isLastStep()) {
@@ -95,11 +125,12 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
 
     return (
       <LogoContainer>
-        <section className={classes.MultiStepSurvey}>
+        <div className={classes.MultiStepSurvey}>
           <ProgressNav
+            step={currentStep}
             questions={questions}
-            answerIDs={answerIDs}
-            selectedAnswers={selectedAnswers}
+            questionIDs={questionIDs}
+            surveyData={surveyData}
             onStepChange={setCurrentStep}
           />
 
@@ -112,12 +143,10 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
               {currentQuestion.answers.map((answer, index) => (
                 <RadioButton
                   key={index}
-                  value={answer}
+                  value={index}
+                  displayedValue={extractAnswer(answer)}
                   onClick={handleRadioClick}
-                  isSelected={
-                    selectedAnswers[answerIDs[currentStep]] ===
-                    extractAnswer(answer)
-                  }
+                  isSelected={surveyData[currentQuestionId] === index}
                 />
               ))}
             </div>
@@ -150,7 +179,7 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
               {isLastStep() ? "Завершить" : "Далее"}
             </Button>
           </div>
-        </section>
+        </div>
       </LogoContainer>
     );
   }

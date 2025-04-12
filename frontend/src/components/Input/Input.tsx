@@ -1,5 +1,8 @@
+import classNames from "classnames";
 import { useState } from "react";
 import { InputMask } from "@react-input/mask";
+
+import { IconType } from "react-icons";
 
 import { FaCheck } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -14,18 +17,17 @@ import { InputTypes } from "./Input.types";
 import { InputProps } from "./Input.props";
 
 import classes from "./Input.module.css";
-import classNames from "classnames";
 
-const defaultIcons = {
+const defaultIcons: Record<string, IconType> = {
   text: FaRegUserCircle,
   date: TbCalendarQuestion,
   email: AiOutlineMail,
-  number: MdAccessTime,
+  experience: MdAccessTime,
   password: LuKeyRound,
   checkbox: FaCheck,
 };
 
-const getDefaultIcon = (type: InputTypes) => {
+const getDefaultIcon = (type: InputTypes): IconType | null => {
   return defaultIcons[type] || null;
 };
 
@@ -73,7 +75,7 @@ const Input: React.FC<InputProps> = ({
       <div className={classes.InputWrapper}>
         {InputIcon && <InputIcon size={28} />}
 
-        {type === "number" ? (
+        {type === "experience" ? (
           <InputMask
             style={{ width: width }}
             className={classNames(classes.Input, classes.MaskedInput)}
@@ -101,7 +103,7 @@ const Input: React.FC<InputProps> = ({
           />
         )}
 
-        {type === "number" && getUnit && value.trim() !== "" && (
+        {type === "experience" && getUnit && value.trim() !== "" && (
           <span className={classes.UnitText}>{getUnit(parseInt(value))}</span>
         )}
 
@@ -109,6 +111,7 @@ const Input: React.FC<InputProps> = ({
           <PasswordVisibilityIcon
             size={28}
             onClick={togglePasswordVisibility}
+            className={classes.InputButton}
           />
         )}
       </div>

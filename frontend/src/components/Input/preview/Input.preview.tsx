@@ -1,29 +1,12 @@
 import React from "react";
 import { TbRepeat } from "react-icons/tb";
 
+import { declineYear } from "@utils/decline";
+
 import Input from "../Input";
 import Checkbox from "@components/Checkbox/Checkbox";
 
 import "./preview.css";
-
-function getYearWord(n: number): string {
-  const lastTwoDigits = n % 100;
-  const lastDigit = n % 10;
-
-  if (lastTwoDigits > 10 && lastTwoDigits < 20) {
-    return "лет";
-  }
-
-  if (lastDigit === 1) {
-    return "год";
-  }
-
-  if (lastDigit >= 2 && lastDigit <= 4) {
-    return "года";
-  }
-
-  return "лет";
-}
 
 const InputPreview: React.FC = () => {
   return (
@@ -34,7 +17,13 @@ const InputPreview: React.FC = () => {
       <Input type="text" name="surname" label="Фамилия" />
       <Input type="date" name="birthday" label="Дата рождения" />
       <Input type="email" name="email" label="Эл. почта" />
-      <Input type="number" name="number" label="Опыт" getUnit={getYearWord} />
+      <Input
+        type="experience"
+        name="experience"
+        label="Опыт"
+        getUnit={declineYear}
+      />
+      <Input type="number" name="number" label="Число" getUnit={declineYear} />
       <Input type="password" name="password" label="Пароль" />
       <Input
         type="password"

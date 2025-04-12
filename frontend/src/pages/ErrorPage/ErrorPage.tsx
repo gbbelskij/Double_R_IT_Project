@@ -5,6 +5,7 @@ import Main from "@components/Main/Main";
 import Logo from "@components/Logo/Logo";
 
 import "./ErrorPage.css";
+import useWindowWidth from "@hooks/useWindowWidth";
 
 interface RouteError {
   data: string;
@@ -23,6 +24,7 @@ interface RouteError {
 const ErrorPage: React.FC = () => {
   const error = useRouteError() as RouteError;
   const navigate = useNavigate();
+  const windowWidth = useWindowWidth();
 
   useEffect(() => {
     setTimeout(() => {
@@ -35,11 +37,13 @@ const ErrorPage: React.FC = () => {
   return (
     <Main disableHeaderOffset>
       <div className="error-container">
-        <Logo />
+        <Logo size={windowWidth <= 768 ? 50 : undefined} />
 
-        <h1>Упс! Что-то пошло не так!</h1>
+        <h1 className="error-page--heading">Упс! Что-то пошло не так!</h1>
 
-        <p>Перенаправление на главную страницу...</p>
+        <p className="error-page--text">
+          Перенаправление на главную страницу...
+        </p>
       </div>
     </Main>
   );

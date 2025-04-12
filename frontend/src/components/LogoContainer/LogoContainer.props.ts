@@ -8,4 +8,8 @@ export interface LogoContainerProps {
    * If the value is `false`, it means it is centered.
    */
   logoOffset?: number;
+  /**
+   * The size of the logo in the number of px.
+   */
+  logoSize?: number;
 }
