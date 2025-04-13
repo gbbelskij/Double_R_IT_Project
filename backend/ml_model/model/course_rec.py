@@ -7,7 +7,7 @@ import numpy as np
 from torch.utils.data import DataLoader, TensorDataset
 
 class RecommendationSystem:
-    def __init__(self, n_recommendations=5, similarity_threshold=0.3, mf_weight=0.3):
+    def __init__(self, n_recommendations=5, similarity_threshold=0.3, mf_weight=0.6):
         self.users, self.courses, self.interactions = load_data()
         self.user_features, self.course_features = prepare_features(self.users, self.courses)
         
@@ -31,7 +31,7 @@ class RecommendationSystem:
         self.model = train_model(
             self.model, 
             self.train_loader, 
-            epochs=1000,
+            epochs=100,
             lr=0.001,
             weight_decay=1e-5
         )
@@ -169,7 +169,6 @@ class RecommendationSystem:
         """Получить рекомендации от Two Tower модели"""
         user_vec = torch.tensor(self.user_features[user_id], 
                               dtype=torch.float32).unsqueeze(0)
-
         self.model.eval()
         predictions = self.model.predict_all_courses(user_vec, self.course_features)
         
@@ -190,6 +189,7 @@ class RecommendationSystem:
         """Ранжирует кандидатов, комбинируя оценки Two Tower модели и матричной факторизации"""
         user_vec = torch.tensor(self.user_features[user_id], 
                             dtype=torch.float32).unsqueeze(0)
+        self.model.eval()
         user_idx = self.user_id_to_idx[user_id]
         
         scores = []
@@ -216,7 +216,7 @@ class RecommendationSystem:
 def main():
     # Новый параметр mf_weight
     system = RecommendationSystem(n_recommendations=5, similarity_threshold=0.4, mf_weight=0.3)
-    user_id = 0
+    user_id = 56
 
     system.recommend(user_id)
 

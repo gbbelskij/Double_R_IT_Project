@@ -153,7 +153,7 @@ def train_model(model, train_loader, epochs=1000, lr=0.001, weight_decay=1e-5):
             total_loss += loss.item()
             batches += 1
             
-        if (epoch + 1) % 100 == 0:
+        if (epoch + 1) % 10 == 0:
             print(f"Epoch {epoch+1}, Average Loss: {total_loss/batches:.4f}")
     
     print("Training completed!")
