@@ -1,9 +1,23 @@
 from flask_restx import Namespace, Resource
-from backend.database.User import Course
+from backend.database.User import Course, User
 from backend.app.jwt_defence import token_required
 
 
 mainpage_ns = Namespace('mainpage', description='Courses information')
+
+
+@mainpage_ns.route('/')
+class RecommendedCourses(Resource):
+    @mainpage_ns.response(404, 'No such user')
+    @token_required
+    def get(self, user_id):
+        user = User.query.filter_by(user_id=user_id).first()
+        if user is None:
+            return {'message': 'No such user'}, 404
+        preferences = user.preferences
+
+        '''ЗАГЛУШКА ПОЛУЧЕНИЕ РЕКОМЕНДОВАННЫХ КУРСОВ'''
+        return {'message': 'courses'}
 
 
 @mainpage_ns.route('/all')
