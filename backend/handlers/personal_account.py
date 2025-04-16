@@ -82,7 +82,9 @@ class UpdatePersonalAccountData(Resource):
         user.preferences = preferences
 
         try:
+
             user.updated_at = db.func.current_timestamp()
+
             db.session.commit()
             return {'message': 'User data updated successfully'}, 200
         except Exception as e:
@@ -127,7 +129,6 @@ class Logout(Resource):
 
             if ttl > 0:  # Только если TTL положительный (токен ещё действителен)
                 r.setex(jti, int(ttl), 'blacklisted')
-
 
             user.last_login = db.func.current_timestamp()
             user.is_active = False
