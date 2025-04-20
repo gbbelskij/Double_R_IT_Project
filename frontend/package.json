@@ -1,5 +1,5 @@
 {
-  "name": "RRecommend-React-App",
+  "name": "rrecommend-react-app",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -34,7 +34,7 @@
     "eslint-plugin-react-refresh": "0.4.14",
     "globals": "15.11.0",
     "prettier": "3.5.3",
-    "shave": "^5.0.4",
+    "shave": "5.0.4",
     "typescript": "5.6.2",
     "typescript-eslint": "8.11.0",
     "vite": "5.4.10"

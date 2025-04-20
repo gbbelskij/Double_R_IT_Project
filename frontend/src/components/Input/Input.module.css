@@ -27,6 +27,7 @@
 }
 
 .Input {
+  display: block;
   height: 100%;
   flex: 1;
 

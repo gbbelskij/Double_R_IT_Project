@@ -1,0 +1,109 @@
+.Select {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  overflow: hidden;
+}
+
+.SelectField {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.SelectLabel {
+  font-weight: 700;
+  white-space: wrap;
+}
+
+.SelectWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 76px;
+  gap: 25px;
+
+  background: var(--anikawa-20);
+  border: 2px solid var(--solitude-100);
+  border-radius: 20px;
+  padding: 0px 25px;
+}
+
+.SelectWrapperOpen {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.SelectValue {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex: 1;
+
+  color: var(--solitude-100);
+  font-size: var(--font-size-lg);
+  font-weight: 300;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.SelectPlaceholder {
+  color: var(--solitude-60);
+}
+
+.SelectOptions {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  border: 2px solid var(--solitude-100);
+  border-top: 0;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.SelectDivider {
+  width: calc(100% - 20px * 2);
+  height: 2px;
+  background: var(--solitude-100);
+  margin: 0 20px;
+  border-radius: 1px;
+}
+
+.SelectOption {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  color: var(--solitude-100);
+  font-size: var(--font-size-lg);
+  font-weight: 300;
+  opacity: 70%;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+.SelectOptionSelected,
+.SelectOption:hover {
+  opacity: 100%;
+  background: var(--anikawa-5);
+}
+
+.SelectOptionLabel {
+  padding: 20px;
+}
+
+.TruncatedText {
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
