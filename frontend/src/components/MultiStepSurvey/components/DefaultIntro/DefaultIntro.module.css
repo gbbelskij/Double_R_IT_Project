@@ -1,0 +1,63 @@
+.DefaultIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 600px;
+  padding: 100px 60px;
+  background-color: var(--anikawa-10);
+  border: 2px solid var(--solitude-100);
+  backdrop-filter: blur(50px);
+  border-radius: 50px;
+}
+
+.DefaultIntroSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.DefaultIntroHeading {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  text-align: center;
+}
+
+.DefaultIntroText {
+  font-size: var(--font-size-md);
+}
+
+@media screen and (max-width: 1440px) {
+  .DefaultIntro {
+    padding: 80px 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DefaultIntro {
+    padding: 40px;
+  }
+
+  .DefaultIntroHeading {
+    font-size: var(--font-size-xlg);
+  }
+
+  .DefaultIntroText {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .DefaultIntro {
+    padding: 30px 20px;
+    border-radius: 40px;
+  }
+
+  .DefaultIntroHeading {
+    font-size: var(--font-size-lg);
+  }
+
+  .DefaultIntroText {
+    font-size: var(--font-size-xs);
+  }
+}

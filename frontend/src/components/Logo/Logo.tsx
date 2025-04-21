@@ -8,16 +8,17 @@ const Logo: React.FC<LogoProps> = ({
   color = "var(--solitude-100)",
   hasText = false,
   href = "/",
+  size = hasText ? 35 : 84,
+  ...props
 }) => {
   return (
-    <Link className={classes.LogoContainer} to={href}>
+    <Link {...props} className={classes.LogoContainer} to={href}>
       <svg
-        width="84"
-        height="86"
+        width={size}
+        height={size}
         viewBox="0 0 84 86"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={hasText ? classes.LogoSmall : classes.Logo}
       >
         <path
           d="M63.2571 11.5179L42.0618 18.2779C41.7802 18.3717 41.4868 18.3717 41.2051 18.2779L20.0099 11.5179C18.6954 11.0954 18.6954 9.24112 20.0099 8.83036L41.2051 2.07042C41.4868 1.97653 41.7802 1.97653 42.0618 2.07042L63.2571 8.83036C64.5715 9.25286 64.5715 11.1071 63.2571 11.5179Z"

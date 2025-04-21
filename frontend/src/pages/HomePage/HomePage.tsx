@@ -1,7 +1,8 @@
 import Footer from "@components/Footer/Footer";
 import Header from "@components/Header/Header";
-import Logo from "@components/Logo/Logo";
 import Main from "@components/Main/Main";
+import CourseSection from "@components/CourseSection/CourseSection";
+import { courses } from "@mocks/courses";
 
 import "./HomePage.css";
 
@@ -10,7 +11,8 @@ const HomePage: React.FC = () => {
     <>
       <Header />
       <Main>
-        <Logo hasText />
+        <CourseSection courses={courses} title="Рекомендованные вам" />
+        <CourseSection courses={courses} title="Популярное" />
       </Main>
       <Footer />
     </>

@@ -10,8 +10,12 @@ export default defineConfig({
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@mocks": path.resolve(__dirname, "src/mocks"),
+      "@utils": path.resolve(__dirname, "src/utils"),
       "@pages": path.resolve(__dirname, "src/pages/index.ts"),
       src: path.resolve(__dirname, "src"),
+      assets: path.resolve(__dirname, "src/assets"),
+      types: path.resolve(__dirname, "src/types"),
     },
   },
 });

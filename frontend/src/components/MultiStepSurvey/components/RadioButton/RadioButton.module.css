@@ -1,0 +1,46 @@
+.Radio {
+  display: inline-block;
+  width: 100%;
+}
+
+.RadioInput {
+  display: none;
+}
+
+.RadioLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: var(--font-size-ms);
+  text-align: center;
+  width: 100%;
+  opacity: 70%;
+  border: 1px solid var(--solitude-100);
+  background-color: var(--solitude-20);
+  transition: all 0.3s ease-out;
+}
+
+.RadioLabel:hover {
+  opacity: 100%;
+}
+
+.RadioInput:checked + .RadioLabel {
+  border-color: var(--mantis-100);
+  background-color: var(--mantis-20);
+}
+
+@media screen and (max-width: 768px) {
+  .RadioLabel {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .RadioLabel {
+    padding: 10px;
+    font-size: var(--font-size-xs);
+  }
+}

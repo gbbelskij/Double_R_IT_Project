@@ -1,7 +1,7 @@
 import Footer from "@components/Footer/Footer";
 import Header from "@components/Header/Header";
-import Logo from "@components/Logo/Logo";
 import Main from "@components/Main/Main";
+import InputPreview from "@components/Input/preview/Input.preview";
 
 import "./ProfilePage.css";
 
@@ -10,7 +10,7 @@ const ProfilePage: React.FC = () => {
     <>
       <Header />
       <Main>
-        <Logo hasText />
+        <InputPreview />
       </Main>
       <Footer />
     </>

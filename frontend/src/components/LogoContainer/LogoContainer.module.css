@@ -1,0 +1,7 @@
+.LogoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: calc(var(--logo-height) / 2 * -1);
+}

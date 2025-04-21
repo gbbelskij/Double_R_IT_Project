@@ -1,0 +1,85 @@
+.Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-style: solid;
+  border-radius: 1000px;
+  cursor: pointer;
+
+  opacity: 0.7;
+  transition: opacity 0.3s ease-out;
+}
+
+.Button:hover {
+  opacity: 1;
+}
+
+.ButtonContent {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ButtonFullWidth {
+  width: 100%;
+  flex: 1;
+}
+
+.ButtonSmall {
+  max-width: 400px;
+  margin: 0;
+
+  padding: 10px 20px;
+  gap: 10px;
+  font-size: var(--font-size-xs);
+  line-height: var(--font-size-xs);
+  font-weight: 300;
+  border-width: 1px;
+}
+
+.ButtonMedium {
+  padding: 12px 20px;
+  gap: 10px;
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  border-width: 1px;
+}
+
+.ButtonLarge {
+  padding: 20px 30px;
+  gap: 20px;
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  border-width: 2px;
+}
+
+.ButtonDefault {
+  background-color: var(--anikawa-20);
+  border-color: var(--solitude-100);
+  color: var(--solitude-100);
+}
+
+.ButtonInverse {
+  background-color: var(--solitude-100);
+  border: none;
+  color: var(--firefly-100);
+}
+
+.ButtonDim {
+  background-color: var(--solitude-5);
+  border-color: var(--solitude-50);
+  color: var(--solitude-100);
+}
+
+.ButtonGreen {
+  background-color: var(--mantis-20);
+  border-color: var(--mantis-100);
+  color: var(--solitude-100);
+}
+
+.ButtonRed {
+  background-color: var(--mandy-20);
+  border-color: var(--mandy-100);
+  color: var(--solitude-100);
+}

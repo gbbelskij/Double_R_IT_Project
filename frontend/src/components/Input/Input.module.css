@@ -1,0 +1,74 @@
+.InputField {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.InputLabel {
+  font-weight: 700;
+  white-space: wrap;
+}
+
+.InputWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 76px;
+  gap: 25px;
+
+  background: var(--anikawa-20);
+  border: 2px solid var(--solitude-100);
+  border-radius: 20px;
+  padding: 0px 25px;
+  cursor: text;
+}
+
+.Input {
+  display: block;
+  height: 100%;
+  flex: 1;
+
+  color: var(--solitude-100);
+  font-size: var(--font-size-lg);
+  font-weight: 300;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Input::placeholder {
+  color: var(--solitude-60);
+}
+
+.Input[type="number"],
+.Input[type="date"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.Input[type="number"]::-webkit-inner-spin-button,
+.Input[type="number"]::-webkit-outer-spin-button,
+.Input[type="date"]::-webkit-calendar-picker-indicator {
+  -webkit-appearance: none;
+  display: none;
+  margin: 0;
+}
+
+.MaskedInput {
+  flex: 0;
+}
+
+.InputButton {
+  cursor: pointer;
+}
+
+.UnitText {
+  flex: 1;
+  margin-left: -20px;
+  font-size: var(--font-size-lg);
+  font-weight: 300;
+}

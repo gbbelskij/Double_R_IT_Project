@@ -3,17 +3,9 @@
   align-items: self-end;
 }
 
-.Logo {
-  width: 84px;
-  height: 84px;
-}
-
-.LogoSmall {
-  width: 35px;
-  height: 35px;
-}
-
 .LogoText {
   font-weight: 300;
+  line-height: 100%;
   margin-left: 5px;
+  text-transform: uppercase;
 }

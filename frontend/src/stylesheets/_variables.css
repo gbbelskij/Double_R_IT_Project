@@ -4,7 +4,7 @@
 
   /* Black */
   --black-70: rgba(0, 0, 0, 0.7);
-  --black-40: rgba(0, 0, 0, 0.7);
+  --black-40: rgba(0, 0, 0, 0.4);
 
   /* Firefly */
   --firefly-100: rgba(6, 14, 25, 1);
@@ -43,9 +43,12 @@
   --flush-orange-100: rgba(255, 123, 0, 1);
 
   /* FONT SIZES */
-  --font-size-xl: 40px;
+  --font-size-xxl: 40px;
+  --font-size-xl: 36px;
+  --font-size-xlg: 30px;
   --font-size-lg: 24px;
   --font-size-md: 20px;
+  --font-size-ms: 18px;
   --font-size-sm: 16px;
   --font-size-xs: 14px;
   --font-size-xxs: 12px;
