@@ -16,7 +16,7 @@ const ProgressNav: React.FC<ProgressNavProps> = ({
       {questionIDs.map((item, index) => (
         <div
           className={classNames(classes.ProgressNavItem, {
-            [classes.ProgressNavItemActive]: surveyData[item],
+            [classes.ProgressNavItemActive]: surveyData[item] !== null,
             [classes.ProgressNavItemCurrent]: step === index,
           })}
           key={index}

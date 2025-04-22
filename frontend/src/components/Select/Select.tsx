@@ -15,6 +15,8 @@ const Select: React.FC<SelectProps> = ({
   icon,
   defaultValue,
   placeholder,
+  register,
+  error,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<SelectOption | null>(
@@ -22,6 +24,8 @@ const Select: React.FC<SelectProps> = ({
   );
 
   const selectRef = useRef<HTMLDivElement>(null);
+
+  const { ref, onChange, ...rest } = register ? register(name) : {};
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +44,10 @@ const Select: React.FC<SelectProps> = ({
   const handleSelect = (option: SelectOption) => {
     setSelected(option);
     setIsOpen(false);
+
+    if (onChange) {
+      onChange({ target: { name, value: option.value } });
+    }
   };
 
   const Icon = icon;
@@ -55,6 +63,7 @@ const Select: React.FC<SelectProps> = ({
         <div
           className={classNames(classes.SelectWrapper, {
             [classes.SelectWrapperOpen]: isOpen,
+            [classes.SelectWrapperWithError]: error,
           })}
         >
           {Icon && <Icon size={30} />}
@@ -90,6 +99,7 @@ const Select: React.FC<SelectProps> = ({
                 title={option.label}
               >
                 <span
+                  key={option.value}
                   className={classNames(
                     classes.SelectOptionLabel,
                     classes.TruncatedText
@@ -106,6 +116,16 @@ const Select: React.FC<SelectProps> = ({
           ))}
         </ul>
       )}
+
+      <input
+        type="hidden"
+        name={name}
+        value={selected?.value || ""}
+        ref={ref}
+        {...rest}
+      />
+
+      {error && <p className={classes.SelectErrorText}>{error.message}</p>}
     </div>
   );
 };

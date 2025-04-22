@@ -3,22 +3,13 @@ import { TbRepeat } from "react-icons/tb";
 import { MdOutlineWorkOutline } from "react-icons/md";
 
 import { declineYear } from "@utils/decline";
+import { options } from "@mocks/options";
 
 import Input from "../Input";
 import Checkbox from "@components/Checkbox/Checkbox";
-
-import "./preview.css";
 import Select from "@components/Select/Select";
 
-const options = [
-  { value: "frontend", label: "Frontend-разработчик" },
-  { value: "backend", label: "Backend-разработчик" },
-  { value: "manager", label: "Менеджер" },
-  {
-    value: "long-text",
-    label: "Очень длинное название: aaaaaaaaaaaaaaaaaaaa",
-  },
-];
+import "./preview.css";
 
 const InputPreview: React.FC = () => {
   return (

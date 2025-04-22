@@ -1,6 +1,6 @@
-import classNames from "classnames";
 import { useState } from "react";
 import { InputMask } from "@react-input/mask";
+import classNames from "classnames";
 
 import { IconType } from "react-icons";
 
@@ -39,6 +39,9 @@ const Input: React.FC<InputProps> = ({
   icon,
   defaultValue = "",
   getUnit,
+  register,
+  error,
+  valueAsNumber,
 }) => {
   const [value, setValue] = useState<string>(defaultValue);
   const [width, setWidth] = useState<string>("16px");
@@ -72,7 +75,11 @@ const Input: React.FC<InputProps> = ({
     <label className={classes.InputField} htmlFor={name}>
       <div className={classes.InputLabel}>{label}</div>
 
-      <div className={classes.InputWrapper}>
+      <div
+        className={classNames(classes.InputWrapper, {
+          [classes.InputWrapperWithError]: error,
+        })}
+      >
         {InputIcon && <InputIcon size={28} />}
 
         {type === "experience" ? (
@@ -80,19 +87,28 @@ const Input: React.FC<InputProps> = ({
             style={{ width: width }}
             className={classNames(classes.Input, classes.MaskedInput)}
             id={name}
-            name={name}
             mask="__"
             replacement={{ _: /\d/ }}
-            onChange={handleNumberChange}
+            {...(register
+              ? register(name, valueAsNumber ? { valueAsNumber: true } : {})
+              : {})}
+            onChange={(e) => {
+              handleNumberChange(e);
+
+              if (register) {
+                register(
+                  name,
+                  valueAsNumber ? { valueAsNumber: true } : {}
+                ).onChange(e);
+              }
+            }}
             placeholder={placeholder}
           />
         ) : (
           <input
             className={classes.Input}
             id={name}
-            name={name}
             type={inputType}
-            onChange={handleChange}
             placeholder={
               placeholder
                 ? placeholder
@@ -100,6 +116,19 @@ const Input: React.FC<InputProps> = ({
                   ? "example@mail.com"
                   : undefined
             }
+            {...(register
+              ? register(name, valueAsNumber ? { valueAsNumber: true } : {})
+              : {})}
+            onChange={(e) => {
+              handleChange(e);
+
+              if (register) {
+                register(
+                  name,
+                  valueAsNumber ? { valueAsNumber: true } : {}
+                ).onChange(e);
+              }
+            }}
           />
         )}
 
@@ -115,6 +144,8 @@ const Input: React.FC<InputProps> = ({
           />
         )}
       </div>
+
+      {error && <p className={classes.InputErrorText}>{error.message}</p>}
     </label>
   );
 };

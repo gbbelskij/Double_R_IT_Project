@@ -1,6 +1,6 @@
 import React from "react";
 import { Question } from "types/question";
-import { IntroProps } from "./MultiStepSurvey.types";
+import { IntroProps, SurveyData } from "./MultiStepSurvey.types";
 
 export interface MultiStepSurveyProps {
   /**
@@ -20,5 +20,13 @@ export interface MultiStepSurveyProps {
    * Additional user-specific metadata that will be merged with the selected answers
    * and sent to the backend when the "Finish" button is clicked.
    */
-  userMeta?: JSON | null;
+  userMeta?: any;
+  /**
+   * Callback that is triggered when the multi-step survey is fully completed.
+   *
+   * @param result - An object containing:
+   *  - `userMeta`: metadata provided by the user during the first registration step (e.g., name, email, etc.).
+   *  - `answers`: survey answers collected during the multi-step survey process.
+   */
+  onComplete?: (result: { userMeta: any; answers: SurveyData }) => void;
 }

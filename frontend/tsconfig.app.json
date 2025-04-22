@@ -16,6 +16,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@mocks/*": ["src/mocks/*"],
       "@utils/*": ["src/utils/*"],
+      "@schemas/*": ["src/schemas/*"],
       "@pages": ["src/pages/index.ts"],
       "src/*": ["src/*"],
       "assets/*": ["src/assets/*"],
@@ -35,7 +36,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "noImplicitAny": false
   },
   "include": ["src"]
 }
