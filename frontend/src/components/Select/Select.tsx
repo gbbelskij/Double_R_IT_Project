@@ -26,7 +26,6 @@ const Select: React.FC<SelectProps> = ({
   const selectRef = useRef<HTMLDivElement>(null);
 
   const { ref, onChange, ...rest } = register ? register(name) : {};
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

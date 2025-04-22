@@ -24,8 +24,5 @@
 ```bash
 git clone https://github.com/gbbelskij/Double_R_IT_Project
 cd Double_R_IT_Project
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-flask db upgrade
-sudo docker-compose up
+
+sudo docker-compose up --build

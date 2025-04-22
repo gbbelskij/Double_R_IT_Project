@@ -4,6 +4,8 @@ from backend.database.User import User, TokenBlockList, db
 from backend.app.jwt_defence import token_required
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import decode_token
+import redis
+from datetime import datetime
 
 
 personal_account_ns = Namespace('personal_account', description='User`s personal data')
@@ -80,6 +82,9 @@ class UpdatePersonalAccountData(Resource):
         user.preferences = preferences
 
         try:
+
+            user.updated_at = db.func.current_timestamp()
+
             db.session.commit()
             return {'message': 'User data updated successfully'}, 200
         except Exception as e:
@@ -112,6 +117,19 @@ class Logout(Resource):
         
         try:
             db.session.add(blocked_token)
+
+            # добавление токена в редис
+            r = redis.Redis(host='redis', port=6379, db=0)
+
+            expiration_time = datetime.fromtimestamp(decoded_token['exp'])  # Преобразуем в datetime
+            current_time = datetime.utcnow()
+
+            # Вычисляем TTL (время жизни токена)
+            ttl = (expiration_time - current_time).total_seconds()
+
+            if ttl > 0:  # Только если TTL положительный (токен ещё действителен)
+                r.setex(jti, int(ttl), 'blacklisted')
+
             user.last_login = db.func.current_timestamp()
             user.is_active = False
             db.session.commit()

@@ -1,6 +1,7 @@
 from flask import request
 from backend.database.User import User, db
 from flask_restx import Resource, Namespace, fields
+from backend.app.questions import questions
 
 # Создание пространства имен для регистрации
 register_ns = Namespace('register', description='User registration operations')
@@ -62,3 +63,7 @@ class Register(Resource):
         except Exception as e:
             db.session.rollback()
             return {'message': f'Error: {str(e)}'}, 500
+    
+    @register_ns.response(200, 'Questions were sent correctly')
+    def get(self):
+        return {'questions': questions, 'message': 'Questions were sent correctly'}, 200
