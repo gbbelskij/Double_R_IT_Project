@@ -1,0 +1,11 @@
+.registration-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-rows: auto;
+  gap: 40px 20px;
+}
+
+.registration-form > :nth-child(n + 3) {
+  grid-column: 1 / 3;
+}

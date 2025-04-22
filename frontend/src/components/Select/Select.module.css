@@ -11,13 +11,13 @@
   flex-direction: column;
   align-items: start;
   width: 100%;
-  gap: 10px;
   overflow: hidden;
 }
 
 .SelectLabel {
   font-weight: 700;
   white-space: wrap;
+  margin-bottom: 10px;
 }
 
 .SelectWrapper {
@@ -33,9 +33,15 @@
   padding: 0px 25px;
 }
 
+.SelectWrapperWithError {
+  border-color: var(--mandy-100);
+  background: var(--mandy-20);
+}
+
 .SelectWrapperOpen {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  border-bottom: 2px solid var(--solitude-100);
 }
 
 .SelectValue {
@@ -106,4 +112,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.SelectErrorText {
+  color: var(--mandy-100);
+  font-size: var(--font-size-xs);
+  font-weight: 300;
+  margin-top: 5px;
 }

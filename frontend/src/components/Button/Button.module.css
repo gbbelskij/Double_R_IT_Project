@@ -15,6 +15,17 @@
   opacity: 1;
 }
 
+.Button:disabled,
+.Button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.Button:disabled:hover,
+.Button.disabled:hover {
+  opacity: 0.5;
+}
+
 .ButtonContent {
   white-space: nowrap;
   text-overflow: ellipsis;

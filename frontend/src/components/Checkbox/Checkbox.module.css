@@ -1,4 +1,10 @@
 .Checkbox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.CheckboxWrapper {
   position: relative;
 
   display: flex;
@@ -25,4 +31,14 @@
 
   border: 2px solid var(--solitude-100);
   border-radius: 10px;
+}
+
+.CheckmarkWithError {
+  border-color: var(--mandy-100);
+}
+
+.CheckboxErrorText {
+  color: var(--mandy-100);
+  font-size: var(--font-size-xs);
+  font-weight: 300;
 }
