@@ -2,7 +2,6 @@
   "name": "rrecommend-react-app",
   "private": true,
   "version": "0.0.3",
-  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
