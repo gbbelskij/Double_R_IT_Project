@@ -86,3 +86,19 @@
   font-weight: 300;
   margin-top: 5px;
 }
+
+@media screen and (max-width: 375px) {
+  .InputWrapper {
+    height: 56px;
+    gap: 15px;
+    padding: 0px 15px;
+  }
+
+  .InputLabel {
+    font-size: var(--font-size-sm);
+  }
+
+  .Input {
+    font-size: var(--font-size-ms);
+  }
+}

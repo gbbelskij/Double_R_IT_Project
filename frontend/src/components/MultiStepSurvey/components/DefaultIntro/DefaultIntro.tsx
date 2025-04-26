@@ -1,14 +1,15 @@
-import useWindowWidth from "@hooks/useWindowWidth";
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import Button from "@components/Button/Button";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
+import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
 import { IntroProps } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
 import classes from "./DefaultIntro.module.css";
 
 const DefaultIntro: React.FC<IntroProps> = ({ onStepChange }) => {
-  const windowWidth = useWindowWidth();
+  const { isMobile } = useWindowSize();
 
   return (
     <LogoContainer>
@@ -28,13 +29,15 @@ const DefaultIntro: React.FC<IntroProps> = ({ onStepChange }) => {
         </div>
 
         <Button
-          size={windowWidth >= 768 ? "large" : "medium"}
+          size={isMobile ? "medium" : "large"}
           color="inverse"
           isFullWidth
           onClick={() => onStepChange(0)}
         >
           Приступить к тесту
         </Button>
+
+        <BackgroundElements />
       </div>
     </LogoContainer>
   );

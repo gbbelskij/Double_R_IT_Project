@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import shave from "shave";
 
-import useWindowWidth from "@hooks/useWindowWidth";
+import { useWindowSize } from "@hooks/useWindowSize";
+
 import { declineMonth } from "@utils/decline";
 
 import { CourseProps } from "./Course.props";
@@ -19,10 +20,10 @@ const Course: React.FC<CourseProps> = ({
 
   const descriptionRef = useRef<HTMLParagraphElement>(null);
 
-  const windowWidth = useWindowWidth();
+  const { width: windowWidth, isSmallMobile, isMobile } = useWindowSize();
 
   const HOVERED_DESCRIPTION_HEIGHT = windowWidth <= 1700 ? 130 : 200;
-  const DEFAULT_DESCRIPTION_HEIGHT = windowWidth <= 375 ? 76 : 150;
+  const DEFAULT_DESCRIPTION_HEIGHT = isSmallMobile ? 90 : 150;
   const UNHOVERED_DESCRIPTION_HEIGHT = 44;
 
   useLayoutEffect(() => {
@@ -32,12 +33,11 @@ const Course: React.FC<CourseProps> = ({
       return;
     }
 
-    const height =
-      windowWidth >= 768
-        ? isHovered
-          ? HOVERED_DESCRIPTION_HEIGHT
-          : UNHOVERED_DESCRIPTION_HEIGHT
-        : DEFAULT_DESCRIPTION_HEIGHT;
+    const height = isMobile
+      ? DEFAULT_DESCRIPTION_HEIGHT
+      : isHovered
+        ? HOVERED_DESCRIPTION_HEIGHT
+        : UNHOVERED_DESCRIPTION_HEIGHT;
 
     if (!isHovered) {
       shave(descriptionElement, height);
@@ -53,6 +53,7 @@ const Course: React.FC<CourseProps> = ({
   }, [
     isHovered,
     windowWidth,
+    isMobile,
     description,
     HOVERED_DESCRIPTION_HEIGHT,
     DEFAULT_DESCRIPTION_HEIGHT,

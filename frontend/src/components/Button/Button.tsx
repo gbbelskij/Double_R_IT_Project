@@ -23,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
       [classes.ButtonInverse]: color === "inverse",
       [classes.ButtonDim]: color === "dim",
       [classes.ButtonGreen]: color === "green",
+      [classes.ButtonYellow]: color === "yellow",
       [classes.ButtonRed]: color === "red",
 
       [classes.ButtonSmall]: size === "small",

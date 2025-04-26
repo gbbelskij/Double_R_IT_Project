@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { InputMask } from "@react-input/mask";
-import classNames from "classnames";
-
 import { IconType } from "react-icons";
+import classNames from "classnames";
 
 import { FaCheck } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -12,6 +11,8 @@ import { MdAccessTime } from "react-icons/md";
 import { LuKeyRound } from "react-icons/lu";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import { InputTypes } from "./Input.types";
 import { InputProps } from "./Input.props";
@@ -47,8 +48,11 @@ const Input: React.FC<InputProps> = ({
   const [width, setWidth] = useState<string>("16px");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+  const { isSmallMobile } = useWindowSize();
+
   const inputType =
     type === "password" ? (isPasswordVisible ? "text" : "password") : type;
+  const iconSize = isSmallMobile ? 20 : 28;
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
@@ -80,7 +84,7 @@ const Input: React.FC<InputProps> = ({
           [classes.InputWrapperWithError]: error,
         })}
       >
-        {InputIcon && <InputIcon size={28} />}
+        {InputIcon && <InputIcon size={iconSize} />}
 
         {type === "experience" ? (
           <InputMask
@@ -138,7 +142,7 @@ const Input: React.FC<InputProps> = ({
 
         {type === "password" && (
           <PasswordVisibilityIcon
-            size={28}
+            size={iconSize}
             onClick={togglePasswordVisibility}
             className={classes.InputButton}
           />

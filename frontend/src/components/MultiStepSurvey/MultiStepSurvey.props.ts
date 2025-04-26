@@ -24,9 +24,8 @@ export interface MultiStepSurveyProps {
   /**
    * Callback that is triggered when the multi-step survey is fully completed.
    *
-   * @param result - An object containing:
-   *  - `userMeta`: metadata provided by the user during the first registration step (e.g., name, email, etc.).
-   *  - `answers`: survey answers collected during the multi-step survey process.
+   * @param userMeta - metadata provided by the user during the first registration step (e.g., name, email, etc.).
+   * @param answers - survey answers collected during the multi-step survey process.
    */
-  onComplete?: (result: { userMeta: any; answers: SurveyData }) => void;
+  onComplete?: (answers: SurveyData, userMeta?: any) => void;
 }

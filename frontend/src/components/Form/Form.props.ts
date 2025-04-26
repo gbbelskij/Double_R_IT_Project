@@ -1,3 +1,5 @@
+import { AlignSelf } from "@components/LogoContainer/LogoContainer.types";
+
 export interface FormProps {
   /**
    * ID of the form.
@@ -51,7 +53,16 @@ export interface FormProps {
    */
   logoOffset?: number;
   /**
+   * Defines how the logo is aligned along the cross axis.
+   * Defaults to `center`.
+   */
+  logoAlign?: AlignSelf;
+  /**
    * Additional styles for form element.
    */
   formClassName?: string;
+  /**
+   * Disables the background of the form.
+   */
+  plain?: boolean;
 }

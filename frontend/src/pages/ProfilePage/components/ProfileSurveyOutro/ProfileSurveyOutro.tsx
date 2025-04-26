@@ -6,23 +6,22 @@ import Button from "@components/Button/Button";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
 import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
-import classes from "./DefaultOutro.module.css";
+import classes from "./ProfileSurveyOutro.module.css";
 
-const DefaultOutro: React.FC = () => {
+const ProfileSurveyOutro: React.FC = () => {
   const navigate = useNavigate();
   const { isMobile } = useWindowSize();
 
   return (
     <LogoContainer>
-      <div className={classes.DefaultOutro}>
-        <div className={classes.DefaultOutroSection}>
-          <h2 className={classes.DefaultOutroHeading}>
+      <div className={classes.ProfileSurveyOutro}>
+        <div className={classes.ProfileSurveyOutroSection}>
+          <h2 className={classes.ProfileSurveyOutroHeading}>
             Спасибо за ваши ответы!{" "}
           </h2>
 
-          <p className={classes.DefaultOutroText}>
-            Мы обработаем результаты и предложим вам лучшие курсы для успешного
-            старта!
+          <p className={classes.ProfileSurveyOutroText}>
+            Мы обработаем ваши новые ответы и предложим вам лучшие курсы!
           </p>
         </div>
 
@@ -30,9 +29,9 @@ const DefaultOutro: React.FC = () => {
           size={isMobile ? "medium" : "large"}
           color="inverse"
           isFullWidth
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/profile")}
         >
-          Войти в аккаунт
+          Вернуться в профиль
         </Button>
 
         <BackgroundElements />
@@ -41,4 +40,4 @@ const DefaultOutro: React.FC = () => {
   );
 };
 
-export default DefaultOutro;
+export default ProfileSurveyOutro;

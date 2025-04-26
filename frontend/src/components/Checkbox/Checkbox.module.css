@@ -42,3 +42,16 @@
   font-size: var(--font-size-xs);
   font-weight: 300;
 }
+
+@media screen and (max-width: 375px) {
+  .CheckboxWrapper {
+    gap: 10px;
+    font-size: var(--font-size-sm);
+  }
+
+  .Checkmark {
+    width: 20px;
+    height: 20px;
+    border-radius: 7px;
+  }
+}

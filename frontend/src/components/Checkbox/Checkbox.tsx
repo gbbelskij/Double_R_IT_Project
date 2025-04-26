@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { FaCheck } from "react-icons/fa6";
 
+import { useWindowSize } from "@hooks/useWindowSize";
+
 import { CheckboxProps } from "./Checkbox.props";
 
 import classes from "./Checkbox.module.css";
@@ -17,6 +19,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
 }) => {
   const [isChecked, setIsChecked] = useState(defaultChecked);
   const { ref, onChange, ...rest } = register ? register(name) : {};
+
+  const { isSmallMobile } = useWindowSize();
 
   useEffect(() => {
     setIsChecked(defaultChecked);
@@ -50,7 +54,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
             [classes.CheckmarkWithError]: error,
           })}
         >
-          {isChecked && <Icon size={18} />}
+          {isChecked && <Icon size={isSmallMobile ? 12 : 18} />}
         </span>
 
         {label}

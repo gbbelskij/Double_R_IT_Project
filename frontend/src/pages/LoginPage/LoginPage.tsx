@@ -8,6 +8,9 @@ import Main from "@components/Main/Main";
 import Form from "@components/Form/Form";
 import Input from "@components/Input/Input";
 import Checkbox from "@components/Checkbox/Checkbox";
+import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import "./LoginPage.css";
 
@@ -20,6 +23,8 @@ const LoginPage: React.FC = () => {
     resolver: zodResolver(loginSchema),
     mode: "onSubmit",
   });
+
+  const { isMobile, isSmallMobile } = useWindowSize();
 
   const handleLogin = async (data: LoginFormData) => {
     try {
@@ -44,7 +49,8 @@ const LoginPage: React.FC = () => {
         helperLink="/registration"
         helperLinkText="Зарегистрируйтесь!"
         handleAction={handleSubmit(handleLogin)}
-        logoOffset={465}
+        logoOffset={isSmallMobile ? 30 : isMobile ? 40 : 50}
+        logoAlign="end"
         isButtonDisabled={isButtonDisabled}
       >
         <Input
@@ -67,6 +73,8 @@ const LoginPage: React.FC = () => {
           register={register}
           error={errors.remember}
         />
+
+        <BackgroundElements />
       </Form>
     </Main>
   );

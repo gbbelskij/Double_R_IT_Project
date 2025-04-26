@@ -9,17 +9,28 @@ import DefaultOutro from "./components/DefaultOutro/DefaultOutro";
 import DefaultIntro from "./components/DefaultIntro/DefaultIntro";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
 import Button from "@components/Button/Button";
+import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
 import { MultiStepSurveyProps } from "./MultiStepSurvey.props";
 import { SurveyData } from "./MultiStepSurvey.types";
 
 import classes from "./MultiStepSurvey.module.css";
 
+const postSurveyResults = (surveyData: SurveyData, userMeta?: any) => {
+  const result = {
+    ...(userMeta ? { userMeta } : {}),
+    answers: surveyData,
+  };
+
+  alert(JSON.stringify(result, null, 2));
+};
+
 const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
   questions,
   Intro = DefaultIntro,
   Outro = DefaultOutro,
   userMeta = null,
+  onComplete = postSurveyResults,
 }) => {
   const [questionIDs, setQuestionIDs] = useState<string[]>(
     Object.keys(questions)
@@ -39,18 +50,9 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
     return Object.values(surveyData).every((answer) => answer !== null);
   };
 
-  const postSurveyResults = () => {
-    const result = {
-      ...(userMeta ? { userMeta } : {}),
-      answers: surveyData,
-    };
-
-    alert(JSON.stringify(result, null, 2));
-  };
-
-  if (currentStep <= -1) {
+  if (currentStep <= -1 && Intro) {
     return <Intro onStepChange={setCurrentStep} />;
-  } else if (currentStep >= questionIDs.length) {
+  } else if (currentStep >= questionIDs.length && Outro) {
     return <Outro />;
   } else {
     const currentQuestionId = questionIDs[currentStep];
@@ -170,15 +172,17 @@ const MultiStepSurvey: React.FC<MultiStepSurveyProps> = ({
               isFullWidth
               onClick={() => {
                 if (isLastStep()) {
-                  postSurveyResults();
+                  onComplete(surveyData, userMeta);
                 }
 
-                setCurrentStep((prev) => prev + 1);
+                setCurrentStep((prev) => ++prev);
               }}
             >
               {isLastStep() ? "Завершить" : "Далее"}
             </Button>
           </div>
+
+          <BackgroundElements />
         </div>
       </LogoContainer>
     );

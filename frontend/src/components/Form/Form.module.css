@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   width: 600px;
   padding: 40px 50px;
   background-color: var(--anikawa-10);
@@ -50,4 +49,43 @@
 
 .FormHelperLink:hover {
   opacity: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .Form {
+    width: 100%;
+    padding: 40px 30px;
+    border-radius: 40px;
+    backdrop-filter: blur(40px);
+  }
+
+  .FormForm {
+    gap: 30px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .Form {
+    padding: 30px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(30px);
+  }
+
+  .FormForm {
+    margin: 20px 0 40px;
+    gap: 20px;
+  }
+
+  .FormHeadingText {
+    font-size: var(--font-size-xlg);
+  }
+
+  .FormHelper {
+    font-size: var(--font-size-xs);
+    gap: 5px;
+  }
+
+  .FormAdditionalText {
+    font-size: var(--font-size-sm);
+  }
 }

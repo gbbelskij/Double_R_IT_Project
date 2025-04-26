@@ -2,7 +2,8 @@ import { useNavigate } from "react-router";
 
 import { FaRegUserCircle } from "react-icons/fa";
 
-import useWindowWidth from "@hooks/useWindowWidth";
+import { useWindowSize } from "@hooks/useWindowSize";
+
 import Logo from "@components/Logo/Logo";
 import Button from "@components/Button/Button";
 
@@ -12,7 +13,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const handleProfileClick = () => navigate("/profile");
 
-  const windowWidth = useWindowWidth();
+  const { width: windowWidth } = useWindowSize();
 
   return (
     <header className={classes.Header}>

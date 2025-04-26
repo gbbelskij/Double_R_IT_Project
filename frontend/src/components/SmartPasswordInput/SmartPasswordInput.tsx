@@ -6,11 +6,14 @@ import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import { TbRepeat } from "react-icons/tb";
 
+import { useWindowSize } from "@hooks/useWindowSize";
+
+import Input from "@components/Input/Input";
+import PasswordStrengthChecker from "./PasswordStrengthChecker/PasswordStrengthChecker";
+
 import { SmartPasswordInputProps } from "./SmartPasswordInput.props";
 
 import classes from "./SmartPasswordInput.module.css";
-import Input from "@components/Input/Input";
-import PasswordStrengthChecker from "./PasswordStrengthChecker/PasswordStrengthChecker";
 
 const SmartPasswordInput: React.FC<SmartPasswordInputProps> = ({
   name = "password",
@@ -29,6 +32,8 @@ const SmartPasswordInput: React.FC<SmartPasswordInputProps> = ({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
+  const { isSmallMobile } = useWindowSize();
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const handleFocus = () => setIsFocused(true);
   const handleBlur = (e: React.FocusEvent) => {
@@ -44,6 +49,7 @@ const SmartPasswordInput: React.FC<SmartPasswordInputProps> = ({
   };
 
   const inputType = isPasswordVisible ? "text" : "password";
+  const iconSize = isSmallMobile ? 20 : 28;
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
@@ -71,7 +77,7 @@ const SmartPasswordInput: React.FC<SmartPasswordInputProps> = ({
               [classes.PasswordInputWrapperWithError]: error,
             })}
           >
-            <PasswordInputIcon size={28} />
+            <PasswordInputIcon size={iconSize} />
 
             <input
               className={classes.PasswordInput}
@@ -89,7 +95,7 @@ const SmartPasswordInput: React.FC<SmartPasswordInputProps> = ({
             />
 
             <PasswordVisibilityIcon
-              size={28}
+              size={iconSize}
               onMouseDown={(e) => e.preventDefault()}
               onClick={togglePasswordVisibility}
               className={classes.PasswordInputButton}

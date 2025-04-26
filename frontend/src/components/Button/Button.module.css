@@ -27,6 +27,7 @@
 }
 
 .ButtonContent {
+  display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -86,6 +87,12 @@
 .ButtonGreen {
   background-color: var(--mantis-20);
   border-color: var(--mantis-100);
+  color: var(--solitude-100);
+}
+
+.ButtonYellow {
+  background-color: var(--chenin-20);
+  border-color: var(--chenin-100);
   color: var(--solitude-100);
 }
 

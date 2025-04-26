@@ -1,0 +1,35 @@
+.BackgroundElements {
+  display: flex;
+  z-index: -1;
+  opacity: 40%;
+}
+
+.BackgroundElements > * {
+  position: absolute;
+  filter: blur(250px);
+}
+
+.BackgroundElements > *:nth-child(2n + 1) {
+  top: -50px;
+  left: -105px;
+}
+
+.BackgroundElements > *:nth-child(2n) {
+  bottom: -25px;
+  right: -35px;
+}
+
+/* @media screen and (max-width: 1440px) {
+  .BackgroundElements {
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .BackgroundElements {
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .BackgroundElements {
+  }
+} */

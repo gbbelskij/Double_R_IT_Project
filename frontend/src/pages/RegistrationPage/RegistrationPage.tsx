@@ -8,7 +8,10 @@ import {
 import axios from "axios";
 
 import { MdOutlineWorkOutline } from "react-icons/md";
+
 import { declineYear } from "@utils/decline";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import Main from "@components/Main/Main";
 import Form from "@components/Form/Form";
@@ -16,6 +19,7 @@ import Input from "@components/Input/Input";
 import SmartPasswordInput from "@components/SmartPasswordInput/SmartPasswordInput";
 import Select from "@components/Select/Select";
 import MultiStepSurvey from "@components/MultiStepSurvey/MultiStepSurvey";
+import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
 import { SurveyData } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
@@ -38,6 +42,8 @@ const RegistrationPage: React.FC = () => {
     mode: "onSubmit",
   });
 
+  const { isMobile, isSmallMobile } = useWindowSize();
+
   const finishFirstStep = (data: RegistrationFormData) => {
     setRegFirstStepInfo(data);
     setRegStep(2);
@@ -46,12 +52,15 @@ const RegistrationPage: React.FC = () => {
   const isButtonDisabled =
     isSubmitted && (!isValid || Object.keys(errors).length > 0);
 
-  const submitFullRegistration = async (fullData: {
-    userMeta: RegistrationFormData;
-    answers: SurveyData;
-  }) => {
+  const submitFullRegistration = async (
+    answers: SurveyData,
+    userMeta: RegistrationFormData
+  ) => {
     try {
-      await axios.post("/api/registration", fullData);
+      await axios.post("/api/registration", {
+        answers: answers,
+        userMeta: userMeta,
+      });
       console.log("Registration successful");
     } catch (error) {
       console.error("Registration failed:", error);
@@ -65,13 +74,14 @@ const RegistrationPage: React.FC = () => {
           id="registration-form"
           formClassName="registration-form"
           title="Регистрация"
-          actionText="Далее"
           additionalText="Давайте познакомимся!"
+          actionText="Далее"
           helperText="У вас уже есть аккаунт?"
           helperLink="/login"
           helperLinkText="Войти"
           handleAction={handleSubmit(finishFirstStep)}
-          logoOffset={45}
+          logoOffset={isSmallMobile ? 30 : isMobile ? 40 : 50}
+          logoAlign="end"
           isButtonDisabled={isButtonDisabled}
         >
           <Input
@@ -127,6 +137,8 @@ const RegistrationPage: React.FC = () => {
             error={errors.password}
             repeatError={errors.repeatPassword}
           />
+
+          <BackgroundElements />
         </Form>
       )}
 

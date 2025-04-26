@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import Course from "../Course/Course";
-import Button from "../Button/Button";
+import Course from "@components/Course/Course";
+import Button from "@components/Button/Button";
+import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
 import { CourseSectionProps } from "./CourseSection.props";
 
@@ -35,6 +36,8 @@ const CourseSection: React.FC<CourseSectionProps> = ({ courses, title }) => {
           </Button>
         </div>
       )}
+
+      <BackgroundElements />
     </section>
   );
 };

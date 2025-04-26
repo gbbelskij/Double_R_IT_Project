@@ -4,12 +4,12 @@
   flex-direction: column;
   align-items: center;
   height: auto;
-  padding: 60px 57px;
+  padding: 60px;
   border-radius: 60px;
   gap: 40px;
   background-color: var(--anikawa-5);
   border: 2px solid var(--solitude-100);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(50px);
 }
 
 .CourseSectionTitle {
@@ -18,6 +18,7 @@
   font-size: var(--font-size-xxl);
   letter-spacing: 2px;
   text-transform: uppercase;
+  width: 100%;
 }
 
 .CourseSectionCards {
@@ -28,6 +29,10 @@
 }
 
 @media screen and (min-width: 1001px) and (max-width: 1440px) {
+  .CourseSection {
+    border-radius: 50px;
+  }
+
   .CourseSectionCards {
     grid-template-columns: repeat(2, 1fr);
 
@@ -45,6 +50,10 @@
 }
 
 @media screen and (max-width: 1000px) {
+  .CourseSection {
+    padding: 40px;
+  }
+
   .CourseSectionCards {
     grid-template-columns: repeat(1, 1fr);
 
@@ -62,12 +71,10 @@
 
 @media screen and (max-width: 768px) {
   .CourseSection {
-    padding: 0;
-    border-radius: 0;
+    padding: 30px;
     gap: 20px;
-    background-color: transparent;
-    border: none;
-    backdrop-filter: none;
+    border-radius: 30px;
+    backdrop-filter: blur(30px);
   }
 
   .CourseSectionCards > * {
@@ -84,6 +91,13 @@
 }
 
 @media screen and (max-width: 375px) {
+  .CourseSection {
+    padding: 30px 20px;
+    gap: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+  }
+
   .CourseSectionTitle {
     font-size: var(--font-size-md);
     letter-spacing: 0;
