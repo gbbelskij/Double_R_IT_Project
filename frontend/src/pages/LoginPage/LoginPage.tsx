@@ -1,8 +1,11 @@
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
 import { loginSchema, LoginFormData } from "@schemas/loginSchema";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import Main from "@components/Main/Main";
 import Form from "@components/Form/Form";
@@ -10,11 +13,13 @@ import Input from "@components/Input/Input";
 import Checkbox from "@components/Checkbox/Checkbox";
 import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
-import { useWindowSize } from "@hooks/useWindowSize";
-
 import "./LoginPage.css";
 
 const LoginPage: React.FC = () => {
+  const sectionRef = useRef(null);
+
+  const { isMobile, isSmallMobile } = useWindowSize();
+
   const {
     register,
     handleSubmit,
@@ -23,8 +28,6 @@ const LoginPage: React.FC = () => {
     resolver: zodResolver(loginSchema),
     mode: "onSubmit",
   });
-
-  const { isMobile, isSmallMobile } = useWindowSize();
 
   const handleLogin = async (data: LoginFormData) => {
     try {
@@ -52,6 +55,7 @@ const LoginPage: React.FC = () => {
         logoOffset={isSmallMobile ? 30 : isMobile ? 40 : 50}
         logoAlign="end"
         isButtonDisabled={isButtonDisabled}
+        ref={sectionRef}
       >
         <Input
           type="email"
@@ -73,9 +77,9 @@ const LoginPage: React.FC = () => {
           register={register}
           error={errors.remember}
         />
-
-        <BackgroundElements />
       </Form>
+
+      <BackgroundElements targetRef={sectionRef} />
     </Main>
   );
 };

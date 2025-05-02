@@ -26,6 +26,7 @@ const Select: React.FC<SelectProps> = ({
   );
 
   const { isSmallMobile } = useWindowSize();
+
   const iconSize = isSmallMobile ? 20 : 28;
 
   const selectRef = useRef<HTMLDivElement>(null);

@@ -1,20 +1,20 @@
-import { useNavigate } from "react-router";
+import { forwardRef } from "react";
 
 import { useWindowSize } from "@hooks/useWindowSize";
 
 import Button from "@components/Button/Button";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
-import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
+
+import { Outro } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
 import classes from "./ProfileSurveyOutro.module.css";
 
-const ProfileSurveyOutro: React.FC = () => {
-  const navigate = useNavigate();
+const ProfileSurveyOutro = forwardRef(({ onExit }, ref) => {
   const { isMobile } = useWindowSize();
 
   return (
     <LogoContainer>
-      <div className={classes.ProfileSurveyOutro}>
+      <div className={classes.ProfileSurveyOutro} ref={ref}>
         <div className={classes.ProfileSurveyOutroSection}>
           <h2 className={classes.ProfileSurveyOutroHeading}>
             Спасибо за ваши ответы!{" "}
@@ -29,15 +29,13 @@ const ProfileSurveyOutro: React.FC = () => {
           size={isMobile ? "medium" : "large"}
           color="inverse"
           isFullWidth
-          onClick={() => navigate("/profile")}
+          onClick={() => onExit()}
         >
           Вернуться в профиль
         </Button>
-
-        <BackgroundElements />
       </div>
     </LogoContainer>
   );
-};
+}) as Outro;
 
 export default ProfileSurveyOutro;

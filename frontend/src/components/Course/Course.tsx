@@ -1,13 +1,17 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import shave from "shave";
 
 import { useWindowSize } from "@hooks/useWindowSize";
 
 import { declineMonth } from "@utils/decline";
+import { getDominantColorFromImage } from "@utils/getDominantColorFromImage";
+
+import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
 import { CourseProps } from "./Course.props";
 
 import classes from "./Course.module.css";
+import classNames from "classnames";
 
 const Course: React.FC<CourseProps> = ({
   title,
@@ -15,15 +19,26 @@ const Course: React.FC<CourseProps> = ({
   description,
   url,
   imageSrc,
+  colorOptions,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [color, setColor] = useState<string>("");
 
   const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const cardRef = useRef(null);
 
   const { width: windowWidth, isSmallMobile, isMobile } = useWindowSize();
 
-  const HOVERED_DESCRIPTION_HEIGHT = windowWidth <= 1700 ? 130 : 200;
-  const DEFAULT_DESCRIPTION_HEIGHT = isSmallMobile ? 90 : 150;
+  const HOVERED_DESCRIPTION_HEIGHT = useMemo(
+    () => (windowWidth <= 1700 ? 130 : 200),
+    [windowWidth]
+  );
+
+  const DEFAULT_DESCRIPTION_HEIGHT = useMemo(
+    () => (isSmallMobile ? 90 : 150),
+    [isSmallMobile]
+  );
+
   const UNHOVERED_DESCRIPTION_HEIGHT = 44;
 
   useLayoutEffect(() => {
@@ -55,9 +70,19 @@ const Course: React.FC<CourseProps> = ({
     windowWidth,
     isMobile,
     description,
-    HOVERED_DESCRIPTION_HEIGHT,
     DEFAULT_DESCRIPTION_HEIGHT,
+    HOVERED_DESCRIPTION_HEIGHT,
   ]);
+
+  useEffect(() => {
+    getDominantColorFromImage(imageSrc, colorOptions)
+      .then((color) => {
+        setColor(color);
+      })
+      .catch((error) => {
+        console.error("Failed to get color", error);
+      });
+  }, [imageSrc, colorOptions]);
 
   return (
     <a
@@ -66,6 +91,7 @@ const Course: React.FC<CourseProps> = ({
       target="_blank"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      ref={cardRef}
     >
       <div className={classes.CourseOverlay} />
 
@@ -82,6 +108,16 @@ const Course: React.FC<CourseProps> = ({
       <div
         className={classes.CourseBackground}
         style={{ backgroundImage: `url(${imageSrc})` }}
+      />
+
+      <BackgroundElements
+        targetRef={cardRef}
+        count={1}
+        color={color}
+        blobsSize={isSmallMobile ? 250 : 400}
+        styles={classNames(classes.CourseBackgroundElements, {
+          [classes.HoveredCourseBackgroundElements]: isHovered,
+        })}
       />
     </a>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
@@ -7,6 +7,8 @@ import axios from "axios";
 import { MdOutlineWorkOutline } from "react-icons/md";
 
 import { ProfileFormData, profileSchema } from "@schemas/profileSchema";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import Footer from "@components/Footer/Footer";
 import Header from "@components/Header/Header";
@@ -33,6 +35,11 @@ const ProfilePage: React.FC = () => {
   const [showSurvey, setShowSurvey] = useState(false);
   const [surveyComplete, setSurveyComplete] = useState(false);
   const navigate = useNavigate();
+
+  const { isSmallMobile } = useWindowSize();
+
+  const surveyRef = useRef(null);
+  const formRef = useRef(null);
 
   const {
     register,
@@ -84,10 +91,13 @@ const ProfilePage: React.FC = () => {
     try {
       await axios.post("/api/profile/survey", { answers });
       setSurveyComplete(true);
-      setShowSurvey(false);
     } catch (error) {
       console.error("Survey submit failed:", error);
     }
+  };
+
+  const handleSurveyExit = () => {
+    setShowSurvey(false);
   };
 
   return (
@@ -98,8 +108,10 @@ const ProfilePage: React.FC = () => {
           <MultiStepSurvey
             questions={questions}
             onComplete={handleSurveyComplete}
+            onExit={handleSurveyExit}
             Intro={ProfileSurveyIntro}
             Outro={ProfileSurveyOutro}
+            ref={surveyRef}
           />
         ) : (
           <ProfileForm
@@ -108,6 +120,7 @@ const ProfilePage: React.FC = () => {
             handleSurvey={handleSurveyToggle}
             handleExit={handleExit}
             handleDelete={handleDelete}
+            ref={formRef}
           >
             <Input
               type="text"
@@ -171,10 +184,15 @@ const ProfilePage: React.FC = () => {
               error={errors.password}
               repeatError={errors.repeatPassword}
             />
-
-            <BackgroundElements />
           </ProfileForm>
         )}
+
+        <BackgroundElements
+          targetRef={showSurvey ? surveyRef : formRef}
+          blobsSize={showSurvey ? undefined : isSmallMobile ? 200 : 500}
+          blobsRandomness={20}
+          styles={showSurvey ? undefined : "profile-bg-elements"}
+        />
       </Main>
       <Footer />
     </>

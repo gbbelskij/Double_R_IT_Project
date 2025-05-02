@@ -63,14 +63,24 @@ const Input: React.FC<InputProps> = ({
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
 
-    setValue(newValue);
+    const parsed = Number(newValue);
 
-    if (0 <= parseInt(newValue) && parseInt(newValue) <= 9) {
-      setWidth("16px");
-    } else {
-      setWidth("33px");
+    if (!isNaN(parsed)) {
+      setValue(newValue);
+
+      if (parsed >= 0 && parsed <= 9) {
+        setWidth("16px");
+      } else {
+        setWidth("33px");
+      }
     }
   };
+
+  const isValidNumber = !isNaN(Number(value)) && value !== "";
+
+  const registered = register
+    ? register(name, valueAsNumber ? { valueAsNumber: true } : {})
+    : undefined;
 
   const InputIcon = icon || getDefaultIcon(type);
   const PasswordVisibilityIcon = isPasswordVisible ? LuEye : LuEyeOff;
@@ -93,18 +103,10 @@ const Input: React.FC<InputProps> = ({
             id={name}
             mask="__"
             replacement={{ _: /\d/ }}
-            {...(register
-              ? register(name, valueAsNumber ? { valueAsNumber: true } : {})
-              : {})}
+            {...registered}
             onChange={(e) => {
               handleNumberChange(e);
-
-              if (register) {
-                register(
-                  name,
-                  valueAsNumber ? { valueAsNumber: true } : {}
-                ).onChange(e);
-              }
+              registered?.onChange(e);
             }}
             placeholder={placeholder}
           />
@@ -120,23 +122,15 @@ const Input: React.FC<InputProps> = ({
                   ? "example@mail.com"
                   : undefined
             }
-            {...(register
-              ? register(name, valueAsNumber ? { valueAsNumber: true } : {})
-              : {})}
+            {...registered}
             onChange={(e) => {
               handleChange(e);
-
-              if (register) {
-                register(
-                  name,
-                  valueAsNumber ? { valueAsNumber: true } : {}
-                ).onChange(e);
-              }
+              registered?.onChange(e);
             }}
           />
         )}
 
-        {type === "experience" && getUnit && value.trim() !== "" && (
+        {type === "experience" && getUnit && isValidNumber && (
           <span className={classes.UnitText}>{getUnit(parseInt(value))}</span>
         )}
 

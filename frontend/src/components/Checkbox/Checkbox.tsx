@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import classNames from "classnames";
 
 import { FaCheck } from "react-icons/fa6";
 
@@ -7,7 +8,6 @@ import { useWindowSize } from "@hooks/useWindowSize";
 import { CheckboxProps } from "./Checkbox.props";
 
 import classes from "./Checkbox.module.css";
-import classNames from "classnames";
 
 const Checkbox: React.FC<CheckboxProps> = ({
   name,

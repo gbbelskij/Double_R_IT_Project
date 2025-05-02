@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -33,6 +33,10 @@ const RegistrationPage: React.FC = () => {
   const [regFirstStepInfo, setRegFirstStepInfo] =
     useState<RegistrationFormData | null>(null);
 
+  const { isMobile, isSmallMobile } = useWindowSize();
+
+  const sectionRef = useRef(null);
+
   const {
     register,
     handleSubmit,
@@ -41,8 +45,6 @@ const RegistrationPage: React.FC = () => {
     resolver: zodResolver(registrationSchema),
     mode: "onSubmit",
   });
-
-  const { isMobile, isSmallMobile } = useWindowSize();
 
   const finishFirstStep = (data: RegistrationFormData) => {
     setRegFirstStepInfo(data);
@@ -83,6 +85,7 @@ const RegistrationPage: React.FC = () => {
           logoOffset={isSmallMobile ? 30 : isMobile ? 40 : 50}
           logoAlign="end"
           isButtonDisabled={isButtonDisabled}
+          ref={sectionRef}
         >
           <Input
             type="text"
@@ -137,8 +140,6 @@ const RegistrationPage: React.FC = () => {
             error={errors.password}
             repeatError={errors.repeatPassword}
           />
-
-          <BackgroundElements />
         </Form>
       )}
 
@@ -147,8 +148,11 @@ const RegistrationPage: React.FC = () => {
           questions={questions}
           userMeta={regFirstStepInfo}
           onComplete={submitFullRegistration}
+          ref={sectionRef}
         />
       )}
+
+      <BackgroundElements targetRef={sectionRef} />
     </Main>
   );
 };

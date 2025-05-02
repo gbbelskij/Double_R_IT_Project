@@ -7,12 +7,11 @@
   max-width: 440px;
   min-width: 350px;
   padding: 40px;
-  border: 2px solid var(--solitude-100);
+  border: 2px solid var(--solitude-50);
   border-radius: 30px;
   overflow: hidden;
-  opacity: 0.7;
   transition:
-    opacity 0.3s,
+    border 0.3s ease-out,
     transform 0.3s ease-out;
   text-decoration: none;
 }
@@ -34,6 +33,8 @@
   position: relative;
   z-index: 2;
   margin-top: auto;
+  opacity: 70%;
+  transition: opacity 0.3s ease-out;
 }
 
 .CourseDuration,
@@ -57,13 +58,21 @@
   background-size: cover;
   background-position: center;
   filter: blur(10px);
-  transition: filter 0.3s ease;
+  transition: filter 0.3s ease-out;
   z-index: 0;
 }
 
+.CourseBackgroundElements {
+  transition: opacity 0.3s ease-out;
+}
+
 .Course:hover {
-  opacity: 1;
+  border: 2px solid var(--solitude-100);
   transform: translateY(-5px);
+
+  & > .CourseInfoSection {
+    opacity: 100%;
+  }
 }
 
 .Course:hover .CourseBackground {
@@ -72,6 +81,18 @@
 
 .Course:hover .CourseOverlay {
   background-color: var(--black-40);
+}
+
+.CourseBackgroundElements > * {
+  top: 50% !important;
+  left: 50% !important;
+  bottom: auto !important;
+  right: auto !important;
+  transform: translate(-50%, -50%);
+}
+
+.HoveredCourseBackgroundElements {
+  opacity: 100%;
 }
 
 @media screen and (max-width: 375px) {

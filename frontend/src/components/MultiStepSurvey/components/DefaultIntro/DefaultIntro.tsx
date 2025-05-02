@@ -1,19 +1,19 @@
+import { forwardRef } from "react";
 import { useWindowSize } from "@hooks/useWindowSize";
 
 import Button from "@components/Button/Button";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
-import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
-import { IntroProps } from "@components/MultiStepSurvey/MultiStepSurvey.types";
+import { Intro } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
 import classes from "./DefaultIntro.module.css";
 
-const DefaultIntro: React.FC<IntroProps> = ({ onStepChange }) => {
+const DefaultIntro = forwardRef(({ onStepChange }, ref) => {
   const { isMobile } = useWindowSize();
 
   return (
     <LogoContainer>
-      <div className={classes.DefaultIntro}>
+      <div className={classes.DefaultIntro} ref={ref}>
         <div className={classes.DefaultIntroSection}>
           <h2 className={classes.DefaultIntroHeading}>Регистрация</h2>
 
@@ -36,11 +36,9 @@ const DefaultIntro: React.FC<IntroProps> = ({ onStepChange }) => {
         >
           Приступить к тесту
         </Button>
-
-        <BackgroundElements />
       </div>
     </LogoContainer>
   );
-};
+}) as Intro;
 
 export default DefaultIntro;

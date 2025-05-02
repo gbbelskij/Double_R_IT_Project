@@ -1,19 +1,19 @@
+import { forwardRef } from "react";
 import { useWindowSize } from "@hooks/useWindowSize";
 
 import Button from "@components/Button/Button";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
-import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
-import { IntroProps } from "@components/MultiStepSurvey/MultiStepSurvey.types";
+import { Intro } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
 import classes from "./ProfileSurveyIntro.module.css";
 
-const ProfileSurveyIntro: React.FC<IntroProps> = ({ onStepChange }) => {
+const ProfileSurveyIntro = forwardRef(({ onStepChange }, ref) => {
   const { isMobile } = useWindowSize();
 
   return (
     <LogoContainer>
-      <div className={classes.ProfileSurveyIntro}>
+      <div className={classes.ProfileSurveyIntro} ref={ref}>
         <div className={classes.ProfileSurveyIntroSection}>
           <h2 className={classes.ProfileSurveyIntroHeading}>
             Tест по профориентации
@@ -34,11 +34,9 @@ const ProfileSurveyIntro: React.FC<IntroProps> = ({ onStepChange }) => {
         >
           Приступить к тесту
         </Button>
-
-        <BackgroundElements />
       </div>
     </LogoContainer>
   );
-};
+}) as Intro;
 
 export default ProfileSurveyIntro;

@@ -20,7 +20,9 @@ const LogoContainer: React.FC<LogoContainerProps> = ({
           : { marginLeft: `${logoOffset}px` }),
       }
     : undefined;
+
   const { isSmallMobile } = useWindowSize();
+
   logoSize = logoSize || isSmallMobile ? 63 : 84;
 
   return (
