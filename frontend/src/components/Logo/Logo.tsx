@@ -92,7 +92,7 @@ const Logo: React.FC<LogoProps> = ({
           />
         </g>
       </svg>
-      {hasText && <p className={classes.LogoText}>RRECOMEND</p>}
+      {hasText && <p className={classes.LogoText}>RRECOMMEND</p>}
     </Link>
   );
 };
