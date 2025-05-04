@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useRouteError } from "react-router-dom";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import Main from "@components/Main/Main";
 import Logo from "@components/Logo/Logo";
+import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
 import "./ErrorPage.css";
-import useWindowWidth from "@hooks/useWindowWidth";
 
 interface RouteError {
   data: string;
@@ -24,7 +26,10 @@ interface RouteError {
 const ErrorPage: React.FC = () => {
   const error = useRouteError() as RouteError;
   const navigate = useNavigate();
-  const windowWidth = useWindowWidth();
+
+  const { isMobile, isSmallMobile } = useWindowSize();
+
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -36,8 +41,8 @@ const ErrorPage: React.FC = () => {
 
   return (
     <Main disableHeaderOffset>
-      <div className="error-container">
-        <Logo size={windowWidth <= 768 ? 50 : undefined} />
+      <div className="error-container" ref={sectionRef}>
+        <Logo size={isMobile ? 50 : undefined} />
 
         <h1 className="error-page--heading">Упс! Что-то пошло не так!</h1>
 
@@ -45,6 +50,11 @@ const ErrorPage: React.FC = () => {
           Перенаправление на главную страницу...
         </p>
       </div>
+
+      <BackgroundElements
+        targetRef={sectionRef}
+        blobsSize={isMobile ? (isSmallMobile ? 150 : 200) : 300}
+      />
     </Main>
   );
 };

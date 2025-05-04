@@ -1,8 +1,7 @@
-import classNames from "classnames";
 import { useState } from "react";
 import { InputMask } from "@react-input/mask";
-
 import { IconType } from "react-icons";
+import classNames from "classnames";
 
 import { FaCheck } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -12,6 +11,8 @@ import { MdAccessTime } from "react-icons/md";
 import { LuKeyRound } from "react-icons/lu";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import { InputTypes } from "./Input.types";
 import { InputProps } from "./Input.props";
@@ -39,13 +40,19 @@ const Input: React.FC<InputProps> = ({
   icon,
   defaultValue = "",
   getUnit,
+  register,
+  error,
+  valueAsNumber,
 }) => {
   const [value, setValue] = useState<string>(defaultValue);
-  const [width, setWidth] = useState<string>("16px");
+  const [width, setWidth] = useState<string>("18px");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const { isSmallMobile } = useWindowSize();
 
   const inputType =
     type === "password" ? (isPasswordVisible ? "text" : "password") : type;
+  const iconSize = isSmallMobile ? 20 : 28;
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
@@ -54,16 +61,36 @@ const Input: React.FC<InputProps> = ({
   };
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
+    const newValue = e.target.value.replace(/^0+(?=\d)/, "");
 
-    setValue(newValue);
+    const parsed = Number(newValue);
 
-    if (0 <= parseInt(newValue) && parseInt(newValue) <= 9) {
-      setWidth("16px");
-    } else {
-      setWidth("33px");
+    if (!isNaN(parsed)) {
+      setValue(newValue);
+
+      if (parsed >= 0 && parsed <= 9) {
+        setWidth("18px");
+      } else {
+        setWidth("33px");
+      }
     }
+
+    return newValue;
   };
+
+  const isValidNumber = !isNaN(Number(value)) && value !== "";
+
+  const registered = register
+    ? register(
+        name,
+        valueAsNumber
+          ? {
+              valueAsNumber: true,
+              setValueAs: (v) => (isNaN(v) ? 0 : Number(v)),
+            }
+          : {}
+      )
+    : undefined;
 
   const InputIcon = icon || getDefaultIcon(type);
   const PasswordVisibilityIcon = isPasswordVisible ? LuEye : LuEyeOff;
@@ -72,27 +99,36 @@ const Input: React.FC<InputProps> = ({
     <label className={classes.InputField} htmlFor={name}>
       <div className={classes.InputLabel}>{label}</div>
 
-      <div className={classes.InputWrapper}>
-        {InputIcon && <InputIcon size={28} />}
+      <div
+        className={classNames(classes.InputWrapper, {
+          [classes.InputWrapperWithError]: error,
+        })}
+      >
+        {InputIcon && <InputIcon size={iconSize} />}
 
         {type === "experience" ? (
           <InputMask
             style={{ width: width }}
             className={classNames(classes.Input, classes.MaskedInput)}
             id={name}
-            name={name}
             mask="__"
             replacement={{ _: /\d/ }}
-            onChange={handleNumberChange}
             placeholder={placeholder}
+            value={value}
+            {...registered}
+            onChange={(e) => {
+              const final = handleNumberChange(e);
+              registered?.onChange({
+                ...e,
+                target: { ...e.target, value: final },
+              });
+            }}
           />
         ) : (
           <input
             className={classes.Input}
             id={name}
-            name={name}
             type={inputType}
-            onChange={handleChange}
             placeholder={
               placeholder
                 ? placeholder
@@ -100,21 +136,28 @@ const Input: React.FC<InputProps> = ({
                   ? "example@mail.com"
                   : undefined
             }
+            {...registered}
+            onChange={(e) => {
+              handleChange(e);
+              registered?.onChange(e);
+            }}
           />
         )}
 
-        {type === "experience" && getUnit && value.trim() !== "" && (
+        {type === "experience" && getUnit && isValidNumber && (
           <span className={classes.UnitText}>{getUnit(parseInt(value))}</span>
         )}
 
         {type === "password" && (
           <PasswordVisibilityIcon
-            size={28}
+            size={iconSize}
             onClick={togglePasswordVisibility}
             className={classes.InputButton}
           />
         )}
       </div>
+
+      {error && <p className={classes.InputErrorText}>{error.message}</p>}
     </label>
   );
 };

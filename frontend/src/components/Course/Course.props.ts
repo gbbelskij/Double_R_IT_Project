@@ -1,3 +1,5 @@
+import { GetDominantColorOptions } from "@utils/getDominantColorFromImage";
+
 export interface CourseProps {
   /**
    * Title of the course
@@ -19,4 +21,8 @@ export interface CourseProps {
    * Image source URL for the course thumbnail
    */
   imageSrc: string;
+  /**
+   * @todo
+   */
+  colorOptions?: GetDominantColorOptions;
 }

@@ -3,24 +3,26 @@
   flex-direction: column;
   align-items: start;
   width: 100%;
-  overflow: hidden;
+ 
 }
 
 .SelectField {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: start;
   width: 100%;
-  gap: 10px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .SelectLabel {
   font-weight: 700;
   white-space: wrap;
+  margin-bottom: 10px;
 }
 
 .SelectWrapper {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -33,9 +35,15 @@
   padding: 0px 25px;
 }
 
+.SelectWrapperWithError {
+  border-color: var(--mandy-100);
+  background: var(--mandy-20);
+}
+
 .SelectWrapperOpen {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  border-bottom: 2px solid var(--solitude-100);
 }
 
 .SelectValue {
@@ -58,22 +66,21 @@
 }
 
 .SelectOptions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+
   display: flex;
   flex-direction: column;
   align-items: start;
   width: 100%;
+
+  background: var(--firefly-100);
   border: 2px solid var(--solitude-100);
   border-top: 0;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-}
-
-.SelectDivider {
-  width: calc(100% - 20px * 2);
-  height: 2px;
-  background: var(--solitude-100);
-  margin: 0 20px;
-  border-radius: 1px;
 }
 
 .SelectOption {
@@ -106,4 +113,45 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.SelectDivider {
+  width: calc(100% - 20px * 2);
+  height: 2px;
+  background: var(--solitude-100);
+  margin: 0 20px;
+  border-radius: 1px;
+}
+
+.SelectErrorText {
+  color: var(--mandy-100);
+  font-size: var(--font-size-xs);
+  font-weight: 300;
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 375px) {
+  .SelectWrapper {
+    height: 56px;
+    gap: 15px;
+    padding: 0px 15px;
+  }
+
+  .SelectLabel {
+    font-size: var(--font-size-sm);
+  }
+
+  .SelectValue,
+  .SelectOption {
+    font-size: var(--font-size-ms);
+  }
+
+  .SelectOptionLabel {
+    padding: 10px;
+  }
+
+  .SelectDivider {
+    width: calc(100% - 10px * 2);
+    margin: 0 10px;
+  }
 }

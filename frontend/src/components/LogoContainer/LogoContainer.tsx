@@ -1,4 +1,4 @@
-import useWindowWidth from "@hooks/useWindowWidth";
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import Logo from "@components/Logo/Logo";
 
@@ -10,12 +10,20 @@ const LogoContainer: React.FC<LogoContainerProps> = ({
   children,
   logoOffset,
   logoSize,
+  alignSelf = "center",
 }) => {
   const logoStylesOfOffset = logoOffset
-    ? { alignSelf: "start", marginLeft: `${logoOffset}px` }
+    ? {
+        alignSelf: alignSelf,
+        ...(alignSelf === "end"
+          ? { marginRight: `${logoOffset}px` }
+          : { marginLeft: `${logoOffset}px` }),
+      }
     : undefined;
-  const windowWidth = useWindowWidth();
-  logoSize = logoSize || windowWidth >= 375 ? 84 : 63;
+
+  const { isSmallMobile } = useWindowSize();
+
+  logoSize = logoSize || isSmallMobile ? 63 : 84;
 
   return (
     <div

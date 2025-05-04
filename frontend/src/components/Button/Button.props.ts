@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import { ButtonColors, ButtonSizes, ButtonTypes } from "./Button.types";
 
-export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Content inside the button (usually text)
    */

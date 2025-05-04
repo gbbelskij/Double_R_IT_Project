@@ -8,9 +8,11 @@
 
   /* Firefly */
   --firefly-100: rgba(6, 14, 25, 1);
+  --firefly-70: rgba(6, 14, 25, 0.7);
 
   /* Solitude */
   --solitude-100: rgba(223, 236, 255, 1);
+  --solitude-90: rgba(223, 236, 255, 0.9);
   --solitude-60: rgba(223, 236, 255, 0.6);
   --solitude-50: rgba(223, 236, 255, 0.5);
   --solitude-40: rgba(223, 236, 255, 0.4);

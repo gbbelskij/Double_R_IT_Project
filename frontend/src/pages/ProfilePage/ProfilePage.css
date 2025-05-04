@@ -1,0 +1,35 @@
+.profile-bg-elements {
+  opacity: 40%;
+}
+
+.profile-bg-elements > *:nth-child(2n + 1) {
+  top: -200px;
+  left: -200px;
+}
+
+.profile-bg-elements > *:nth-child(2n) {
+  bottom: -200px;
+  right: -200px;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-bg-elements {
+    filter: blur(75px);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .profile-bg-elements {
+    filter: blur(50px);
+  }
+
+  .profile-bg-elements > *:nth-child(2n + 1) {
+    top: -100px;
+    left: -100px;
+  }
+  
+  .profile-bg-elements > *:nth-child(2n) {
+    bottom: -100px;
+    right: -100px;
+  }
+}

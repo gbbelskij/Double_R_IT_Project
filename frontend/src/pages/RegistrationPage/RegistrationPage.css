@@ -1,0 +1,27 @@
+.registration-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-auto-rows: auto;
+  gap: 40px 20px;
+}
+
+.registration-form > :nth-child(n + 3) {
+  grid-column: span 2;
+}
+
+@media screen and (max-width: 768px) {
+  .registration-form > :nth-child(-n + 2) {
+    grid-column: span 2;
+  }
+
+  .registration-form {
+    gap: 30px 20px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .registration-form {
+    gap: 20px 10px;
+  }
+}

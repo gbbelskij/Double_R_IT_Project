@@ -1,0 +1,45 @@
+.BackgroundElements {
+  position: absolute;
+  pointer-events: none;
+  opacity: 60%;
+  filter: blur(100px);
+  z-index: -100;
+}
+
+.BackgroundElements > * {
+  position: absolute;
+  overflow: visible;
+}
+
+.BackgroundElements > *:nth-child(2n + 1) {
+  top: -100px;
+  left: -100px;
+}
+
+.BackgroundElements > *:nth-child(2n) {
+  bottom: -100px;
+  right: -100px;
+}
+
+@media screen and (max-width: 768px) {
+  .BackgroundElements {
+    filter: blur(75px);
+  }
+
+  .BackgroundElements > *:nth-child(2n + 1) {
+    top: -50px;
+    left: -50px;
+  }
+
+  .BackgroundElements > *:nth-child(2n) {
+    bottom: -50px;
+    right: -50px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .BackgroundElements {
+    opacity: 50%;
+    filter: blur(50px);
+  }
+}

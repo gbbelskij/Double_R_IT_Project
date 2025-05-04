@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import classNames from "classnames";
 
 import { FaCheck } from "react-icons/fa6";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import { CheckboxProps } from "./Checkbox.props";
 
@@ -10,26 +13,57 @@ const Checkbox: React.FC<CheckboxProps> = ({
   name,
   label,
   icon: Icon = FaCheck,
+  register,
+  error,
+  defaultChecked = false,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(defaultChecked);
+  const { ref, onChange, ...rest } = register ? register(name) : {};
+
+  const { isSmallMobile } = useWindowSize();
+
+  useEffect(() => {
+    setIsChecked(defaultChecked);
+  }, [defaultChecked]);
+
+  const handleChange = () => {
+    const newValue = !isChecked;
+    setIsChecked(newValue);
+
+    if (onChange) {
+      onChange({ target: { name, checked: newValue, type: "checkbox" } });
+    }
+  };
 
   return (
-    <label className={classes.Checkbox} htmlFor={name}>
-      <input
-        className={classes.CheckboxInput}
-        type="checkbox"
-        id={name}
-        name={name}
-        checked={isChecked}
-        onChange={() => setIsChecked((prev) => !prev)}
-      />
+    <div className={classes.Checkbox}>
+      <label className={classes.CheckboxWrapper} htmlFor={name}>
+        <input
+          className={classes.CheckboxInput}
+          type="checkbox"
+          id={name}
+          name={name}
+          checked={isChecked}
+          onChange={handleChange}
+          ref={ref}
+          {...rest}
+        />
 
-      <span className={classes.Checkmark}>
-        {isChecked && <Icon size={18} />}
-      </span>
+        <span
+          className={classNames(classes.Checkmark, {
+            [classes.CheckmarkWithError]: error,
+          })}
+        >
+          {isChecked && <Icon size={isSmallMobile ? 12 : 18} />}
+        </span>
 
-      {label}
-    </label>
+        {label}
+      </label>
+
+      {error && (
+        <span className={classes.CheckboxErrorText}>{error.message}</span>
+      )}
+    </div>
   );
 };
 

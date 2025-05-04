@@ -1,18 +1,19 @@
-import useWindowWidth from "@hooks/useWindowWidth";
+import { forwardRef } from "react";
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import Button from "@components/Button/Button";
 import LogoContainer from "@components/LogoContainer/LogoContainer";
 
-import { IntroProps } from "@components/MultiStepSurvey/MultiStepSurvey.types";
+import { Intro } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
 import classes from "./DefaultIntro.module.css";
 
-const DefaultIntro: React.FC<IntroProps> = ({ onStepChange }) => {
-  const windowWidth = useWindowWidth();
+const DefaultIntro = forwardRef(({ onStepChange }, ref) => {
+  const { isMobile } = useWindowSize();
 
   return (
     <LogoContainer>
-      <div className={classes.DefaultIntro}>
+      <div className={classes.DefaultIntro} ref={ref}>
         <div className={classes.DefaultIntroSection}>
           <h2 className={classes.DefaultIntroHeading}>Регистрация</h2>
 
@@ -28,7 +29,7 @@ const DefaultIntro: React.FC<IntroProps> = ({ onStepChange }) => {
         </div>
 
         <Button
-          size={windowWidth >= 768 ? "large" : "medium"}
+          size={isMobile ? "medium" : "large"}
           color="inverse"
           isFullWidth
           onClick={() => onStepChange(0)}
@@ -38,6 +39,6 @@ const DefaultIntro: React.FC<IntroProps> = ({ onStepChange }) => {
       </div>
     </LogoContainer>
   );
-};
+}) as Intro;
 
 export default DefaultIntro;

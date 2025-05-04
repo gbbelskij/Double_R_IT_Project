@@ -1,5 +1,6 @@
 import { IconType } from "react-icons";
 import { SelectOption } from "./Select.types";
+import { FieldError, UseFormRegister } from "react-hook-form";
 
 export interface SelectProps {
   /**
@@ -26,4 +27,14 @@ export interface SelectProps {
    * Placeholder text shown when select is empty
    */
   placeholder?: string;
+  /**
+   * Function to register the input field with react-hook-form.
+   * Enables form validation, value tracking, and event handling.
+   */
+  register?: UseFormRegister<any>;
+  /**
+   * Validation error associated with the input field.
+   * Used to display error messages and apply error styling.
+   */
+  error?: FieldError;
 }

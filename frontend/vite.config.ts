@@ -12,6 +12,7 @@ export default defineConfig({
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@mocks": path.resolve(__dirname, "src/mocks"),
       "@utils": path.resolve(__dirname, "src/utils"),
+      "@schemas": path.resolve(__dirname, "src/schemas"),
       "@pages": path.resolve(__dirname, "src/pages/index.ts"),
       src: path.resolve(__dirname, "src"),
       assets: path.resolve(__dirname, "src/assets"),

@@ -1,6 +1,7 @@
 .LogoContainer {
   display: flex;
   align-items: self-end;
+  z-index: 1;
 }
 
 .LogoText {

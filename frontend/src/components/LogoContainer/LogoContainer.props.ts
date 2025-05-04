@@ -1,3 +1,5 @@
+import { AlignSelf } from "./LogoContainer.types";
+
 export interface LogoContainerProps {
   /**
    * The content to be rendered inside the LogoContainer.
@@ -12,4 +14,9 @@ export interface LogoContainerProps {
    * The size of the logo in the number of px.
    */
   logoSize?: number;
+  /**
+   * Defines how the logo is aligned along the cross axis.
+   * Defaults to `center`.
+   */
+  alignSelf?: AlignSelf;
 }

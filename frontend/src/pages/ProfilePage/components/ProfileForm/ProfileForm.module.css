@@ -1,0 +1,128 @@
+.ProfileForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  padding: 60px 90px;
+  background-color: var(--anikawa-10);
+  border: 2px solid var(--solitude-100);
+  border-radius: 50px;
+  backdrop-filter: blur(50px);
+}
+
+.ProfileFormHeading {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+}
+
+.ProfileFormHeadingText {
+  font-size: var(--font-size-xxl);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.ProfileFormForm {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  gap: 40px 20px;
+  margin: 40px 0 60px;
+}
+
+.ProfileFormForm > *:nth-child(n + 3) {
+  grid-column: span 2;
+}
+
+.ProfileFormForm > *:nth-child(n + 8) {
+  grid-column: span 4;
+}
+
+.ProfileFormButtons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.ProfileFormSecondaryButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+  .ProfileFormHeadingText {
+    font-size: var(--font-size-xlg);
+  }
+
+  .ProfileFormForm > :nth-child(-n + 2) {
+    grid-column: span 2;
+  }
+
+  .ProfileFormForm > *:nth-child(n + 3) {
+    grid-column: span 4;
+  }
+
+  .ProfileForm {
+    padding: 40px 60px;
+  }
+
+  .ProfileFormSecondaryButtons {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ProfileFormHeading {
+    text-align: start;
+    gap: 5px;
+  }
+
+  .ProfileFormHeadingText {
+    font-size: var(--font-size-lg);
+    letter-spacing: 0;
+  }
+
+  .ProfileFormAdditionalText {
+    font-size: var(--font-size-sm);
+  }
+
+  .ProfileFormForm > :nth-child(-n + 2) {
+    grid-column: span 4;
+  }
+
+  .ProfileForm {
+    padding: 30px;
+    border-radius: 30px;
+    backdrop-filter: blur(30px);
+  }
+
+  .ProfileFormForm {
+    gap: 30px 20px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .ProfileFormHeadingText {
+    font-size: var(--font-size-lg);
+    letter-spacing: 0;
+  }
+
+  .ProfileFormAdditionalText {
+    font-size: var(--font-size-xs);
+  }
+
+  .ProfileForm {
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+  }
+
+  .ProfileFormForm {
+    gap: 20px 10px;
+  }
+}

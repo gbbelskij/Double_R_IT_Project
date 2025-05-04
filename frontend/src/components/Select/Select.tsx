@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+
+import { useWindowSize } from "@hooks/useWindowSize";
 
 import { SelectProps } from "./Select.props";
 import { SelectOption } from "./Select.types";
@@ -14,14 +16,22 @@ const Select: React.FC<SelectProps> = ({
   label,
   icon,
   defaultValue,
-  placeholder,
+  placeholder = "Выберите…",
+  register,
+  error,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<SelectOption | null>(
     defaultValue ? options.find((o) => o.value === defaultValue) || null : null
   );
 
+  const { isSmallMobile } = useWindowSize();
+
+  const iconSize = isSmallMobile ? 20 : 28;
+
   const selectRef = useRef<HTMLDivElement>(null);
+
+  const { ref, onChange, ...rest } = register ? register(name) : {};
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +50,10 @@ const Select: React.FC<SelectProps> = ({
   const handleSelect = (option: SelectOption) => {
     setSelected(option);
     setIsOpen(false);
+
+    if (onChange) {
+      onChange({ target: { name, value: option.value } });
+    }
   };
 
   const Icon = icon;
@@ -55,9 +69,10 @@ const Select: React.FC<SelectProps> = ({
         <div
           className={classNames(classes.SelectWrapper, {
             [classes.SelectWrapperOpen]: isOpen,
+            [classes.SelectWrapperWithError]: error,
           })}
         >
-          {Icon && <Icon size={30} />}
+          {Icon && <Icon size={iconSize} />}
 
           <div
             className={classNames(classes.SelectValue, {
@@ -69,43 +84,56 @@ const Select: React.FC<SelectProps> = ({
             </span>
           </div>
 
-          {isOpen ? <FaCaretUp size={30} /> : <FaCaretDown size={30} />}
+          {isOpen ? (
+            <FaCaretUp size={iconSize} />
+          ) : (
+            <FaCaretDown size={iconSize} />
+          )}
         </div>
+
+        {isOpen && (
+          <ul className={classes.SelectOptions}>
+            {options.map((option, index) => (
+              <React.Fragment key={option.value}>
+                <li
+                  className={classNames(classes.SelectOption, {
+                    [classes.SelectOptionSelected]:
+                      selected?.value === option.value,
+                  })}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelect(option);
+                  }}
+                  title={option.label}
+                >
+                  <span
+                    className={classNames(
+                      classes.SelectOptionLabel,
+                      classes.TruncatedText
+                    )}
+                  >
+                    {option.label}
+                  </span>
+                </li>
+
+                {index !== options.length - 1 && (
+                  <div className={classes.SelectDivider} />
+                )}
+              </React.Fragment>
+            ))}
+          </ul>
+        )}
       </label>
 
-      {isOpen && (
-        <ul className={classes.SelectOptions}>
-          {options.map((option, index) => (
-            <>
-              <li
-                key={option.value}
-                className={classNames(classes.SelectOption, {
-                  [classes.SelectOptionSelected]:
-                    selected?.value === option.value,
-                })}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSelect(option);
-                }}
-                title={option.label}
-              >
-                <span
-                  className={classNames(
-                    classes.SelectOptionLabel,
-                    classes.TruncatedText
-                  )}
-                >
-                  {option.label}
-                </span>
-              </li>
+      <input
+        type="hidden"
+        name={name}
+        value={selected?.value || ""}
+        ref={ref}
+        {...rest}
+      />
 
-              {index !== options.length - 1 && (
-                <div className={classes.SelectDivider} />
-              )}
-            </>
-          ))}
-        </ul>
-      )}
+      {error && <p className={classes.SelectErrorText}>{error.message}</p>}
     </div>
   );
 };
