@@ -61,7 +61,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
+    const newValue = e.target.value.replace(/^0+(?=\d)/, "");
 
     const parsed = Number(newValue);
 
@@ -74,6 +74,8 @@ const Input: React.FC<InputProps> = ({
         setWidth("33px");
       }
     }
+
+    return newValue;
   };
 
   const isValidNumber = !isNaN(Number(value)) && value !== "";
@@ -111,12 +113,16 @@ const Input: React.FC<InputProps> = ({
             id={name}
             mask="__"
             replacement={{ _: /\d/ }}
+            placeholder={placeholder}
+            value={value}
             {...registered}
             onChange={(e) => {
-              handleNumberChange(e);
-              registered?.onChange(e);
+              const final = handleNumberChange(e);
+              registered?.onChange({
+                ...e,
+                target: { ...e.target, value: final },
+              });
             }}
-            placeholder={placeholder}
           />
         ) : (
           <input
