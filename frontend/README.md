@@ -1,5 +1,7 @@
 # RRecommend React App 🎓
 
+![promo](../img/rrecommend_promo.png)
+
 ## О проекте 📌
 
 **RRecommend** — это веб-приложение, разработанное с использованием современных технологий для удобного взаимодействия с пользователем. Основной стек включает React, TypeScript и Vite для быстрой и эффективной разработки.
@@ -88,8 +90,9 @@ yarn format
 
 ## Полезные ссылки ✨
 
-- [Документация по структуре проекта и основным компонентам](./https://docs.google.com/document/d/12MwzkmB4HrFBlM5pr4qVzB-1YQn_VAzYhoXtZMz411A/edit?usp=sharing)
+- [Макет 🎨](https://www.figma.com/design/Wg6kehLIu7LCoPAbYuHU6O/RRecomend-Landing-by-Winterful?node-id=0-1&t=NHVlxQKY61feOMrd-1)
+- [Документация по структуре проекта и основным компонентам 📋](https://docs.google.com/document/d/12MwzkmB4HrFBlM5pr4qVzB-1YQn_VAzYhoXtZMz411A/edit?usp=sharing)
 
 ## Контакты 📬
 
-Если у вас есть вопросы или предложения, создайте [Issue](https://github.com/gbbelskij/Double_R_IT_Project/issues) в репозитории или свяжитесь с [frontend-архитектором](https://github.com/Winterfulllll).
+Если у вас есть вопросы или предложения, создайте [Issue](https://github.com/gbbelskij/Double_R_IT_Project/issues) в репозитории или свяжитесь с [Frontend-архитектором](https://github.com/Winterfulllll).
