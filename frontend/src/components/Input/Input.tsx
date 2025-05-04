@@ -45,7 +45,7 @@ const Input: React.FC<InputProps> = ({
   valueAsNumber,
 }) => {
   const [value, setValue] = useState<string>(defaultValue);
-  const [width, setWidth] = useState<string>("16px");
+  const [width, setWidth] = useState<string>("18px");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const { isSmallMobile } = useWindowSize();
@@ -69,7 +69,7 @@ const Input: React.FC<InputProps> = ({
       setValue(newValue);
 
       if (parsed >= 0 && parsed <= 9) {
-        setWidth("16px");
+        setWidth("18px");
       } else {
         setWidth("33px");
       }
@@ -79,7 +79,15 @@ const Input: React.FC<InputProps> = ({
   const isValidNumber = !isNaN(Number(value)) && value !== "";
 
   const registered = register
-    ? register(name, valueAsNumber ? { valueAsNumber: true } : {})
+    ? register(
+        name,
+        valueAsNumber
+          ? {
+              valueAsNumber: true,
+              setValueAs: (v) => (isNaN(v) ? 0 : Number(v)),
+            }
+          : {}
+      )
     : undefined;
 
   const InputIcon = icon || getDefaultIcon(type);

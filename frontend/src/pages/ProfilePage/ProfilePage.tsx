@@ -44,10 +44,14 @@ const ProfilePage: React.FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid, isSubmitted },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     mode: "onSubmit",
+    defaultValues: {
+      experience: 0,
+    },
   });
 
   const isButtonDisabled =
@@ -98,6 +102,7 @@ const ProfilePage: React.FC = () => {
 
   const handleSurveyExit = () => {
     setShowSurvey(false);
+    reset();
   };
 
   return (
@@ -165,6 +170,7 @@ const ProfilePage: React.FC = () => {
               type="experience"
               name="experience"
               label="Опыт"
+              defaultValue="0"
               getUnit={declineYear}
               register={register}
               error={errors.experience}
@@ -176,7 +182,6 @@ const ProfilePage: React.FC = () => {
               label="Старый пароль"
               register={register}
               error={errors.oldPassword}
-              valueAsNumber
             />
             <SmartPasswordInput
               label="Новый пароль"

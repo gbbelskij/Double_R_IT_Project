@@ -44,6 +44,9 @@ const RegistrationPage: React.FC = () => {
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
     mode: "onSubmit",
+    defaultValues: {
+      experience: 0,
+    },
   });
 
   const finishFirstStep = (data: RegistrationFormData) => {
@@ -130,6 +133,7 @@ const RegistrationPage: React.FC = () => {
             type="experience"
             name="experience"
             label="Опыт"
+            defaultValue="0"
             getUnit={declineYear}
             register={register}
             error={errors.experience}

@@ -16,7 +16,7 @@ const Select: React.FC<SelectProps> = ({
   label,
   icon,
   defaultValue,
-  placeholder,
+  placeholder = "Выберите…",
   register,
   error,
 }) => {
@@ -90,40 +90,40 @@ const Select: React.FC<SelectProps> = ({
             <FaCaretDown size={iconSize} />
           )}
         </div>
-      </label>
 
-      {isOpen && (
-        <ul className={classes.SelectOptions}>
-          {options.map((option, index) => (
-            <React.Fragment key={option.value}>
-              <li
-                className={classNames(classes.SelectOption, {
-                  [classes.SelectOptionSelected]:
-                    selected?.value === option.value,
-                })}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSelect(option);
-                }}
-                title={option.label}
-              >
-                <span
-                  className={classNames(
-                    classes.SelectOptionLabel,
-                    classes.TruncatedText
-                  )}
+        {isOpen && (
+          <ul className={classes.SelectOptions}>
+            {options.map((option, index) => (
+              <React.Fragment key={option.value}>
+                <li
+                  className={classNames(classes.SelectOption, {
+                    [classes.SelectOptionSelected]:
+                      selected?.value === option.value,
+                  })}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelect(option);
+                  }}
+                  title={option.label}
                 >
-                  {option.label}
-                </span>
-              </li>
+                  <span
+                    className={classNames(
+                      classes.SelectOptionLabel,
+                      classes.TruncatedText
+                    )}
+                  >
+                    {option.label}
+                  </span>
+                </li>
 
-              {index !== options.length - 1 && (
-                <div className={classes.SelectDivider} />
-              )}
-            </React.Fragment>
-          ))}
-        </ul>
-      )}
+                {index !== options.length - 1 && (
+                  <div className={classes.SelectDivider} />
+                )}
+              </React.Fragment>
+            ))}
+          </ul>
+        )}
+      </label>
 
       <input
         type="hidden"
@@ -133,9 +133,7 @@ const Select: React.FC<SelectProps> = ({
         {...rest}
       />
 
-      {error && !isOpen && (
-        <p className={classes.SelectErrorText}>{error.message}</p>
-      )}
+      {error && <p className={classes.SelectErrorText}>{error.message}</p>}
     </div>
   );
 };
