@@ -1,0 +1,109 @@
+.CourseSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  padding: 60px;
+  border-radius: 60px;
+  gap: 40px;
+  background-color: var(--anikawa-5);
+  border: 2px solid var(--solitude-100);
+  backdrop-filter: blur(50px);
+}
+
+.CourseSectionTitle {
+  align-self: flex-start;
+  font-weight: 400;
+  font-size: var(--font-size-xxl);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.CourseSectionCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  width: 100%;
+}
+
+@media screen and (min-width: 1001px) and (max-width: 1440px) {
+  .CourseSection {
+    border-radius: 50px;
+  }
+
+  .CourseSectionCards {
+    grid-template-columns: repeat(2, 1fr);
+
+    & > * {
+      max-width: none;
+    }
+
+    & > *:nth-child(3n) {
+      grid-column: 1 / -1;
+      min-height: 350px;
+      width: 100%;
+      aspect-ratio: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .CourseSection {
+    padding: 40px;
+  }
+
+  .CourseSectionCards {
+    grid-template-columns: repeat(1, 1fr);
+
+    & > * {
+      min-height: 350px;
+      aspect-ratio: auto;
+      max-width: none;
+    }
+  }
+
+  .CourseSectionTitle {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .CourseSection {
+    padding: 30px;
+    gap: 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(30px);
+  }
+
+  .CourseSectionCards > * {
+    aspect-ratio: auto;
+    max-height: none;
+    min-height: 350px;
+    min-width: 0;
+  }
+
+  .CourseSectionTitle {
+    font-size: var(--font-size-lg);
+    letter-spacing: 1px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .CourseSection {
+    padding: 30px 20px;
+    gap: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+  }
+
+  .CourseSectionTitle {
+    font-size: var(--font-size-md);
+    letter-spacing: 0;
+  }
+
+  .CourseSectionCards > * {
+    min-height: 0;
+  }
+}

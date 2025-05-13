@@ -1,0 +1,29 @@
+.ProgressNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.ProgressNavItem {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--solitude-100);
+  background-color: var(--solitude-10);
+  opacity: 50%;
+  transition: all 0.3s ease;
+}
+
+.ProgressNavItem:hover {
+  opacity: 100%;
+}
+
+.ProgressNavItemActive {
+  background-color: var(--solitude-100);
+}
+
+.ProgressNavItemCurrent {
+  opacity: 100%;
+}

@@ -1,0 +1,57 @@
+.Checkbox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.CheckboxWrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  cursor: pointer;
+}
+
+.CheckboxInput {
+  position: absolute;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.Checkmark {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+
+  border: 2px solid var(--solitude-100);
+  border-radius: 10px;
+}
+
+.CheckmarkWithError {
+  border-color: var(--mandy-100);
+}
+
+.CheckboxErrorText {
+  color: var(--mandy-100);
+  font-size: var(--font-size-xs);
+  font-weight: 300;
+}
+
+@media screen and (max-width: 375px) {
+  .CheckboxWrapper {
+    gap: 10px;
+    font-size: var(--font-size-sm);
+  }
+
+  .Checkmark {
+    width: 20px;
+    height: 20px;
+    border-radius: 7px;
+  }
+}

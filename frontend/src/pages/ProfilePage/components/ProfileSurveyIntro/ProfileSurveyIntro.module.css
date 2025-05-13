@@ -1,0 +1,63 @@
+.ProfileSurveyIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 600px;
+  padding: 100px 60px;
+  background-color: var(--anikawa-10);
+  border: 2px solid var(--solitude-100);
+  backdrop-filter: blur(50px);
+  border-radius: 50px;
+}
+
+.ProfileSurveyIntroSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ProfileSurveyIntroHeading {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  text-align: center;
+}
+
+.ProfileSurveyIntroText {
+  font-size: var(--font-size-md);
+}
+
+@media screen and (max-width: 1440px) {
+  .ProfileSurveyIntro {
+    padding: 80px 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ProfileSurveyIntro {
+    padding: 40px;
+  }
+
+  .ProfileSurveyIntroHeading {
+    font-size: var(--font-size-xlg);
+  }
+
+  .ProfileSurveyIntroText {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .ProfileSurveyIntro {
+    padding: 30px 20px;
+    border-radius: 40px;
+  }
+
+  .ProfileSurveyIntroHeading {
+    font-size: var(--font-size-lg);
+  }
+
+  .ProfileSurveyIntroText {
+    font-size: var(--font-size-xs);
+  }
+}

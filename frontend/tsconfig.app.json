@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -13,8 +14,13 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@mocks/*": ["src/mocks/*"],
+      "@utils/*": ["src/utils/*"],
+      "@schemas/*": ["src/schemas/*"],
       "@pages": ["src/pages/index.ts"],
-      "src/*": ["src/*"]
+      "src/*": ["src/*"],
+      "assets/*": ["src/assets/*"],
+      "types/*": ["src/types/*"]
     },
 
     /* Bundler mode */
@@ -30,7 +36,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "noImplicitAny": false
   },
   "include": ["src"]
 }

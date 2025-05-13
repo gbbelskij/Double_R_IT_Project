@@ -1,0 +1,117 @@
+.Course {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1 / 1;
+  max-width: 440px;
+  min-width: 350px;
+  padding: 40px;
+  border: 2px solid var(--solitude-50);
+  border-radius: 30px;
+  overflow: hidden;
+  transition:
+    border 0.3s ease-out,
+    transform 0.3s ease-out;
+  text-decoration: none;
+}
+
+.CourseOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--black-70);
+  z-index: 1;
+  border-radius: 30px;
+  transition: background-color 0.5s;
+  pointer-events: none;
+}
+
+.CourseInfoSection {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  opacity: 70%;
+  transition: opacity 0.3s ease-out;
+}
+
+.CourseDuration,
+.CourseDescription {
+  font-size: var(--font-size-sm);
+}
+
+.CourseTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin: 10px 0 20px;
+}
+
+.CourseBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);
+  transition: filter 0.3s ease-out;
+  z-index: 0;
+}
+
+.CourseBackgroundElements {
+  transition: opacity 0.3s ease-out;
+}
+
+.Course:hover {
+  border: 2px solid var(--solitude-100);
+  transform: translateY(-5px);
+
+  & > .CourseInfoSection {
+    opacity: 100%;
+  }
+}
+
+.Course:hover .CourseBackground {
+  filter: blur(0);
+}
+
+.Course:hover .CourseOverlay {
+  background-color: var(--black-40);
+}
+
+.CourseBackgroundElements > * {
+  top: 50% !important;
+  left: 50% !important;
+  bottom: auto !important;
+  right: auto !important;
+  transform: translate(-50%, -50%);
+}
+
+.HoveredCourseBackgroundElements {
+  opacity: 100%;
+}
+
+@media screen and (max-width: 375px) {
+  .Course {
+    padding: 30px 20px;
+  }
+
+  .CourseDuration,
+  .CourseDescription {
+    font-size: var(--font-size-xs);
+  }
+
+  .CourseTitle {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    margin: 10px 0 10px;
+  }
+
+  .CourseBackground {
+    filter: none;
+  }
+}

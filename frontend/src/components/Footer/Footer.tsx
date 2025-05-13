@@ -1,12 +1,15 @@
 import { Link } from "react-router";
+
 import { AiFillGithub } from "react-icons/ai";
-import useWindowWidth from "@hooks/useWindowWidth";
+
+import { useWindowSize } from "@hooks/useWindowSize";
+
 import Logo from "@components/Logo/Logo";
 
 import classes from "./Footer.module.css";
 
 const Footer: React.FC = () => {
-  const windowWidth = useWindowWidth();
+  const { isMobile } = useWindowSize();
 
   return (
     <footer className={classes.Footer}>
@@ -31,7 +34,7 @@ const Footer: React.FC = () => {
         target="_blank"
         className={classes.FooterColumn}
       >
-        <AiFillGithub size={windowWidth >= 768 ? "49px" : "35px"} />
+        <AiFillGithub size={isMobile ? "49px" : "35px"} />
       </Link>
 
       <div className={classes.FooterColumn}>

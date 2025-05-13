@@ -1,0 +1,63 @@
+.ProfileSurveyOutro {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 600px;
+  padding: 100px 50px;
+  background-color: var(--anikawa-10);
+  border: 2px solid var(--solitude-100);
+  backdrop-filter: blur(50px);
+  border-radius: 50px;
+}
+
+.ProfileSurveyOutroSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+}
+
+.ProfileSurveyOutroHeading {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+}
+
+.ProfileSurveyOutroText {
+  font-size: var(--font-size-md);
+}
+
+@media screen and (max-width: 1440px) {
+  .ProfileSurveyOutro {
+    padding: 80px 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ProfileSurveyOutro {
+    padding: 40px;
+  }
+
+  .ProfileSurveyOutroHeading {
+    font-size: var(--font-size-xlg);
+  }
+
+  .ProfileSurveyOutroText {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .ProfileSurveyOutro {
+    padding: 30px 20px;
+    border-radius: 40px;
+  }
+
+  .ProfileSurveyOutroHeading {
+    font-size: var(--font-size-lg);
+  }
+
+  .ProfileSurveyOutroText {
+    font-size: var(--font-size-xs);
+  }
+}
