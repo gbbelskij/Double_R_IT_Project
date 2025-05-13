@@ -1,4 +1,4 @@
-from data_loading import load_data, prepare_features
+from data_loading import load_data, load_train_data, prepare_features
 from knn_rec import KNNRecommender
 from two_tower_model import TwoTowerModel, train_model
 from matrix_factorization import MatrixFactorization, train_matrix_factorization
@@ -8,8 +8,13 @@ from torch.utils.data import DataLoader, TensorDataset
 
 class RecommendationSystem:
     def __init__(self, n_recommendations=5, similarity_threshold=0.3, mf_weight=0.6):
+        # Загружаем реальные данные для рекомендаций
         self.users, self.courses, self.interactions = load_data()
         self.user_features, self.course_features = prepare_features(self.users, self.courses)
+        
+        # Загружаем тренировочные данные для обучения модели
+        self.train_users, self.train_courses, self.train_interactions = load_train_data()
+        self.train_user_features, self.train_course_features = prepare_features(self.train_users, self.train_courses)
         
         # Подготовка маппинга id -> индекс для матричной факторизации
         self.user_id_to_idx = {id: idx for idx, id in enumerate(self.users['user_id'].unique())}
@@ -19,14 +24,15 @@ class RecommendationSystem:
                                 self.users,
                                 similarity_threshold=similarity_threshold)
         
-        # Initialize the Two Tower model instead of RecSysModel
+        # Initialize the Two Tower model
         self.model = TwoTowerModel(
-            user_dim=self.user_features.shape[1],
-            course_dim=self.course_features.shape[1],
+            user_dim=self.train_user_features.shape[1],
+            course_dim=self.train_course_features.shape[1],
             embedding_dim=64,
             tower_hidden_dims=[128, 64]
         )
         
+        # Подготавливаем данные для обучения из тестовых данных
         self._prepare_training_data()
         self.model = train_model(
             self.model, 
@@ -36,7 +42,7 @@ class RecommendationSystem:
             weight_decay=1e-5
         )
         
-        # Матричная факторизация
+        # Матричная факторизация на реальных данных
         n_users = len(self.users['user_id'].unique())
         n_courses = len(self.courses['course_id'].unique())
         self.mf_model = train_matrix_factorization(
@@ -50,12 +56,13 @@ class RecommendationSystem:
         self.all_course_ids = self.courses['course_id'].unique()
     
     def _prepare_training_data(self):
-        user_ids = self.interactions["user_id"].values
-        course_ids = self.interactions["course_id"].values
-        labels = self.interactions["liked"].values
+        # Используем тестовые данные для обучения
+        user_ids = self.train_interactions["user_id"].values
+        course_ids = self.train_interactions["course_id"].values
+        labels = self.train_interactions["liked"].values
         
-        X_users = torch.tensor(self.user_features[user_ids], dtype=torch.float32)
-        X_courses = torch.tensor(self.course_features[course_ids], dtype=torch.float32)
+        X_users = torch.tensor(self.train_user_features[user_ids], dtype=torch.float32)
+        X_courses = torch.tensor(self.train_course_features[course_ids], dtype=torch.float32)
         y = torch.tensor(labels, dtype=torch.float32).view(-1, 1)
         
         dataset = TensorDataset(X_users, X_courses, y)
@@ -167,10 +174,31 @@ class RecommendationSystem:
     
     def _get_two_tower_candidates(self, user_id, count, exclude=[]):
         """Получить рекомендации от Two Tower модели"""
+        # Адаптируем векторы пользователей к формату обученной модели
         user_vec = torch.tensor(self.user_features[user_id], 
                               dtype=torch.float32).unsqueeze(0)
+        
+        # Если размерности векторов не совпадают, нужно их адаптировать
+        if user_vec.shape[1] != self.model.user_tower[0].in_features:
+            print(f"Предупреждение: Размерности не совпадают. Используем заполнитель фичей.")
+            # Создаем заполнитель нужной размерности
+            user_vec = torch.zeros(1, self.model.user_tower[0].in_features, dtype=torch.float32)
+            # Копируем доступные фичи
+            min_dim = min(self.user_features[user_id].shape[0], self.model.user_tower[0].in_features)
+            user_vec[0, :min_dim] = torch.tensor(self.user_features[user_id][:min_dim], dtype=torch.float32)
+        
         self.model.eval()
-        predictions = self.model.predict_all_courses(user_vec, self.course_features)
+        
+        # Адаптируем размерности векторов курсов если нужно
+        course_features = self.course_features
+        if course_features.shape[1] != self.model.course_tower[0].in_features:
+            print(f"Предупреждение: Размерности векторов курсов не совпадают. Адаптируем.")
+            adapted_course_features = np.zeros((len(course_features), self.model.course_tower[0].in_features))
+            min_dim = min(course_features.shape[1], self.model.course_tower[0].in_features)
+            adapted_course_features[:, :min_dim] = course_features[:, :min_dim]
+            course_features = adapted_course_features
+        
+        predictions = self.model.predict_all_courses(user_vec, course_features)
         
         # Фильтруем исключенные курсы
         valid_indices = [i for i, cid in enumerate(self.all_course_ids) 
@@ -189,6 +217,13 @@ class RecommendationSystem:
         """Ранжирует кандидатов, комбинируя оценки Two Tower модели и матричной факторизации"""
         user_vec = torch.tensor(self.user_features[user_id], 
                             dtype=torch.float32).unsqueeze(0)
+        
+        # Адаптируем размерность вектора пользователя если нужно
+        if user_vec.shape[1] != self.model.user_tower[0].in_features:
+            user_vec = torch.zeros(1, self.model.user_tower[0].in_features, dtype=torch.float32)
+            min_dim = min(self.user_features[user_id].shape[0], self.model.user_tower[0].in_features)
+            user_vec[0, :min_dim] = torch.tensor(self.user_features[user_id][:min_dim], dtype=torch.float32)
+        
         self.model.eval()
         user_idx = self.user_id_to_idx[user_id]
         
@@ -198,6 +233,14 @@ class RecommendationSystem:
             course_idx = np.where(self.all_course_ids == course_id)[0][0]
             course_vec = torch.tensor(self.course_features[course_idx], 
                                     dtype=torch.float32).unsqueeze(0)
+            
+            # Адаптируем размерность вектора курса если нужно
+            if course_vec.shape[1] != self.model.course_tower[0].in_features:
+                adapted_course_vec = torch.zeros(1, self.model.course_tower[0].in_features, dtype=torch.float32)
+                min_dim = min(course_vec.shape[1], self.model.course_tower[0].in_features)
+                adapted_course_vec[0, :min_dim] = course_vec[0, :min_dim]
+                course_vec = adapted_course_vec
+            
             tt_score = self.model(user_vec, course_vec).item()
             
             # Оценка от матричной факторизации
@@ -216,7 +259,7 @@ class RecommendationSystem:
 def main():
     # Новый параметр mf_weight
     system = RecommendationSystem(n_recommendations=5, similarity_threshold=0.4, mf_weight=0.3)
-    user_id = 56
+    user_id = 10
 
     system.recommend(user_id)
 
