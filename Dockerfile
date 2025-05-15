@@ -16,6 +16,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Копируем исходный код приложения
 COPY . .
+COPY migrations/ ./migrations/
 
 # Копируем и даем права на выполнение скрипта
 COPY entrypoint.sh /entrypoint.sh
