@@ -19,6 +19,10 @@ interface IntroProps {
    * @param stepIndex - The numeric index of the step to navigate to.
    */
   onStepChange: (stepIndex: number) => void;
+  /**
+   * @todo
+   */
+  onLogoClick?: () => void;
 }
 
 /**
@@ -43,6 +47,10 @@ interface OutroProps {
    * from the survey upon completion.
    */
   onExit: Function;
+  /**
+   * @todo
+   */
+  onLogoClick?: () => void;
 }
 
 /**

@@ -13,10 +13,12 @@ import Input from "@components/Input/Input";
 import Checkbox from "@components/Checkbox/Checkbox";
 import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
 
-import "./LoginPage.css";
+import { DAY, MONTH } from "@data/constants";
+import { useNavigate } from "react-router";
 
 const LoginPage: React.FC = () => {
   const sectionRef = useRef(null);
+  const navigate = useNavigate();
 
   const { isMobile, isSmallMobile } = useWindowSize();
 
@@ -24,18 +26,56 @@ const LoginPage: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitted },
+    setError,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: "onSubmit",
   });
 
   const handleLogin = async (data: LoginFormData) => {
-    try {
-      await axios.post("/api/login", data);
+    const { remember, ...formDataToSend } = data;
 
-      console.log("Login successful");
+    try {
+      const response = await axios.post("/api/login", formDataToSend);
+
+      const jwtToken = response.data.token;
+      const maxAge = remember ? MONTH : DAY;
+
+      document.cookie = `token=${jwtToken}; max-age=${maxAge}; path=/; secure; samesite=strict`;
+
+      navigate("/");
     } catch (error) {
-      console.error("Login failed:", error);
+      let errorMessage = "Что-то пошло не так. Попробуйте позже.";
+
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+
+        if (errorMessage === "Invalid password") {
+          setError("password", {
+            type: "manual",
+            message: "Неверный пароль",
+          });
+
+          return;
+        }
+
+        if (errorMessage === "User not found") {
+          setError("email", {
+            type: "manual",
+            message: "Пользователь не найден",
+          });
+
+          return;
+        }
+      }
+
+      navigate("/error", {
+        state: {
+          errorHeading: "Ошибка входа",
+          errorText: errorMessage,
+          timeout: 0,
+        },
+      });
     }
   };
 

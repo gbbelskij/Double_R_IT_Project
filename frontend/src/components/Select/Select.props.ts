@@ -37,4 +37,8 @@ export interface SelectProps {
    * Used to display error messages and apply error styling.
    */
   error?: FieldError;
+  /**
+   * @todo
+   */
+  watch?: (name: string) => string;
 }

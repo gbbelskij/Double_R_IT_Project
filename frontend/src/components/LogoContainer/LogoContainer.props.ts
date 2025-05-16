@@ -15,6 +15,10 @@ export interface LogoContainerProps {
    */
   logoSize?: number;
   /**
+   * @todo
+   */
+  onLogoClick?: () => void;
+  /**
    * Defines how the logo is aligned along the cross axis.
    * Defaults to `center`.
    */

@@ -2,12 +2,12 @@ import { z } from "zod";
 
 export const registrationSchema = z
   .object({
-    name: z.string().min(2, "Имя должно быть не короче 2 символов"),
-    surname: z.string().min(2, "Фамилия должна быть не короче 2 символов"),
-    birthday: z.string().min(1, "Дата рождения обязательна"),
+    first_name: z.string().min(2, "Имя должно быть не короче 2 символов"),
+    last_name: z.string().min(2, "Фамилия должна быть не короче 2 символов"),
+    date_of_birth: z.string().min(1, "Дата рождения обязательна"),
     email: z.string().email("Введите корректную почту"),
-    post: z.string().min(1, "Выберите должность"),
-    experience: z
+    job_position: z.string().min(1, "Выберите должность"),
+    work_experience: z
       .number({
         required_error: "Укажите опыт",
         invalid_type_error: "Опыт должен быть числом",

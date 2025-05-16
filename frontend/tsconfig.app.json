@@ -17,6 +17,7 @@
       "@mocks/*": ["src/mocks/*"],
       "@utils/*": ["src/utils/*"],
       "@schemas/*": ["src/schemas/*"],
+      "@data/*": ["src/data/*"],
       "@pages": ["src/pages/index.ts"],
       "src/*": ["src/*"],
       "assets/*": ["src/assets/*"],

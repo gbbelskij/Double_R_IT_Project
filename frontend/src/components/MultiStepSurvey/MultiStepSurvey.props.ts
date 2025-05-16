@@ -31,4 +31,12 @@ export interface MultiStepSurveyProps {
    * @todo
    */
   onExit?: Function;
+  /**
+   * @todo
+   */
+  loading?: boolean;
+  /**
+   * @todo
+   */
+  onLogoClick?: () => void;
 }

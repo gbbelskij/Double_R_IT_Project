@@ -19,6 +19,7 @@ const Select: React.FC<SelectProps> = ({
   placeholder = "Выберите…",
   register,
   error,
+  watch,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<SelectOption | null>(
@@ -46,6 +47,14 @@ const Select: React.FC<SelectProps> = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (watch) {
+      const watchedValue = watch(name);
+      const matched = options.find((o) => o.value === watchedValue);
+      setSelected(matched || null);
+    }
+  }, [watch?.(name), watch, name, options]);
 
   const handleSelect = (option: SelectOption) => {
     setSelected(option);

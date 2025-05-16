@@ -6,11 +6,11 @@ from backend.app.jwt_defence import token_required
 mainpage_ns = Namespace('mainpage', description='Courses information')
 
 
-@mainpage_ns.route('/')
+@mainpage_ns.route('/recommended_cources')
 class RecommendedCourses(Resource):
     @mainpage_ns.response(404, 'No such user')
     @token_required
-    def get(self, user_id):
+    def get(self, user_id, decoded_token, jti):
         user = User.query.filter_by(user_id=user_id).first()
         if user is None:
             return {'message': 'No such user'}, 404
@@ -20,11 +20,11 @@ class RecommendedCourses(Resource):
         return {'message': 'courses'}
 
 
-@mainpage_ns.route('/all')
+@mainpage_ns.route('/all_cources')
 class PersonalAccount(Resource):
     @mainpage_ns.response(200, 'Courses data got correctly')
     @token_required
-    def get(self, user_id):
+    def get(self, user_id, decoded_token, jti):
         courses = Course.query.all()
 
         courses_list = [{'course_id' : str(course.course_id),
@@ -45,7 +45,7 @@ class PersonalAccount(Resource):
     @mainpage_ns.response(200, 'Course data got correctly')
     @mainpage_ns.response(404, 'Course not found')
     @token_required
-    def get(self, user_id, course_id):
+    def get(self, user_id, decoded_token, jti, course_id):
         course = Course.query.filter_by(course_id=course_id).first()
 
         if course is None:

@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -6,12 +7,9 @@ import {
   RegistrationFormData,
 } from "@schemas/registrationSchema";
 import axios from "axios";
+import { ScaleLoader } from "react-spinners";
 
 import { MdOutlineWorkOutline } from "react-icons/md";
-
-import { declineYear } from "@utils/decline";
-
-import { useWindowSize } from "@hooks/useWindowSize";
 
 import Main from "@components/Main/Main";
 import Form from "@components/Form/Form";
@@ -23,29 +21,62 @@ import BackgroundElements from "@components/BackgroundElements/BackgroundElement
 
 import { SurveyData } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
-import { questions } from "@mocks/questions";
-import { options } from "@mocks/options";
+import { Question } from "types/question";
+
+import { declineYear } from "@utils/decline";
+import { handleErrorNavigation } from "@utils/handleErrorNavigation";
+
+import { useWindowSize } from "@hooks/useWindowSize";
+
+import { jobPositionOptions } from "@data/jobPositionOptions";
 
 import "./RegistrationPage.css";
 
 const RegistrationPage: React.FC = () => {
   const [regStep, setRegStep] = useState(1);
+  const [questions, setQuestions] = useState<Record<string, Question>>({});
+  const [questionsLoading, setQuestionsLoading] = useState(false);
+  const [registrationLoading, setRegistrationLoading] = useState(false);
   const [regFirstStepInfo, setRegFirstStepInfo] =
     useState<RegistrationFormData | null>(null);
+
+  const navigate = useNavigate();
 
   const { isMobile, isSmallMobile } = useWindowSize();
 
   const sectionRef = useRef(null);
 
+  useEffect(() => {
+    if (Object.keys(questions).length > 0) {
+      return;
+    }
+
+    const fetchQuestions = async () => {
+      setQuestionsLoading(true);
+
+      try {
+        const response = await axios.get("api/register/questions");
+
+        setQuestions(response.data.questions);
+      } catch (error) {
+        handleErrorNavigation(error, navigate, "Ошибка загрузки опроса");
+      } finally {
+        setQuestionsLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, [regStep, navigate, questions]);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitted },
+    formState: { errors, isSubmitted, isValid },
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
     mode: "onSubmit",
     defaultValues: {
-      experience: 0,
+      work_experience: 0,
     },
   });
 
@@ -54,23 +85,40 @@ const RegistrationPage: React.FC = () => {
     setRegStep(2);
   };
 
-  const isButtonDisabled =
-    isSubmitted && (!isValid || Object.keys(errors).length > 0);
-
   const submitFullRegistration = async (
     answers: SurveyData,
     userMeta: RegistrationFormData
   ) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { repeatPassword, ...formDataToSend } = userMeta;
+
+    const data = {
+      preferences: answers,
+      ...formDataToSend,
+    };
+
+    setRegistrationLoading(true);
+
     try {
-      await axios.post("/api/registration", {
-        answers: answers,
-        userMeta: userMeta,
-      });
-      console.log("Registration successful");
+      await axios.post("api/register", data);
     } catch (error) {
-      console.error("Registration failed:", error);
+      handleErrorNavigation(
+        error,
+        navigate,
+        "Ошибка регистрации",
+        "Что-то пошло не так. Попробуйте позже."
+      );
+    } finally {
+      setRegistrationLoading(false);
     }
   };
+
+  const handleSurveyExit = () => {
+    setRegStep(1);
+  };
+
+  const isButtonDisabled =
+    isSubmitted && (!isValid || Object.keys(errors).length > 0);
 
   return (
     <Main disableHeaderOffset>
@@ -85,33 +133,33 @@ const RegistrationPage: React.FC = () => {
           helperLink="/login"
           helperLinkText="Войти"
           handleAction={handleSubmit(finishFirstStep)}
+          isButtonDisabled={isButtonDisabled}
           logoOffset={isSmallMobile ? 30 : isMobile ? 40 : 50}
           logoAlign="end"
-          isButtonDisabled={isButtonDisabled}
           ref={sectionRef}
         >
           <Input
             type="text"
-            name="name"
+            name="first_name"
             label="Имя"
             placeholder="Имя"
             register={register}
-            error={errors.name}
+            error={errors.first_name}
           />
           <Input
             type="text"
-            name="surname"
+            name="last_name"
             label="Фамилия"
             placeholder="Фамилия"
             register={register}
-            error={errors.surname}
+            error={errors.last_name}
           />
           <Input
             type="date"
-            name="birthday"
+            name="date_of_birth"
             label="Дата рождения"
             register={register}
-            error={errors.birthday}
+            error={errors.date_of_birth}
           />
           <Input
             type="email"
@@ -121,22 +169,22 @@ const RegistrationPage: React.FC = () => {
             error={errors.email}
           />
           <Select
-            options={options}
-            name="post"
+            options={jobPositionOptions}
+            name="job_position"
             label="Должность"
             placeholder="Выберите должность"
             icon={MdOutlineWorkOutline}
             register={register}
-            error={errors.post}
+            error={errors.job_position}
           />
           <Input
             type="experience"
-            name="experience"
+            name="work_experience"
             label="Опыт"
             defaultValue="0"
             getUnit={declineYear}
             register={register}
-            error={errors.experience}
+            error={errors.work_experience}
             valueAsNumber
           />
           <SmartPasswordInput
@@ -148,15 +196,27 @@ const RegistrationPage: React.FC = () => {
       )}
 
       {regStep === 2 && (
-        <MultiStepSurvey
-          questions={questions}
-          userMeta={regFirstStepInfo}
-          onComplete={submitFullRegistration}
-          ref={sectionRef}
-        />
-      )}
+        <>
+          {questionsLoading ? (
+            <ScaleLoader color={"var(--solitude-100)"} />
+          ) : (
+            <>
+              <MultiStepSurvey
+                questions={questions}
+                userMeta={regFirstStepInfo}
+                onComplete={submitFullRegistration}
+                onLogoClick={handleSurveyExit}
+                loading={registrationLoading}
+                ref={sectionRef}
+              />
 
-      <BackgroundElements targetRef={sectionRef} />
+              {!registrationLoading && (
+                <BackgroundElements targetRef={sectionRef} />
+              )}
+            </>
+          )}
+        </>
+      )}
     </Main>
   );
 };
