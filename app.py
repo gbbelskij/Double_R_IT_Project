@@ -17,7 +17,7 @@ def create_app():
     app = Flask(__name__)
 
     CORS(app, supports_credentials=True, resources={r"/*": {"origins": [
-        "http://localhost:3000", "http://localhost:5173"]}})
+        "http://localhost:3000", "http://localhost:4173", "http://localhost:5173"]}})
 
     # Пример URL для подключения
     app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URL

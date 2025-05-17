@@ -2,6 +2,7 @@ from flask_restx import Namespace, Resource
 from flask import request
 from backend.database.User import User
 from backend.app.jwt import verify_jwt_token
+from backend.app.jwt_defence import token_required
 
 verify_ns = Namespace('verify', description='JWT token verification')
 
@@ -11,16 +12,9 @@ class Verify(Resource):
     @verify_ns.response(200, 'Token is valid')
     @verify_ns.response(401, 'Invalid or missing token')
     @verify_ns.response(404, 'User not found')
-    def get(self):
-        """Verify JWT token validity"""
-        token = request.cookies.get('token')
-
-        if not token:
-            return {'message': 'Missing or invalid token'}, 401
-
+    @token_required
+    def get(self, user_id, decoded_token, jti):
         try:
-            user_id = verify_jwt_token(token)
-
             user = User.query.filter_by(user_id=user_id).first()
 
             if not user:

@@ -39,12 +39,12 @@ import "./ProfilePage.css";
 const ProfilePage: React.FC = () => {
   const isChecking = useAuthGuard();
 
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(true);
   const [showSurvey, setShowSurvey] = useState(false);
-  const [surveyComplete, setSurveyComplete] = useState(false);
-  const [questions, setQuestions] = useState<Record<string, Question>>({});
   const [questionsLoading, setQuestionsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [questions, setQuestions] = useState<Record<string, Question>>({});
 
   const { isSmallMobile } = useWindowSize();
 
@@ -56,6 +56,7 @@ const ProfilePage: React.FC = () => {
     handleSubmit,
     reset,
     watch,
+    setError,
     formState: { errors, isValid, isSubmitted },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -148,19 +149,40 @@ const ProfilePage: React.FC = () => {
 
   const updateProfile = async (data: ProfileFormData) => {
     try {
-      const response = await axios.patch("/api/personal_account/update", data, {
+      await axios.patch("/api/personal_account/update", data, {
         withCredentials: true,
       });
 
-      console.log(response);
+      alert("Данные были успешно обновлены!");
     } catch (error) {
-      handleErrorNavigation(error, navigate, "Ошибка обновления профиля");
+      let errorMessage = "Что-то пошло не так. Попробуйте позже.";
+
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+
+        if (errorMessage === "Old password is incorrect") {
+          setError("old_password", {
+            type: "manual",
+            message: "Неверный пароль",
+          });
+
+          return;
+        }
+      }
+
+      navigate("/error", {
+        state: {
+          errorHeading: "Ошибка обновления данных аккаунта",
+          errorText: errorMessage,
+          timeout: 0,
+        },
+      });
     }
   };
 
   const handleExit = async () => {
     try {
-      await axios.post("/api/personal_account/logout", {
+      await axios.post("/api/personal_account/logout", null, {
         withCredentials: true,
       });
 
@@ -194,7 +216,7 @@ const ProfilePage: React.FC = () => {
 
   const handleSurveyComplete = async (answers: SurveyData) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         "/api/personal_account/update",
         { preferences: answers },
         {
@@ -202,9 +224,7 @@ const ProfilePage: React.FC = () => {
         }
       );
 
-      console.log(response);
-
-      setSurveyComplete(true);
+      alert("Данные были успешно обновлены!");
     } catch (error) {
       handleErrorNavigation(error, navigate, "Ошибка отправки ответов");
     }
@@ -214,7 +234,7 @@ const ProfilePage: React.FC = () => {
     <>
       <Header onProfileClick={handleSurveyExit} />
       <Main>
-        {showSurvey && !surveyComplete ? (
+        {showSurvey ? (
           <MultiStepSurvey
             questions={questions}
             onComplete={handleSurveyComplete}

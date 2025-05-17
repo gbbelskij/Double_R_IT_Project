@@ -27,7 +27,7 @@
     top: -100px;
     left: -100px;
   }
-  
+
   .profile-bg-elements > *:nth-child(2n) {
     bottom: -100px;
     right: -100px;

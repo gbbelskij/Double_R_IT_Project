@@ -30,7 +30,9 @@ const BackgroundElements = ({
     const elem = targetRef?.current;
     const wrapper = wrapperRef.current;
 
-    if (!elem || !wrapper) return;
+    if (!elem || !wrapper) {
+      return;
+    }
 
     const updatePosition = () => {
       const rect = elem.getBoundingClientRect();

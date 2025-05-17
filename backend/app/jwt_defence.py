@@ -8,9 +8,13 @@ from backend.database.User import TokenBlockList
 def token_required(f):
     @wraps(f)
     def decorated(self, *args, **kwargs):
-        token = None
-
         token = request.cookies.get('token')
+
+        # Если токена нет — пробуем из заголовка (только для Swagger / тестов)
+        if not token:
+            auth_header = request.headers.get('Authorization')
+            if auth_header and auth_header.startswith('Bearer '):
+                token = auth_header.split(' ')[1]
 
         if not token:
             return {'message': 'Token is missing!'}, 401

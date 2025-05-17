@@ -11,10 +11,9 @@ import CourseSection from "@components/CourseSection/CourseSection";
 import { useAuthGuard } from "@hooks/useAuthGuard";
 
 import { handleErrorNavigation } from "@utils/handleErrorNavigation";
+import { normalizeCourses } from "@utils/normalizeCourses";
 
 import { Course } from "types/course";
-
-import { courses } from "@mocks/courses";
 
 const HomePage: React.FC = () => {
   const isChecking = useAuthGuard();
@@ -41,8 +40,8 @@ const HomePage: React.FC = () => {
           }),
         ]);
 
-        setRecommendedCourses(recommendedRes.data.courses || courses);
-        setPopularCourses(popularRes.data.courses || courses);
+        setRecommendedCourses(normalizeCourses(recommendedRes.data.courses));
+        setPopularCourses(normalizeCourses(popularRes.data.courses));
       } catch (error) {
         handleErrorNavigation(error, navigate, "Ошибка загрузки курсов");
       } finally {
