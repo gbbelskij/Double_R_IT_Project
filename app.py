@@ -64,7 +64,9 @@ if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=5000)
     with app.app_context():
+        from flask_migrate import upgrade
 
+        upgrade()
         wait_for_db(db)
 
         with open("courses.csv", "r", encoding="utf-8") as f:
