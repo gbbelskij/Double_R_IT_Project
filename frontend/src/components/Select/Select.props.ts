@@ -38,7 +38,8 @@ export interface SelectProps {
    */
   error?: FieldError;
   /**
-   * @todo
+   * Optional function to observe the current value of the select field.
+   * Useful for syncing state with external form libraries like react-hook-form.
    */
   watch?: (name: string) => string;
 }

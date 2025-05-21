@@ -1,6 +1,6 @@
 export interface HeaderProps {
   /**
-   * @todo
+   * Optional callback triggered when the profile button is clicked.
    */
   onProfileClick?: () => void;
 }

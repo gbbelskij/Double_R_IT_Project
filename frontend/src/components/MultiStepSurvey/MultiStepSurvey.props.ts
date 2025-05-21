@@ -32,11 +32,11 @@ export interface MultiStepSurveyProps {
    */
   onExit?: Function;
   /**
-   * @todo
+   * When `true`, shows a loading spinner instead of rendering the survey.
    */
   loading?: boolean;
   /**
-   * @todo
+   * Optional callback triggered when the logo is clicked.
    */
   onLogoClick?: () => void;
 }

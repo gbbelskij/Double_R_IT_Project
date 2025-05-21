@@ -20,7 +20,7 @@ interface IntroProps {
    */
   onStepChange: (stepIndex: number) => void;
   /**
-   * @todo
+   * Optional callback triggered when the logo is clicked.
    */
   onLogoClick?: () => void;
 }
@@ -48,7 +48,7 @@ interface OutroProps {
    */
   onExit: Function;
   /**
-   * @todo
+   * Optional callback triggered when the logo is clicked.
    */
   onLogoClick?: () => void;
 }

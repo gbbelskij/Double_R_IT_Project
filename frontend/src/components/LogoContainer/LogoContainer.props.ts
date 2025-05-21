@@ -15,7 +15,7 @@ export interface LogoContainerProps {
    */
   logoSize?: number;
   /**
-   * @todo
+   * Optional callback triggered when the logo is clicked.
    */
   onLogoClick?: () => void;
   /**
