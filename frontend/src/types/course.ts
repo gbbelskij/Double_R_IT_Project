@@ -22,5 +22,5 @@ export interface Course {
   /**
    * Source URL for the course's thumbnail or promotional image.
    */
-  imageSrc: string;
+  imageUrl: string;
 }

@@ -10,6 +10,7 @@ const LogoContainer: React.FC<LogoContainerProps> = ({
   children,
   logoOffset,
   logoSize,
+  onLogoClick,
   alignSelf = "center",
 }) => {
   const logoStylesOfOffset = logoOffset
@@ -34,7 +35,7 @@ const LogoContainer: React.FC<LogoContainerProps> = ({
         } as React.CSSProperties
       }
     >
-      <Logo style={logoStylesOfOffset} size={logoSize} />
+      <Logo style={logoStylesOfOffset} size={logoSize} onClick={onLogoClick} />
       {children}
     </div>
   );

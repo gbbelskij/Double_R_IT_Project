@@ -18,6 +18,7 @@ user_model = register_ns.model('User', {
     'preferences': fields.Raw(description='Preferences of the user in JSON format')
 })
 
+
 @register_ns.route('/')
 class Register(Resource):
     @register_ns.expect(user_model)
@@ -63,7 +64,10 @@ class Register(Resource):
         except Exception as e:
             db.session.rollback()
             return {'message': f'Error: {str(e)}'}, 500
-    
+
+
+@register_ns.route('/questions')
+class Questions(Resource):
     @register_ns.response(200, 'Questions were sent correctly')
     def get(self):
         return {'questions': questions, 'message': 'Questions were sent correctly'}, 200

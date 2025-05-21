@@ -9,11 +9,11 @@ import { Outro } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
 import classes from "./ProfileSurveyOutro.module.css";
 
-const ProfileSurveyOutro = forwardRef(({ onExit }, ref) => {
+const ProfileSurveyOutro = forwardRef(({ onExit, onLogoClick }, ref) => {
   const { isMobile } = useWindowSize();
 
   return (
-    <LogoContainer>
+    <LogoContainer onLogoClick={onLogoClick}>
       <div className={classes.ProfileSurveyOutro} ref={ref}>
         <div className={classes.ProfileSurveyOutroSection}>
           <h2 className={classes.ProfileSurveyOutroHeading}>

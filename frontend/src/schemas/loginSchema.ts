@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const loginSchema = z.object({
   email: z.string().email("Введите корректную почту"),
-  password: z.string().min(6, "Введите пароль"),
+  password: z.string().min(1, "Введите пароль"),
   remember: z.boolean(),
 });
 

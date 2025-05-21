@@ -20,7 +20,7 @@ export interface CourseProps {
   /**
    * Image source URL for the course thumbnail
    */
-  imageSrc: string;
+  imageUrl: string;
   /**
    * Options for getting the dominant color from the image
    */

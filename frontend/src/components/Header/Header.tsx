@@ -7,11 +7,17 @@ import { useWindowSize } from "@hooks/useWindowSize";
 import Logo from "@components/Logo/Logo";
 import Button from "@components/Button/Button";
 
+import { HeaderProps } from "./Header.props";
+
 import classes from "./Header.module.css";
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ onProfileClick }) => {
   const navigate = useNavigate();
-  const handleProfileClick = () => navigate("/profile");
+  const handleProfileClick =
+    onProfileClick ??
+    (() => {
+      navigate("/profile");
+    });
 
   const { width: windowWidth } = useWindowSize();
 

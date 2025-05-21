@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
+import { ScaleLoader } from "react-spinners";
 import axios from "axios";
 
 import { MdOutlineWorkOutline } from "react-icons/md";
@@ -9,6 +10,7 @@ import { MdOutlineWorkOutline } from "react-icons/md";
 import { ProfileFormData, profileSchema } from "@schemas/profileSchema";
 
 import { useWindowSize } from "@hooks/useWindowSize";
+import { useAuthGuard } from "@hooks/useAuthGuard";
 
 import Footer from "@components/Footer/Footer";
 import Header from "@components/Header/Header";
@@ -17,24 +19,32 @@ import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
 import SmartPasswordInput from "@components/SmartPasswordInput/SmartPasswordInput";
 import MultiStepSurvey from "@components/MultiStepSurvey/MultiStepSurvey";
-import ProfileSurveyIntro from "./components/ProfileSurveyIntro/ProfileSurveyIntro";
-import ProfileSurveyOutro from "./components/ProfileSurveyOutro/ProfileSurveyOutro";
 import BackgroundElements from "@components/BackgroundElements/BackgroundElements";
-
-import ProfileForm from "./components/ProfileForm/ProfileForm";
 
 import { SurveyData } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
-import { questions } from "@mocks/questions";
-import { options } from "@mocks/options";
+import ProfileSurveyIntro from "./components/ProfileSurveyIntro/ProfileSurveyIntro";
+import ProfileSurveyOutro from "./components/ProfileSurveyOutro/ProfileSurveyOutro";
+import ProfileForm from "./components/ProfileForm/ProfileForm";
+
+import { Question } from "types/question";
+
+import { handleErrorNavigation } from "@utils/handleErrorNavigation";
 import { declineYear } from "@utils/decline";
+
+import { jobPositionOptions } from "@data/jobPositionOptions";
 
 import "./ProfilePage.css";
 
 const ProfilePage: React.FC = () => {
-  const [showSurvey, setShowSurvey] = useState(false);
-  const [surveyComplete, setSurveyComplete] = useState(false);
+  const isChecking = useAuthGuard();
+
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [showSurvey, setShowSurvey] = useState(false);
+  const [questionsLoading, setQuestionsLoading] = useState(false);
+  const [questions, setQuestions] = useState<Record<string, Question>>({});
 
   const { isSmallMobile } = useWindowSize();
 
@@ -45,59 +55,91 @@ const ProfilePage: React.FC = () => {
     register,
     handleSubmit,
     reset,
+    watch,
+    setError,
     formState: { errors, isValid, isSubmitted },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     mode: "onSubmit",
     defaultValues: {
-      experience: 0,
+      work_experience: 0,
     },
   });
+
+  useEffect(() => {
+    if (isChecking) {
+      return;
+    }
+
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get("/api/personal_account", {
+          withCredentials: true,
+        });
+
+        const data = response.data.user_data;
+
+        reset({
+          first_name: data.first_name,
+          last_name: data.last_name,
+          date_of_birth: data.date_of_birth,
+          email: data.email,
+          job_position: data.job_position,
+          work_experience: data.work_experience,
+          old_password: "",
+          password: "",
+          repeatPassword: "",
+        });
+      } catch (error) {
+        handleErrorNavigation(
+          error,
+          navigate,
+          "Ошибка загрузки профиля",
+          "Не удалось получить данные пользователя."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [isChecking, reset, navigate]);
+
+  useEffect(() => {
+    if (Object.keys(questions).length > 0) {
+      return;
+    }
+
+    const fetchQuestions = async () => {
+      setQuestionsLoading(true);
+
+      try {
+        const response = await axios.get("api/register/questions");
+
+        setQuestions(response.data.questions);
+      } catch (error) {
+        handleErrorNavigation(error, navigate, "Ошибка загрузки опроса");
+      } finally {
+        setQuestionsLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, [navigate, questions]);
+
+  if (isChecking || isLoading || questionsLoading) {
+    return (
+      <Main disableHeaderOffset>
+        <ScaleLoader color={"var(--solitude-100)"} />
+      </Main>
+    );
+  }
 
   const isButtonDisabled =
     isSubmitted && (!isValid || Object.keys(errors).length > 0);
 
-  const updateProfile = async (data: ProfileFormData) => {
-    try {
-      await axios.put("/api/profile", data);
-      console.log("Profile updated");
-    } catch (error) {
-      console.error("Update failed:", error);
-    }
-  };
-
   const handleSurveyToggle = () => {
     setShowSurvey((prev) => !prev);
-  };
-
-  const handleExit = async () => {
-    try {
-      await axios.post("/api/logout");
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
-  const handleDelete = async () => {
-    const confirmed = window.confirm("Вы уверены, что хотите удалить аккаунт?");
-    if (!confirmed) return;
-
-    try {
-      await axios.delete("/api/profile");
-      navigate("/goodbye");
-    } catch (error) {
-      console.error("Delete failed:", error);
-    }
-  };
-
-  const handleSurveyComplete = async (answers: SurveyData) => {
-    try {
-      await axios.post("/api/profile/survey", { answers });
-      setSurveyComplete(true);
-    } catch (error) {
-      console.error("Survey submit failed:", error);
-    }
   };
 
   const handleSurveyExit = () => {
@@ -105,14 +147,98 @@ const ProfilePage: React.FC = () => {
     reset();
   };
 
+  const updateProfile = async (data: ProfileFormData) => {
+    try {
+      await axios.patch("/api/personal_account/update", data, {
+        withCredentials: true,
+      });
+
+      alert("Данные были успешно обновлены!");
+    } catch (error) {
+      let errorMessage = "Что-то пошло не так. Попробуйте позже.";
+
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+
+        if (errorMessage === "Old password is incorrect") {
+          setError("old_password", {
+            type: "manual",
+            message: "Неверный пароль",
+          });
+
+          return;
+        }
+      }
+
+      navigate("/error", {
+        state: {
+          errorHeading: "Ошибка обновления данных аккаунта",
+          errorText: errorMessage,
+          timeout: 0,
+        },
+      });
+    }
+  };
+
+  const handleExit = async () => {
+    try {
+      await axios.post("/api/personal_account/logout", null, {
+        withCredentials: true,
+      });
+
+      document.cookie = "token=; Max-Age=0; path=/";
+
+      navigate("/login");
+    } catch (error) {
+      handleErrorNavigation(error, navigate, "Ошибка выхода из аккаунта");
+    }
+  };
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm("Вы уверены, что хотите удалить аккаунт?");
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await axios.delete("/api/personal_account/delete", {
+        withCredentials: true,
+      });
+
+      document.cookie = "token=; Max-Age=0; path=/";
+
+      navigate("/login");
+    } catch (error) {
+      handleErrorNavigation(error, navigate, "Ошибка удаления аккаунта");
+    }
+  };
+
+  const handleSurveyComplete = async (answers: SurveyData) => {
+    try {
+      await axios.patch(
+        "/api/personal_account/update",
+        { preferences: answers },
+        {
+          withCredentials: true,
+        }
+      );
+
+      alert("Данные были успешно обновлены!");
+    } catch (error) {
+      handleErrorNavigation(error, navigate, "Ошибка отправки ответов");
+    }
+  };
+
   return (
     <>
-      <Header />
+      <Header onProfileClick={handleSurveyExit} />
       <Main>
-        {showSurvey && !surveyComplete ? (
+        {showSurvey ? (
           <MultiStepSurvey
             questions={questions}
             onComplete={handleSurveyComplete}
+            onLogoClick={handleSurveyExit}
             onExit={handleSurveyExit}
             Intro={ProfileSurveyIntro}
             Outro={ProfileSurveyOutro}
@@ -129,26 +255,26 @@ const ProfilePage: React.FC = () => {
           >
             <Input
               type="text"
-              name="name"
+              name="first_name"
               label="Имя"
               placeholder="Имя"
               register={register}
-              error={errors.name}
+              error={errors.first_name}
             />
             <Input
               type="text"
-              name="surname"
+              name="last_name"
               label="Фамилия"
               placeholder="Фамилия"
               register={register}
-              error={errors.surname}
+              error={errors.last_name}
             />
             <Input
               type="date"
-              name="birthday"
+              name="date_of_birth"
               label="Дата рождения"
               register={register}
-              error={errors.birthday}
+              error={errors.date_of_birth}
             />
             <Input
               type="email"
@@ -158,30 +284,31 @@ const ProfilePage: React.FC = () => {
               error={errors.email}
             />
             <Select
-              options={options}
-              name="post"
+              options={jobPositionOptions}
+              name="job_position"
               label="Должность"
               placeholder="Выберите должность"
               icon={MdOutlineWorkOutline}
               register={register}
-              error={errors.post}
+              error={errors.job_position}
+              watch={watch}
             />
             <Input
               type="experience"
-              name="experience"
+              name="work_experience"
               label="Опыт"
               defaultValue="0"
               getUnit={declineYear}
               register={register}
-              error={errors.experience}
+              error={errors.work_experience}
               valueAsNumber
             />
             <Input
               type="password"
-              name="oldPassword"
+              name="old_password"
               label="Старый пароль"
               register={register}
-              error={errors.oldPassword}
+              error={errors.old_password}
             />
             <SmartPasswordInput
               label="Новый пароль"

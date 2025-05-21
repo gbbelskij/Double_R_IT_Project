@@ -1,5 +1,6 @@
 import { forwardRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { ScaleLoader } from "react-spinners";
 import classNames from "classnames";
 
 import { extractAnswer } from "./utils";
@@ -34,7 +35,9 @@ const MultiStepSurvey = forwardRef<HTMLDivElement, MultiStepSurveyProps>(
       Outro = DefaultOutro,
       userMeta = null,
       onComplete = postSurveyResults,
+      loading = false,
       onExit,
+      onLogoClick,
     },
     ref
   ) => {
@@ -58,10 +61,26 @@ const MultiStepSurvey = forwardRef<HTMLDivElement, MultiStepSurveyProps>(
       return Object.values(surveyData).every((answer) => answer !== null);
     };
 
+    if (loading) {
+      return <ScaleLoader color={"var(--solitude-100)"} ref={ref} />;
+    }
+
     if (currentStep <= -1 && Intro) {
-      return <Intro onStepChange={setCurrentStep} ref={ref} />;
+      return (
+        <Intro
+          onStepChange={setCurrentStep}
+          onLogoClick={onLogoClick}
+          ref={ref}
+        />
+      );
     } else if (currentStep >= questionIDs.length && Outro) {
-      return <Outro onExit={onExit || (() => navigate("/login"))} ref={ref} />;
+      return (
+        <Outro
+          onExit={onExit || (() => navigate("/login"))}
+          onLogoClick={onLogoClick}
+          ref={ref}
+        />
+      );
     } else {
       const currentQuestionId = questionIDs[currentStep];
       const currentQuestion = questions[currentQuestionId];
@@ -134,7 +153,7 @@ const MultiStepSurvey = forwardRef<HTMLDivElement, MultiStepSurveyProps>(
       };
 
       return (
-        <LogoContainer>
+        <LogoContainer onLogoClick={onLogoClick}>
           <div className={classes.MultiStepSurvey} ref={ref}>
             <ProgressNav
               step={currentStep}

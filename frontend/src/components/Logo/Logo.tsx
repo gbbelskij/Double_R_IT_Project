@@ -11,8 +11,17 @@ const Logo: React.FC<LogoProps> = ({
   size = hasText ? 35 : 84,
   ...props
 }) => {
+  const isLink = !props.onClick && href;
+
+  const Component: any = isLink ? Link : "div";
+
   return (
-    <Link {...props} className={classes.LogoContainer} to={href}>
+    <Component
+      to={isLink ? href : undefined}
+      className={classes.LogoContainer}
+      onClick={props.onClick}
+      {...props}
+    >
       <svg
         width={size}
         height={size}
@@ -93,7 +102,7 @@ const Logo: React.FC<LogoProps> = ({
         </g>
       </svg>
       {hasText && <p className={classes.LogoText}>RRECOMMEND</p>}
-    </Link>
+    </Component>
   );
 };
 

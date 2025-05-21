@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useNavigate, useRouteError } from "react-router-dom";
+import { useNavigate, useRouteError, useLocation } from "react-router-dom";
 
 import { useWindowSize } from "@hooks/useWindowSize";
 
@@ -26,28 +26,36 @@ interface RouteError {
 const ErrorPage: React.FC = () => {
   const error = useRouteError() as RouteError;
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const { errorHeading, errorText, timeout, navigateTo } = location.state || {};
   const { isMobile, isSmallMobile } = useWindowSize();
 
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (error.status === 404) {
-        navigate("/", { replace: true });
-      }
-    }, 1000);
-  }, [error, navigate]);
+    if (timeout > 0 || !timeout) {
+      setTimeout(() => {
+        if (error?.status === 404) {
+          navigate(navigateTo || "/", { replace: true });
+        }
+      }, timeout || 1000);
+    } else {
+      navigate(navigateTo || "/", { replace: true });
+    }
+  }, [error, navigate, navigateTo, timeout]);
 
   return (
     <Main disableHeaderOffset>
       <div className="error-container" ref={sectionRef}>
         <Logo size={isMobile ? 50 : undefined} />
 
-        <h1 className="error-page--heading">Упс! Что-то пошло не так!</h1>
+        <h1 className="error-page--heading">
+          {errorHeading || "Упс! Что-то пошло не так!"}
+        </h1>
 
         <p className="error-page--text">
-          Перенаправление на главную страницу...
+          {errorText || "Перенаправление на главную страницу..."}
         </p>
       </div>
 

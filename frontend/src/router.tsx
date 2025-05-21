@@ -21,6 +21,10 @@ const router = createBrowserRouter(
       path: "/registration",
       element: <Registration />,
     },
+    {
+      path: "/error",
+      element: <Error />,
+    },
   ],
   { basename: import.meta.env.BASE_URL }
 );

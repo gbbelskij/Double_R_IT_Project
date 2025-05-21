@@ -8,11 +8,11 @@ import { Intro } from "@components/MultiStepSurvey/MultiStepSurvey.types";
 
 import classes from "./ProfileSurveyIntro.module.css";
 
-const ProfileSurveyIntro = forwardRef(({ onStepChange }, ref) => {
+const ProfileSurveyIntro = forwardRef(({ onStepChange, onLogoClick }, ref) => {
   const { isMobile } = useWindowSize();
 
   return (
-    <LogoContainer>
+    <LogoContainer onLogoClick={onLogoClick}>
       <div className={classes.ProfileSurveyIntro} ref={ref}>
         <div className={classes.ProfileSurveyIntroSection}>
           <h2 className={classes.ProfileSurveyIntroHeading}>

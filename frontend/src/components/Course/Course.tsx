@@ -18,7 +18,7 @@ const Course: React.FC<CourseProps> = ({
   duration,
   description,
   url,
-  imageSrc,
+  imageUrl,
   colorOptions,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -75,14 +75,14 @@ const Course: React.FC<CourseProps> = ({
   ]);
 
   useEffect(() => {
-    getDominantColorFromImage(imageSrc, colorOptions)
+    getDominantColorFromImage(imageUrl, colorOptions)
       .then((color) => {
         setColor(color);
       })
       .catch((error) => {
         console.error("Failed to get color", error);
       });
-  }, [imageSrc, colorOptions]);
+  }, [imageUrl, colorOptions]);
 
   return (
     <a
@@ -107,7 +107,7 @@ const Course: React.FC<CourseProps> = ({
 
       <div
         className={classes.CourseBackground}
-        style={{ backgroundImage: `url(${imageSrc})` }}
+        style={{ backgroundImage: `url(${imageUrl})` }}
       />
 
       <BackgroundElements
