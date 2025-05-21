@@ -28,7 +28,7 @@ export interface MultiStepSurveyProps {
    */
   onComplete?: (answers: SurveyData, userMeta?: any) => void;
   /**
-   * @todo
+   * Callback that is triggered when the user exits the survey.
    */
   onExit?: Function;
 }

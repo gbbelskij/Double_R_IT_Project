@@ -22,7 +22,7 @@ export interface CourseProps {
    */
   imageSrc: string;
   /**
-   * @todo
+   * Options for getting the dominant color from the image
    */
   colorOptions?: GetDominantColorOptions;
 }
