@@ -2,31 +2,31 @@ import { RefObject } from "react";
 
 export interface BackgroundElementsProps {
   /**
-   * @todo
+   * A reference to the element to which the background elements are attached.
    */
   targetRef?: RefObject<null | HTMLElement>;
   /**
-   * @todo
+   * The color of the background elements.
    */
   color?: string;
   /**
-   * @todo
+   * The number of background elements.
    */
   count?: number;
   /**
-   * @todo
+   * The number of extra points for the blobs' shapes.
    */
   blobsExtraPoints?: number;
   /**
-   * @todo
+   * The degree of randomness in the blobs' shapes.
    */
   blobsRandomness?: number;
   /**
-   * @todo
+   * The size of the blobs.
    */
   blobsSize?: number;
   /**
-   * @todo
+   * Additional styles for the background elements.
    */
   styles?: string;
 }
