@@ -8,7 +8,7 @@ import uuid
 db = SQLAlchemy()
 
 class User(db.Model):
-    tablename = 'users'
+    __tablename__ = 'users'
     
     user_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
@@ -32,7 +32,7 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 class Course(db.Model):
-    tablename = 'courses'
+    __tablename__ = 'courses'
 
     course_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     title = db.Column(TEXT)
