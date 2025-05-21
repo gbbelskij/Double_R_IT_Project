@@ -1,22 +1,22 @@
 export interface BlobProps {
   /**
-   * @todo
+   * The color of the blob.
    */
   color?: string;
   /**
-   * @todo
+   * The seed for generating the blob's shape.
    */
   seed?: number;
   /**
-   * @todo
+   * The number of extra points for the blob's shape.
    */
   extraPoints?: number;
   /**
-   * @todo
+   * The degree of randomness in the blob's shape.
    */
   randomness?: number;
   /**
-   * @todo
+   * The size of the blob.
    */
   size?: number;
 }
