@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from flask import request
-from backend.database.User import User, TokenBlockList, db
+from backend.database.User import User, db
 from backend.app.jwt_defence import token_required
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import decode_token
@@ -122,15 +122,11 @@ class Logout(Resource):
     def post(self, user_id, decoded_token, jti):
         try:
             user = User.query.filter_by(user_id=user_id).first()
-            blocked_token = TokenBlockList(jti=jti, user_id=user_id)
-
-            db.session.add(blocked_token)
 
             # добавление токена в редис
             r = redis.Redis(host='redis', port=6379, db=0)
 
-            expiration_time = datetime.fromtimestamp(
-                decoded_token['exp'])  # Преобразуем в datetime
+            expiration_time = datetime.fromtimestamp(decoded_token['exp'])  # Преобразуем в datetime
             current_time = datetime.utcnow()
 
             # Вычисляем TTL (время жизни токена)
@@ -142,7 +138,6 @@ class Logout(Resource):
 
             user.last_login = db.func.current_timestamp()
             user.is_active = False
-            db.session.commit()
 
             return {'message': 'User logout correctly'}
 

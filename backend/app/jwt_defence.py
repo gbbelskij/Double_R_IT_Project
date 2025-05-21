@@ -2,8 +2,7 @@ from functools import wraps
 from flask import request
 from backend.app.jwt import verify_jwt_token
 from flask_jwt_extended import decode_token
-from backend.database.User import TokenBlockList
-
+import redis
 
 def token_required(f):
     @wraps(f)
@@ -27,13 +26,13 @@ def token_required(f):
 
         # Дополнительная проверка: токен заблокирован (например, после выхода из системы)
         # Используем decode_token для получения данных токена
-        decoded_token = decode_token(token)
+        decoded_token = decode_token(token)  # Используем decode_token для получения данных токена
         jti = decoded_token['jti']  # Получаем идентификатор токена JTI
-
+        
         # Проверяем, есть ли токен в черном списке
-        token_in_blocklist = TokenBlockList.query.filter_by(jti=jti).first()
+        r = redis.Redis(host='redis', port=6379, db=0)
 
-        if token_in_blocklist:
+        if r.exists(jti):
             return {"message": "The token has been revoked (logged out)."}, 401
 
         # Передаем user_id в функцию
