@@ -4,8 +4,11 @@ from sklearn.preprocessing import OneHotEncoder
 import os
 import sys
 
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database')))
-# from User import db, User, Course, Interaction
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+
+from User import db, User, Course, Interaction
+from app import app
 
 def export_users_to_dataframe():
     users = User.query.all()
@@ -89,16 +92,32 @@ def load_train_data():
     return users, courses, interactions
 
 def load_data():
-    print("=" * 50)
-    print("Загрузка данных...")
-    users = pd.read_csv("backend/database/actual_data/users.csv")
-    courses = pd.read_csv("backend/database/actual_data/courses.csv")
-    interactions = pd.read_csv("backend/database/actual_data/interactions.csv")
-    print(f"- Загружено пользователей: {len(users)}")
-    print(f"- Загружено курсов: {len(courses)}")
-    print(f"- Загружено взаимодействий: {len(interactions)}")
-    print("=" * 50)
+    with app.app_context():
+        print("=" * 50) 
+        print("Загрузка данных из базы данных...")
+
+        # Загружаем только нужные поля из пользователей
+        users_query = db.session.query(User.user_id, User.preferences)
+        users = pd.read_sql(users_query.statement, db.session.bind)
+
+        # Загружаем только нужные поля из курсов
+        courses_query = db.session.query(Course.course_id, Course.tags)
+        courses = pd.read_sql(courses_query.statement, db.session.bind)
+
+        # Загружаем взаимодействия
+        interactions = pd.read_sql(db.session.query(
+            Interaction).statement, db.session.bind)
+
+        interactions['liked'] = interactions['liked'].astype(
+            int)  # Преобразуем boolean в 0/1
+
+        print(f"- Загружено пользователей: {len(users)}")
+        print(f"- Загружено курсов: {len(courses)}")
+        print(f"- Загружено взаимодействий: {len(interactions)}")
+        print("=" * 50)
+
     return users, courses, interactions
+
 
 def prepare_features(users, courses):
     encoder = OneHotEncoder()

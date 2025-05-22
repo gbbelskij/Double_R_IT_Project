@@ -42,3 +42,15 @@ class Course(db.Model):
     price = db.Column(TEXT)
     type = db.Column(TEXT)
     direction = db.Column(TEXT)
+    tags = db.Column(JSONB)
+
+class Interaction(db.Model):
+    __tablename__ = 'interactions'
+
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.user_id'), primary_key=True, nullable=False)
+    course_id = db.Column(UUID(as_uuid=True), db.ForeignKey('courses.course_id'), primary_key=True, nullable=False)
+    liked = db.Column(db.Boolean, default=False)
+    
+    # Relationships
+    user = db.relationship('User', backref=db.backref('interactions', lazy=True))
+    course = db.relationship('Course', backref=db.backref('interactions', lazy=True))

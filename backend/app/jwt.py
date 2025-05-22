@@ -16,6 +16,7 @@ def verify_jwt_token(token):
     """Проверяем JWT токен с помощью Flask-JWT-Extended"""
     try:
         decoded_token = decode_token(token)
+        print(decoded_token)
         return decoded_token['sub']  # 'sub' содержит user_id
     except Exception as e:
         print(f"Error verifying token: {str(e)}")

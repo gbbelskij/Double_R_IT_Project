@@ -7,20 +7,20 @@ import redis
 def token_required(f):
     @wraps(f)
     def decorated(self, *args, **kwargs):
-        token = request.cookies.get('token')
+        # token = request.cookies.get('token')
 
         # Если токена нет — пробуем из заголовка (только для Swagger / тестов)
-        if not token:
-            auth_header = request.headers.get('Authorization')
-            if auth_header and auth_header.startswith('Bearer '):
-                token = auth_header.split(' ')[1]
+        # if not token:
+        auth_header = request.headers.get('Authorization')
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
 
         if not token:
             return {'message': 'Token is missing!'}, 401
 
         # Проверка токена (валиден ли и не истек ли он)
         user_id = verify_jwt_token(token)
-
+        
         if not user_id:
             return {'message': 'Token is invalid or expired!'}, 401
 

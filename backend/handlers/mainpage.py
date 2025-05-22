@@ -105,7 +105,8 @@ class PersonalAccount(Resource):
                          'description': course.description,
                          'price': course.price,
                          'type': course.type,
-                         'direction': course.direction}
+                         'direction': course.direction,
+                         'tags': course.tags}
                         for course in courses]
 
         return {'message': 'Courses data got correctly', 'courses': courses_list}, 200

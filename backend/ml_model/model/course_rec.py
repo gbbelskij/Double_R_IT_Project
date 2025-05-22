@@ -259,7 +259,7 @@ class RecommendationSystem:
 def main():
     # Новый параметр mf_weight
     system = RecommendationSystem(n_recommendations=5, similarity_threshold=0.4, mf_weight=0.3)
-    user_id = 10
+    user_id = '3915e48d-a3b7-4806-83b2-6b2ae09844f0'
 
     system.recommend(user_id)
 
