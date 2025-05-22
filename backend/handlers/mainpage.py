@@ -108,7 +108,7 @@ class PersonalAccount(Resource):
                          'direction': course.direction}
                         for course in courses]
 
-        return {'message': 'Courses data got correctly', 'courses': MOCK_COURSES}, 200
+        return {'message': 'Courses data got correctly', 'courses': courses_list}, 200
 
 
 @mainpage_ns.route('/<uuid:course_id>/')

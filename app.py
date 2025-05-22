@@ -2,13 +2,17 @@ from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 import config
-from backend.database.User import db
+from backend.database.User import db, Course
 from flask_restx import Api
 from backend.handlers.register import register_ns
 from backend.handlers.login import login_ns
 from backend.handlers.verify import verify_ns
 from backend.handlers.personal_account import personal_account_ns
 from backend.handlers.mainpage import mainpage_ns
+import csv
+import uuid
+from backend.app.wait_bd import wait_for_db
+
 
 from flask_jwt_extended import JWTManager
 
@@ -27,7 +31,6 @@ def create_app():
 
     db.init_app(app)
     migrate = Migrate(app, db)
-
     api = Api(
         app,
         version="1.0",
@@ -51,9 +54,34 @@ def create_app():
     api.add_namespace(personal_account_ns, path='/personal_account')
     api.add_namespace(mainpage_ns, path='/mainpage')
 
+    api.add_namespace(mainpage_ns, path='/mainpage')
+
     return app
 
 
 if __name__ == "__main__":
     app = create_app()
+
     app.run(host="0.0.0.0", port=5000)
+    with app.app_context():
+        from flask_migrate import upgrade
+
+        upgrade()
+        wait_for_db(db)
+
+        with open("courses.csv", "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                course = Course(
+                    course_id=uuid.UUID,
+                    title=row["title"],
+                    link=row["link"],
+                    duration=row["duration"],
+                    description=row["description"],
+                    price=row["price"],
+                    type=row["type"],
+                    direction=row["direction"]
+                )
+                db.session.add(course)
+
+            db.session.commit()
