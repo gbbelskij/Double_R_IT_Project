@@ -18,7 +18,7 @@ const Course: React.FC<CourseProps> = ({
   duration,
   description,
   url,
-  imageUrl,
+  imageUrl = "assets/img/course_default_picture.png",
   colorOptions,
 }) => {
   const [isHovered, setIsHovered] = useState(false);

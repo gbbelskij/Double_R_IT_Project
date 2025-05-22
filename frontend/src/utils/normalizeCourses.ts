@@ -7,6 +7,6 @@ export const normalizeCourses = (coursesFromApi: any[]): Course[] => {
     duration: course.duration,
     description: course.description,
     url: course.url,
-    imageUrl: course.image_url,
+    imageUrl: course?.image_url,
   }));
 };
