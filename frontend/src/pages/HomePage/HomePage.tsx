@@ -32,10 +32,10 @@ const HomePage: React.FC = () => {
     const fetchCourses = async () => {
       try {
         const [recommendedRes, popularRes] = await Promise.all([
-          axios.get("/api/mainpage/recommended_cources", {
+          axios.get("/api/mainpage/recommended_cources/", {
             withCredentials: true,
           }),
-          axios.get("/api/mainpage/all_cources", {
+          axios.get("/api/mainpage/all_cources/", {
             withCredentials: true,
           }),
         ]);

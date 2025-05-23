@@ -66,7 +66,7 @@ class Register(Resource):
             return {'message': f'Error: {str(e)}'}, 500
 
 
-@register_ns.route('/questions')
+@register_ns.route('/questions/')
 class Questions(Resource):
     @register_ns.response(200, 'Questions were sent correctly')
     def get(self):

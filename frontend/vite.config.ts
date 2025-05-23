@@ -13,10 +13,10 @@ export default defineConfig({
         target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => {
-          const cleanedPath = path.replace(/^\/api\//, "");
-          return cleanedPath;
-        },
+        // rewrite: (path) => {
+        //   const cleanedPath = path.replace(/^\/api\//, "");
+        //   return cleanedPath;
+        // },
       },
     },
   },
