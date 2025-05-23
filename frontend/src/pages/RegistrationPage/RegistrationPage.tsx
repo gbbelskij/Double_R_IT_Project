@@ -55,7 +55,7 @@ const RegistrationPage: React.FC = () => {
       setQuestionsLoading(true);
 
       try {
-        const response = await axios.get("api/register/questions");
+        const response = await axios.get("api/register/questions/");
 
         setQuestions(response.data.questions);
       } catch (error) {
@@ -100,7 +100,7 @@ const RegistrationPage: React.FC = () => {
     setRegistrationLoading(true);
 
     try {
-      await axios.post("api/register", data);
+      await axios.post("api/register/", data);
     } catch (error) {
       handleErrorNavigation(
         error,

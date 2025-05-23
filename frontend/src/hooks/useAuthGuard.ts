@@ -21,7 +21,7 @@ export const useAuthGuard = (): boolean => {
       }
 
       try {
-        await axios.get("/api/verify", {
+        await axios.get("/api/verify/", {
           withCredentials: true,
         });
       } catch (err) {

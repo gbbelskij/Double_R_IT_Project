@@ -77,7 +77,7 @@ MOCK_COURSES = [
 ]
 
 
-@mainpage_ns.route('/recommended_cources')
+@mainpage_ns.route('/recommended_cources/')
 class RecommendedCourses(Resource):
     @mainpage_ns.response(404, 'No such user')
     @token_required
@@ -91,7 +91,7 @@ class RecommendedCourses(Resource):
         return {'message': 'courses', 'courses': MOCK_COURSES}, 200
 
 
-@mainpage_ns.route('/all_cources')
+@mainpage_ns.route('/all_cources/')
 class PersonalAccount(Resource):
     @mainpage_ns.response(200, 'Courses data got correctly')
     @token_required

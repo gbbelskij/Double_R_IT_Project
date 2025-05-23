@@ -73,7 +73,7 @@ const ProfilePage: React.FC = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("/api/personal_account", {
+        const response = await axios.get("/api/personal_account/", {
           withCredentials: true,
         });
 
@@ -114,7 +114,7 @@ const ProfilePage: React.FC = () => {
       setQuestionsLoading(true);
 
       try {
-        const response = await axios.get("api/register/questions");
+        const response = await axios.get("api/register/questions/");
 
         setQuestions(response.data.questions);
       } catch (error) {
@@ -149,7 +149,7 @@ const ProfilePage: React.FC = () => {
 
   const updateProfile = async (data: ProfileFormData) => {
     try {
-      await axios.patch("/api/personal_account/update", data, {
+      await axios.patch("/api/personal_account/update/", data, {
         withCredentials: true,
       });
 
@@ -182,7 +182,7 @@ const ProfilePage: React.FC = () => {
 
   const handleExit = async () => {
     try {
-      await axios.post("/api/personal_account/logout", null, {
+      await axios.post("/api/personal_account/logout/", null, {
         withCredentials: true,
       });
 
@@ -202,7 +202,7 @@ const ProfilePage: React.FC = () => {
     }
 
     try {
-      await axios.delete("/api/personal_account/delete", {
+      await axios.delete("/api/personal_account/delete/", {
         withCredentials: true,
       });
 
@@ -217,7 +217,7 @@ const ProfilePage: React.FC = () => {
   const handleSurveyComplete = async (answers: SurveyData) => {
     try {
       await axios.patch(
-        "/api/personal_account/update",
+        "/api/personal_account/update/",
         { preferences: answers },
         {
           withCredentials: true,

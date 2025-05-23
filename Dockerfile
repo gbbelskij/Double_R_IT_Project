@@ -1,6 +1,9 @@
 # Используем базовый образ Python
 FROM python:3.10-slim
 
+# Устанавливаем postgresql-client для pg_isready
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
 # Устанавливаем переменные окружения
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1

@@ -19,9 +19,17 @@ from flask_jwt_extended import JWTManager
 
 def create_app():
     app = Flask(__name__)
+    
+
 
     CORS(app, supports_credentials=True, resources={r"/*": {"origins": [
-        "http://localhost:3000", "http://localhost:4173", "http://localhost:5173"]}})
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:4173",
+        "http://127.0.0.1:4173",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ]}})
 
     # Пример URL для подключения
     app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URL
@@ -54,26 +62,21 @@ def create_app():
     api.add_namespace(personal_account_ns, path='/personal_account')
     api.add_namespace(mainpage_ns, path='/mainpage')
 
-    api.add_namespace(mainpage_ns, path='/mainpage')
-
     return app
 
 
 if __name__ == "__main__":
     app = create_app()
 
-    app.run(host="0.0.0.0", port=5000)
     with app.app_context():
-        from flask_migrate import upgrade
 
-        upgrade()
         wait_for_db(db)
 
         with open("courses.csv", "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
                 course = Course(
-                    course_id=uuid.UUID,
+                    course_id=uuid.uuid4(),
                     title=row["title"],
                     link=row["link"],
                     duration=row["duration"],
@@ -85,3 +88,4 @@ if __name__ == "__main__":
                 db.session.add(course)
 
             db.session.commit()
+    app.run(host="0.0.0.0", port=5000)

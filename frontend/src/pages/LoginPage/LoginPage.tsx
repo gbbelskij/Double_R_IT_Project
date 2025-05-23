@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
     const { remember, ...formDataToSend } = data;
 
     try {
-      const response = await axios.post("/api/login", formDataToSend);
+      const response = await axios.post("/api/login/", formDataToSend);
 
       const jwtToken = response.data.token;
       const maxAge = remember ? MONTH : DAY;
