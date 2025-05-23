@@ -1,6 +1,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import shave from "shave";
 
+import defaultImageUrl from "assets/img/course_default_picture.png";
+
 import { useWindowSize } from "@hooks/useWindowSize";
 
 import { declineMonth } from "@utils/decline";
@@ -18,7 +20,7 @@ const Course: React.FC<CourseProps> = ({
   duration,
   description,
   url,
-  imageUrl = "assets/img/course_default_picture.png",
+  imageUrl = defaultImageUrl,
   colorOptions,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
