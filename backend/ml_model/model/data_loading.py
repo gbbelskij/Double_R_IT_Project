@@ -5,110 +5,63 @@ import os
 import sys
 
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database')))
-# from User import db, User, Course, Interaction
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../scripts')))
 
-def export_users_to_dataframe():
-    users = User.query.all()
-    
-    data = []
-    for user in users:
-        preferences = user.preferences or {}
-        data.append({
-            'user_id': user.user_id,
-            'Lang': preferences.get('Lang', ''),
-            'Department': preferences.get('Department', ''),
-            'Add tags': preferences.get('Add tags', ''),
-            'Lvl': preferences.get('Lv1', '')
-        })
-    
-    df = pd.DataFrame(data)
-    
-    return df
+import pandas as pd
+import json
+from backend.database.User import db, User, Course
 
-def export_courses_to_dataframe():
-    courses = Course.query.all()
-    
-    data = []
-    for course in courses:
-        preferences = course.preferences or {}
-        data.append({
-            'course_id': course.course_id,
-            'Lang': preferences.get('Lang', ''),
-            'Department': preferences.get('Department', ''),
-            'Add tags': preferences.get('Add tags', ''),
-            'Lvl': preferences.get('Lv1', '')
-        })
-    
-    df = pd.DataFrame(data)
-    
-    return df
+from backend.ml_model.scripts.question_to_tags import assign_user_tags
 
-def export_courses_to_dataframe():
-    courses = Course.query.all()
-    
-    data = []
-    for course in courses:
-        preferences = course.preferences or {}
-        data.append({
-            'course_id': course.course_id,
-            'Lang': preferences.get('Lang', ''),
-            'Department': preferences.get('Department', ''),
-            'Add tags': preferences.get('Add tags', ''),
-            'Lvl': preferences.get('Lv1', '')
-        })
-    
-    df = pd.DataFrame(data)
-    
-    return df
+def load_data(app):
+    with app.app_context():
+        # --- Загрузка пользователей ---
+        users = []
+        for user in User.query.all():
+            # preferences — это строка или dict с ответами на вопросы
+            answers = user.preferences
+            if answers is None:
+                answers = {}
+            tags_dict = assign_user_tags(answers)
+            tags = tags_dict.get("user_id", {})
+            # Преобразуем списки тегов в строки для OneHotEncoder
+            user_row = {"user_id": str(user.user_id)}
+            for key, value in tags.items():
+                if isinstance(value, list):
+                    user_row[key] = ",".join(value)
+                else:
+                    user_row[key] = value
+            users.append(user_row)
+        # print(users)
+        users_df = pd.DataFrame(users)
 
-def export_interactions_to_dataframe():
-    interactions = Interaction.query.all()
-    
-    data = []
-    for interaction in interactions:
-        data.append({
-            'user_id': interaction.user_id,
-            'course_id': interaction.course_id,
-            'liked': 1 if interaction.liked else 0
-        })
-    
-    df = pd.DataFrame(data)
-    
-    return df
+        # --- Загрузка курсов ---
+        courses = []
+        for course in Course.query.all():
+            # Если есть course.preferences — аналогично, иначе просто course_id
+            course_row = {"course_id": str(course.course_id)}
+            # Можно добавить дополнительные признаки, если нужны
+            courses.append(course_row)
+        courses_df = pd.DataFrame(courses)
 
-def load_train_data():
-    print("=" * 50)
-    print("Загрузка данных...")
-    users = pd.read_csv("backend/database/train_data/users.csv")
-    courses = pd.read_csv("backend/database/train_data/courses.csv")
-    interactions = pd.read_csv("backend/database/train_data/interactions.csv")
-    print(f"- Загружено пользователей: {len(users)}")
-    print(f"- Загружено курсов: {len(courses)}")
-    print(f"- Загружено взаимодействий: {len(interactions)}")
-    print("=" * 50)
-    return users, courses, interactions
+        # --- Загрузка взаимодействий ---
+        interactions = []
+        # for interaction in Interaction.query.all():
+        #     interactions.append({
+        #         "user_id": str(interaction.user_id),
+        #         "course_id": str(interaction.course_id),
+        #         "liked": int(getattr(interaction, "liked", 1))  # если liked нет, считаем 1
+        #     })
+        interactions_df = pd.DataFrame(interactions)
 
-def load_data():
-    print("=" * 50)
-    print("Загрузка данных...")
-    users = pd.read_csv("backend/database/actual_data/users.csv")
-    courses = pd.read_csv("backend/database/actual_data/courses.csv")
-    interactions = pd.read_csv("backend/database/actual_data/interactions.csv")
-    print(f"- Загружено пользователей: {len(users)}")
-    print(f"- Загружено курсов: {len(courses)}")
-    print(f"- Загружено взаимодействий: {len(interactions)}")
-    print("=" * 50)
-    return users, courses, interactions
+        return users_df, courses_df, interactions_df
 
 def prepare_features(users, courses):
+    # Кодируем категориальные признаки (теги) в one-hot
+    from sklearn.preprocessing import OneHotEncoder
+
     encoder = OneHotEncoder()
-    user_features = encoder.fit_transform(users.iloc[:, 1:]).toarray()
-    course_features = encoder.fit_transform(courses.iloc[:, 1:]).toarray()
-    print("Подготовка признаков...")
-    encoder = OneHotEncoder()
-    user_features = encoder.fit_transform(users.iloc[:, 1:]).toarray()
-    print(f"- OneHotEncoder применен к пользователям: размерность {user_features.shape[1]}")
-    course_features = encoder.fit_transform(courses.iloc[:, 1:]).toarray()
-    print(f"- OneHotEncoder применен к курсам: размерность {course_features.shape[1]}")
-    print("=" * 50)
+    user_features = encoder.fit_transform(users.drop("user_id", axis=1).fillna(""))
+    course_features = encoder.fit_transform(courses.drop("course_id", axis=1).fillna(""))
     return user_features, course_features

@@ -11,17 +11,18 @@ def create_database():
     connection = sqlite3.connect("backend/database/courses.db")
     cursor = connection.cursor()
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS courses (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        link TEXT,
-        duration TEXT,
-        description TEXT,
-        price TEXT,
-        type TEXT,
-        direction TEXT
-    )
-    """)
+        CREATE TABLE IF NOT EXISTS courses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            link TEXT,
+            duration TEXT,
+            description TEXT,
+            price TEXT,
+            type TEXT,
+            direction TEXT,
+            image_url TEXT
+        )
+        """)
     connection.commit()
     return connection, cursor
 
@@ -54,7 +55,12 @@ def extract_course_data(course):
     direction_tag = course.find_all('p', class_='card__type')
     direction = direction_tag[1].text if len(direction_tag) > 1 else "Direction not available"
 
-    return title, link, duration, description, price, course_type, direction
+    # --- Парсинг картинки ---
+    img_tag = course.find('img')
+    image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else "Image not available"
+
+    return title, link, duration, description, price, course_type, direction, image_url
+
 
 def main():
     connection, cursor = create_database()
@@ -64,13 +70,14 @@ def main():
 
     courses = soup.find_all('li', class_='card')
     for course in courses:
-        title, link, duration, description, price, course_type, direction = extract_course_data(course)
+        title, link, duration, description, price, course_type, direction, image_url = extract_course_data(course)
         
         if course_type in ["Профессия", "Интенсив", "Курс", "Специализация"]:
             cursor.execute("""
-            INSERT INTO courses (title, link, duration, description, price, type, direction)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (title, link, duration, description, price, course_type, direction))
+            INSERT INTO courses (title, link, duration, description, price, type, direction, image_url)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (title, link, duration, description, price, course_type, direction, image_url))
+
 
     connection.commit()
     connection.close()

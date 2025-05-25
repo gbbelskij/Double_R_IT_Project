@@ -21,7 +21,6 @@ def create_app():
     app = Flask(__name__)
     
 
-
     CORS(app, supports_credentials=True, resources={r"/*": {"origins": [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
@@ -63,13 +62,12 @@ def create_app():
     return app
 
 
+app = create_app()
 if __name__ == "__main__":
-    app = create_app()
-
     with app.app_context():
-
         wait_for_db(db)
 
+        # Загрузка курсов
         with open("courses.csv", "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
@@ -84,6 +82,10 @@ if __name__ == "__main__":
                     direction=row["direction"]
                 )
                 db.session.add(course)
-
             db.session.commit()
+        
+        # Запуск модели рекомендаций
+        from backend.ml_model.model.course_rec import model
+        # model(app)  # Передаём существующий экземпляр app
+
     app.run(host="0.0.0.0", port=5000)
