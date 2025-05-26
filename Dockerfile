@@ -15,7 +15,10 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Устанавливаем зависимости
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN apt-get update && apt-get install -y build-essential
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt \
+    --extra-index-url https://download.pytorch.org/whl/cpu
 
 # Копируем исходный код приложения
 COPY . .
