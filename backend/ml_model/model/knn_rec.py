@@ -3,21 +3,26 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 class KNNRecommender:
-    def __init__(self, user_features, users_df, n_neighbors=5, similarity_threshold=1.0):
+    def __init__(self, users_df, n_neighbors=5, similarity_threshold=1.0):
         """
-        user_features - исходные one-hot encoded фичи (для совместимости)
-        users_df - DataFrame с исходными признаками (user_id, Lang, Department, Add tags, Lvl)
+        users_df - DataFrame с исходными признаками (user_id, preferred_tags)
         """
-        self.users_df = users_df
+        users_df = users_df.copy()
+        users_df['user_id'] = users_df['user_id'].astype(str)
+        # Преобразуем списки тегов в строки для кодирования
+        if 'preferred_tags' in users_df.columns:
+            users_df['preferred_tags_str'] = users_df['preferred_tags'].apply(lambda x: ','.join(x) if isinstance(x, list) else str(x))
+        else:
+            users_df['preferred_tags_str'] = ''
+        self.user_id_to_idx = {str(user_id): idx for idx, user_id in enumerate(users_df['user_id'])}
+        self.users_df = users_df.reset_index(drop=True)
         self.n_neighbors = n_neighbors
         self.similarity_threshold = similarity_threshold
-        self.weights = {'Lang': 1.0, 'Department': 2.0, 'Add tags': 0.5, 'Lvl': 0.2}
-        
-        # Закодируем категориальные признаки
+        self.weights = {'preferred_tags_str': 1.0}
         self.encoders = {}
         self.encoded_data = {}
-        
-        for col in ['Lang', 'Department', 'Add tags', 'Lvl']:
+
+        for col in ['preferred_tags_str']:
             le = LabelEncoder()
             self.encoded_data[col] = le.fit_transform(users_df[col])
             self.encoders[col] = le
@@ -27,42 +32,29 @@ class KNNRecommender:
         print(f"- Веса признаков: {self.weights}")
         print(f"- Порог схожести: {similarity_threshold}")
         print("=" * 50)
-    
-    def _calculate_similarity(self, user1_idx, user2_idx):
-        """Вычисляет взвешенную схожесть между двумя пользователями"""
+
+    def _calculate_similarity(self, user1_id, user2_id):
+        user1_idx = self.user_id_to_idx[user1_id]
+        user2_idx = self.user_id_to_idx[user2_id]
         total_similarity = 0.0
         total_weight = 0.0
-        
-        for col in ['Lang', 'Department', 'Add tags', 'Lvl']:
+        for col in ['preferred_tags_str']:
             weight = self.weights[col]
-            if self.encoded_data[col][user1_idx] == self.encoded_data[col][user2_idx]:
+            if self.users_df[col].iloc[user1_idx] == self.users_df[col].iloc[user2_idx]:
                 total_similarity += weight
             total_weight += weight
-        
         return total_similarity / total_weight if total_weight > 0 else 0
-    
+
     def get_similar_users(self, user_id):
-        """Возвращает список кортежей (индекс пользователя, схожесть)"""
-        # Находим индексы всех пользователей, кроме текущего
-        all_indices = [i for i in range(len(self.users_df)) if i != user_id]
-        
-        # Вычисляем схожесть с каждым пользователем
+        user_id = str(user_id)
+        if user_id not in self.user_id_to_idx:
+            print(f"User {user_id} not found!")
+            return []
+        all_user_ids = [uid for uid in self.users_df['user_id'] if uid != user_id]
         similarities = []
-        for idx in all_indices:
-            sim = self._calculate_similarity(user_id, idx)
-            similarities.append((idx, sim))
-        
-        # Сортируем по убыванию схожести
+        for other_id in all_user_ids:
+            sim = self._calculate_similarity(user_id, other_id)
+            similarities.append((other_id, sim))
         similarities.sort(key=lambda x: x[1], reverse=True)
-        
-        # Фильтруем по порогу схожести и берем топ-N
-        filtered = [(idx, sim) for idx, sim in similarities 
-                  if sim >= self.similarity_threshold][:self.n_neighbors]
-        
-        print("="*50)
-        print(f"Similar users for user {user_id}:")
-        for idx, sim in filtered:
-            print(f"User {idx}: {sim:.2f} similarity")
-        print("="*50)
-        
+        filtered = [(uid, sim) for uid, sim in similarities if sim >= self.similarity_threshold][:self.n_neighbors]
         return filtered

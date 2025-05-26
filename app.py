@@ -12,6 +12,7 @@ from backend.handlers.mainpage import mainpage_ns
 import csv
 import uuid
 from backend.app.wait_bd import wait_for_db
+import json
 
 
 from flask_jwt_extended import JWTManager
@@ -63,8 +64,8 @@ def create_app():
     return app
 
 
+app = create_app()
 if __name__ == "__main__":
-    app = create_app()
 
     with app.app_context():
 
@@ -73,17 +74,20 @@ if __name__ == "__main__":
         with open("courses.csv", "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                course = Course(
-                    course_id=uuid.uuid4(),
-                    title=row["title"],
-                    link=row["link"],
-                    duration=row["duration"],
-                    description=row["description"],
-                    price=row["price"],
-                    type=row["type"],
-                    direction=row["direction"]
-                )
-                db.session.add(course)
-
+                tags = json.loads(row["tags"].replace("'", '"'))
+                existing = db.session.query(Course).filter_by(description=row["description"]).first()
+                if not existing:
+                    course = Course(
+                        course_id=uuid.uuid4(),
+                        title=row["title"],
+                        link=row["link"],
+                        duration=row["duration"],
+                        description=row["description"],
+                        price=row["price"],
+                        type=row["type"],
+                        direction=row["direction"],
+                        tags=tags,
+                    )
+                    db.session.add(course)
             db.session.commit()
     app.run(host="0.0.0.0", port=5000)

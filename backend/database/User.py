@@ -42,3 +42,4 @@ class Course(db.Model):
     price = db.Column(TEXT)
     type = db.Column(TEXT)
     direction = db.Column(TEXT)
+    tags = db.Column(JSONB)
